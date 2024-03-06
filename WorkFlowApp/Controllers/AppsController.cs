@@ -13,9 +13,9 @@ namespace WorkFlowApp.Controllers
         public IActionResult Chat() => View();
         public IActionResult Contacts() => View();
 
-        public IActionResult Calendar() => View();
+        public IActionResult TeamPerformance() => View();
 
-        public IActionResult FileManager() => View();
+        public IActionResult DeletedProjects() => View();
 
         public IActionResult Invoice() => View();
 
