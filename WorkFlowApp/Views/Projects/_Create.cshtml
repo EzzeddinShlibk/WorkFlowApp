@@ -1,0 +1,125 @@
+﻿@model Project
+<div class="modal" id="AddProject">
+
+
+
+
+
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-family:Cairo">إضافة مشروع</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="CreateProject" asp-controller="Projects">
+                <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+
+
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">الإسم</label>
+                        <input type="text" class="form-control" asp-for="Name" placeholder="أدخل إسم المشروع">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Description" for="projectDescription" class="form-label">الوصف</label>
+                        <textarea class="form-control" asp-for="Description" placeholder="وصف للمشروع" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
+                        <input value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="CreatedDate" type="date" class="form-control">
+                        <span asp-validation-for="CreatedDate" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="EndDate" class="form-label">تاريخ النهاية</label>
+                        <input value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="EndDate">
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="userInput" class="form-label">إضافة المستخدمين</label>
+
+                        @*          <select asp-for="@Model.CurrencyId" class="form-control form-control-lg select2-show-search" asp-items="ViewBag.CurrencysAr">
+                        </select> *@
+
+
+                        <select  asp-for="SelectedUserIds" multiple="multiple" class="form-control  " asp-items="ViewBag.UsersList">
+                        </select>
+
+                        @*                     <select multiple="multiple" class="form-control " id="userInput">
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="FL">Florida</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="FL">Florida</option>
+                        <option value="FL">Florida</option>
+                        <option value="FL">Florida</option>
+                        <option value="FL">Florida</option>
+                        </select> *@
+                    </div>
+
+
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" >إضافة</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إغلاق</button>
+
+
+
+
+                </div>
+            </form>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+@section styles {
+    <!-- Plugins css -->
+    <link href="~/lib/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/huebee/huebee.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/timepicker/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <link href="~/lib/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+
+}
+
+@section scripts {
+    <!-- Plugins js -->
+    <script src="~/lib/select2/select2.min.js"></script>
+    <script src="~/lib/huebee/huebee.pkgd.min.js"></script>
+    <script src="~/lib/timepicker/bootstrap-material-datetimepicker.js"></script>
+    <script src="~/lib/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <script src="~/lib/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="~/js/pages/jquery.forms-advanced.js"></script>
+
+    <partial name="_ValidationScriptsPartial" />
+
+    </script>
+}

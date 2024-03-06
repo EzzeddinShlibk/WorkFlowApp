@@ -1,0 +1,643 @@
+﻿
+/*sm*/
+@media(max-width:767px) {
+
+
+
+
+
+    .account-left {
+        float: right;
+        border: 1px solid blue;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    .ul5 {
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav {
+        background-color: white;
+        border-bottom: 1px solid rgba(243, 243, 243, 0.1607843137254902) !important;
+        position: fixed;
+        padding: 0;
+        margin: 0;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .nav ul li .aa {
+            color: black;
+            font-size: 15px;
+        }
+
+            .nav ul li .aa:hover {
+                color: #6d81f5;
+            }
+
+
+
+
+    .btn-log {
+        background-color: #6d81f5;
+        text-decoration: none;
+        border: 1px solid #6d81f5;
+        border-radius: 3px;
+        color: white;
+        padding: 0px 9.5px;
+        text-align: center;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+        .btn-log a {
+            color: white;
+            font-size: 15px;
+        }
+
+        .btn-log:hover {
+            background-color: #6366f1;
+        }
+
+            .btn-log:hover a {
+                color: white;
+            }
+
+
+
+    .btn2-log {
+        background-color: #6d81f5;
+        text-decoration: none;
+        border: 1px solid #6d81f5;
+        border-radius: 3px;
+        color: white;
+        padding: 0px 9.5px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+        .btn2-log a {
+            color: white;
+            font-size: 15px;
+        }
+
+        .btn2-log:hover {
+            background-color: #6366f1;
+        }
+
+            .btn2-log:hover a {
+                color: white;
+            }
+    /*-------------------------------*/
+
+
+
+    .card{
+        width:50rem;
+    }
+
+
+    
+
+
+    .card1-img{
+        width:150px;
+        height:150px;
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+    /*md*/
+    @media(min-width:768px) and (max-width:991px) {
+
+        .account-left {
+            float: right;
+            border: 1px solid blue;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .ul5 {
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav {
+            background-color: white;
+            border-bottom: 1px solid rgba(243, 243, 243, 0.1607843137254902) !important;
+            position: fixed;
+            padding: 0;
+            margin: 0;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .nav ul li .aa {
+                color: black;
+                font-size: 15px;
+            }
+
+                .nav ul li .aa:hover {
+                    color: #6d81f5;
+                }
+
+
+
+
+        .btn-log {
+            background-color: #6d81f5;
+            text-decoration: none;
+            border: 1px solid #6d81f5;
+            border-radius: 3px;
+            color: white;
+            padding: 0px 9.5px;
+            text-align: center;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+            .btn-log a {
+                color: white;
+                font-size: 15px;
+            }
+
+            .btn-log:hover {
+                background-color: #6366f1;
+            }
+
+                .btn-log:hover a {
+                    color: white;
+                }
+
+
+
+        .btn2-log {
+            background-color: #6d81f5;
+            text-decoration: none;
+            border: 1px solid #6d81f5;
+            border-radius: 3px;
+            color: white;
+            padding: 0px 9.5px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+            .btn2-log a {
+                color: white;
+                font-size: 15px;
+            }
+
+            .btn2-log:hover {
+                background-color: #6366f1;
+            }
+
+                .btn2-log:hover a {
+                    color: white;
+                }
+    }
+
+        /*-------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+        /*lg*/
+        @media(min-width:992px) and (max-width:1199px) {
+
+            .account-left {
+                float: left;
+            }
+
+
+            .nav {
+                background-color: white;
+                border-bottom: 1px solid rgba(243, 243, 243, 0.1607843137254902) !important;
+                position: fixed;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+                .nav ul li .aa {
+                    color: black;
+                    font-size: 15px;
+                }
+
+                    .nav ul li .aa:hover {
+                        color: #6d81f5;
+                        font-size: 15px;
+                    }
+
+
+
+            .ul5 {
+                float: left;
+                font-size: 14.5px;
+            }
+
+
+            .btn-log {
+                text-decoration: none;
+                border: 1px solid #6d81f5;
+                border-radius: 3px;
+                color: #6d81f5;
+                padding: 0px 9.5px;
+            }
+
+                .btn-log:hover {
+                    background-color: #6d81f5;
+                }
+
+                    .btn-log:hover a {
+                        color: white;
+                    }
+
+
+
+
+
+
+
+            .btn2-log {
+                background-color: #6d81f5;
+                text-decoration: none;
+                border: 1px solid #6d81f5;
+                border-radius: 3px;
+                color: white;
+                padding: 0px 9.5px;
+            }
+
+
+                .btn2-log .nav-link {
+                    color: white;
+                }
+
+                .btn2-log:hover {
+                    background-color: #6366f1;
+                    cursor: pointer;
+                }
+
+                    .btn2-log:hover a {
+                        color: white;
+                    }
+
+
+
+
+
+
+
+
+            .nav .dropdown-item {
+                color: #475569;
+                font-size: 12.5px;
+            }
+
+
+
+
+
+
+            .dropdown-menu {
+                display: none;
+                padding: 10px 10px;
+                min-width: 180px;
+                border-radius: 2px;
+            }
+
+                .dropdown-menu > li > a {
+                    color: #64748b;
+                    padding: 10px 25px;
+                    font-size: 14px;
+                    transition: all 0.5s ease;
+                }
+
+                    .dropdown-menu > li > a:hover,
+                    .dropdown-menu > li > a:focus {
+                        color: #1e3a8a;
+                        padding-right: 30px;
+                        background-color: none;
+                    }
+
+
+            .dropdown-item {
+                color: #a1a1aa;
+            }
+
+            .nav-item:hover .dropdown-menu {
+                display: block;
+                transform: translateY(0);
+            }
+        }
+
+        /*------------end of nav--------------*/
+
+
+
+
+
+
+
+
+
+
+        /*xl*/
+        @media(min-width:1200px) and (max-width:1399px) {
+
+            .account-left {
+                float: left;
+            }
+
+
+
+            .nav {
+                background-color: white;
+                border-bottom: 1px solid rgba(243, 243, 243, 0.1607843137254902) !important;
+                padding-right: 80px;
+                padding-left: 40px;
+                position: fixed;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+                .nav ul li .aa {
+                    color: black;
+                    font-size: 15px;
+                }
+
+                    .nav ul li .aa:hover {
+                        color: #6d81f5;
+                        font-size: 15px;
+                    }
+
+
+
+            .ul5 {
+                float: left;
+                font-size: 14.5px;
+            }
+
+
+
+            .btn-log {
+                text-decoration: none;
+                border: 1px solid #6d81f5;
+                border-radius: 3px;
+                color: #6d81f5;
+                padding: 0px 9.5px;
+            }
+
+                .btn-log:hover {
+                    background-color: #6d81f5;
+                }
+
+                    .btn-log:hover a {
+                        color: white;
+                    }
+
+
+
+
+
+
+
+            .btn2-log {
+                background-color: #6d81f5;
+                text-decoration: none;
+                border: 1px solid #6d81f5;
+                border-radius: 3px;
+                color: white;
+                padding: 0px 9.5px;
+            }
+
+
+                .btn2-log .nav-link {
+                    color: white;
+                }
+
+                .btn2-log:hover {
+                    background-color: #6366f1;
+                    cursor: pointer;
+                }
+
+                    .btn2-log:hover a {
+                        color: white;
+                    }
+
+
+
+
+
+
+
+
+            .nav .dropdown-item {
+                color: #475569;
+                font-size: 12.5px;
+            }
+
+
+
+
+
+
+            .dropdown-menu {
+                display: none;
+                padding: 10px 10px;
+                min-width: 180px;
+                border-radius: 2px;
+            }
+
+                .dropdown-menu > li > a {
+                    color: #64748b;
+                    padding: 10px 25px;
+                    font-size: 14px;
+                    transition: all 0.5s ease;
+                }
+
+                    .dropdown-menu > li > a:hover,
+                    .dropdown-menu > li > a:focus {
+                        color: #1e3a8a;
+                        padding-right: 30px;
+                        background-color: none;
+                    }
+
+
+            .dropdown-item {
+                color: #a1a1aa;
+            }
+
+            .nav-item:hover .dropdown-menu {
+                display: block;
+                transform: translateY(0);
+            }
+        }
+
+
+        /*------------end of nav--------------*/
+
+
+
+
+
+
+        /*xxl*/
+@media(min-width:1400px) {
+
+    .nav {
+        background-color: white;
+        border-bottom: 1px solid rgba(243, 243, 243, 0.1607843137254902) !important;
+        position: fixed;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .nav ul li .aa {
+            color: black;
+            font-size: 15px;
+        }
+
+            .nav ul li .aa:hover {
+                color: #6d81f5;
+                font-size: 15px;
+            }
+
+
+
+
+
+    .ul5 {
+        float: left;
+        font-size: 14.5px;
+    }
+
+
+
+
+
+
+    .btn-log {
+        text-decoration: none;
+        border: 1px solid #6d81f5;
+        border-radius: 3px;
+        color: #6d81f5;
+        padding: 0px 9.5px;
+    }
+
+        .btn-log:hover {
+            background-color: #6d81f5;
+        }
+
+            .btn-log:hover a {
+                color: white;
+            }
+
+
+
+
+
+
+
+    .btn2-log {
+        background-color: #6d81f5;
+        text-decoration: none;
+        border: 1px solid #6d81f5;
+        border-radius: 3px;
+        color: white;
+        padding: 0px 9.5px;
+    }
+
+
+        .btn2-log .nav-link {
+            color: white;
+        }
+
+        .btn2-log:hover {
+            background-color: #6366f1;
+            cursor: pointer;
+        }
+
+            .btn2-log:hover a {
+                color: white;
+            }
+
+
+
+
+
+
+
+
+
+    .nav .dropdown-item {
+        color: #475569;
+        font-size: 12.5px;
+    }
+
+
+    .dropdown-menu {
+        display: none;
+        padding: 10px 10px;
+        min-width: 180px;
+        border-radius: 2px;
+    }
+
+        .dropdown-menu > li > a {
+            color: #64748b;
+            padding: 10px 25px;
+            font-size: 14px;
+            transition: all 0.5s ease;
+        }
+
+            .dropdown-menu > li > a:hover,
+            .dropdown-menu > li > a:focus {
+                color: #1e3a8a;
+                padding-right: 30px;
+                background-color: none;
+            }
+
+
+    .dropdown-item {
+        color: #a1a1aa;
+    }
+
+    .nav-item:hover .dropdown-menu {
+        display: block;
+        transform: translateY(0);
+    }
+    /*------------end of nav--------------*/
+
+    .card{
+        width:50rem;
+    }
+
+
+    .card1-p{
+        font-size:35px;
+
+    }
+
+
+    .card1-img{
+        width:350px;
+        height:350px;
+    }
+}
+

@@ -1,0 +1,66 @@
+﻿<div class="row fixed-top bg-purple">
+    <nav class="col-12 navbar nav  pt-4    navbar-expand-lg   ">
+        <div class="container-fluid mx-lg-5">
+
+            <a class="navbar-brand p-0">
+                <img src="~/images/logo-sm-dark.png" width="50" height="50" />
+            </a>
+            <a class="navbar-brand brand-text " href="../index.html" style="color:black;font-size:25px;">
+                Flow Master
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" data-bs-theme="dark">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                <div class="container-fluid">
+
+                    <ul class="ul5  navbar-nav   mb-2 mb-lg-0  ">
+                        <li class="nav-item ">
+                            <a class="nav-link aa" aria-current="page" href="#">الرئيسية</a>
+                        </li>
+                        <li class="nav-item me-lg-4 me-sm-2">
+
+                            <a class="nav-link aa" href="about.html">حول</a>
+
+                            @if (_signInManager.IsSignedIn(User))
+                            {
+                            <li class="nav-item">
+                                <a id="manage" class="nav-item me-lg-4 me-sm-2 btn btn-outline-purple " asp-action="Projects" asp-controller="projects" asp-route-UserId="@_userManager.GetUserId(User)"  title="Manage">@ViewBag.UserName</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Logout" asp-controller="Account" type="submit" class="nav-item btn btn-purple me-lg-4 me-sm-2">تسجيل الخروج</a>
+
+                            </li>
+                            }
+                            else
+                            {
+                            <li class="nav-item  btn-log   me-lg-4 me-sm-2">
+                                <a asp-action="Login" asp-controller="Account" class="nav-link ">دخول</a>
+
+                            </li>
+
+                            <li class="nav-item  btn2-log me-lg-4 me-sm-2">
+                                <a class="nav-link " asp-action="RegisterAsk" asp-controller="Account">التسجيل</a>
+
+                            </li>
+                            }
+
+
+
+
+
+
+
+
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+
+</div>

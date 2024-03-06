@@ -1,0 +1,12 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WorkFlowApp
+@using WorkFlowApp.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using WorkFlowApp.Models.Entities;
+@using WorkFlowApp.ViewModels.Identity;
+@using WorkFlowApp.ViewModels;
+
+@inject SignInManager<ApplicationUser> _signInManager;
+@inject UserManager<ApplicationUser> _userManager;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationService

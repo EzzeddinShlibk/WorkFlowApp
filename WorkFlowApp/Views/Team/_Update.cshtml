@@ -1,0 +1,52 @@
+﻿@model TeamViewModel
+<div class="modal" id="EditUser_@Model.UserId">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-family:Cairo">إدارة المستخدمين</h4>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="EditUser" asp-controller="Team" style="padding:10px 10px;">
+                <div class="modal-body">
+
+
+                    <div class="mb-3">
+                        <label class="form-label">الاسم</label>
+                        <input asp-for="Name" type="text" readonly class="form-control" value="@Model.Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">الإيميل</label>
+                        <input asp-for="Email" type="email" readonly class="form-control" value="@Model.Email">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">
+                            الصلاحية
+                        </label>
+                        @Html.RadioButtonFor(m => m.isAdmin, "false", new { @class = "btn-check", @id = "admin_" + Model.UserId, @autocomplete = "off", @checked = "checked", @name = "role" })
+                        <label class="btn  btn-outline-primary m-3" for="admin_@Model.UserId">
+                            عضو
+                        </label>
+
+                        @Html.RadioButtonFor(m => m.isAdmin, "True", new { @class = "btn-check", @id = "user_" + Model.UserId, @autocomplete = "off", @name = "role" })
+                        <label class="btn  btn-outline-primary m-3" for="user_@Model.UserId">
+                            مدير
+                        </label>
+
+                    </div>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="submit" class="btn btn-outline-success" >تعديل</button>
+                    <input type="hidden" value="@Model.UserId"  asp-for="UserId" />
+
+
+                </div>
+
+
+                <div class="modal-footer">
+  @*                   <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="submit" class="btn btn-outline-success" data-bs-dismiss="modal">تعديل</button> *@
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

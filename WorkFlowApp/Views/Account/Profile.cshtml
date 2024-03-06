@@ -1,0 +1,155 @@
+﻿@model ProfileViewModel
+<style>
+    .btn-check:checked + .btn {
+        border-color: #007bff;
+    }
+</style>
+
+
+<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">الملف الشخصي</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+
+        <form asp-action="ProfilePost" asp-controller="Account">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @{
+                if (ViewBag.Result != null)
+                {
+                    <div class="form-group mb-2">
+                        <label class="form-label" for="CodeNumber">@ViewBag.Result </label>
+                    </div>
+                    <div class="alert alert-outline-primary" role="alert">
+                        <strong>sorry  !</strong> @ViewBag.Result
+                    </div>
+                }
+            }
+            <div class="col-md-4 ">
+                <div class="mb-3">
+                    <label asp-for="Profile.DisplayName" class="form-label">إسم المستخدم</label>
+                    <input asp-for="Profile.DisplayName" type="text" class="form-control" placeholder=" إسم المستخدم">
+                    <span asp-validation-for="Profile.DisplayName" class="text-danger"></span>
+
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Profile.bio" for="projectName" class="form-label">نبذة شخصية</label>
+                    <input asp-for="Profile.bio" type="text" class="form-control" placeholder=" نبذة شخصية">
+                    <span asp-validation-for="Profile.bio" class="text-danger"></span>
+
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Profile.PhoneNum" class="form-label">رقم الهاتف</label>
+                    <input asp-for="Profile.PhoneNum" type="text" class="form-control" id="projectName" placeholder="رقم الهاتف">
+                    <span asp-validation-for="Profile.PhoneNum" class="text-danger"></span>
+
+                </div>
+                <div class="mb-3">
+                    @* @Html.LabelFor(m => m.Profile.Gender, new { @class = "form-label" }) *@
+                    <label class="form-label">
+                        الجنس
+                    </label>
+
+                    @Html.RadioButtonFor(m => m.Profile.Gender, "false", new { @class = "btn-check", @id = "male", @autocomplete = "off", @checked = "checked", @name = "gender" })
+                    <label class="btn btn-lg btn-outline-primary m-3" for="male">
+                        ذكر
+                        <i class="fas fa-male" style="font-size:25px"></i>
+                    </label>
+
+                    @Html.RadioButtonFor(m => m.Profile.Gender, "True", new { @class = "btn-check", @id = "female", @autocomplete = "off", @name = "gender" })
+                    <label class="btn btn-lg btn-outline-pink m-3" for="female">
+                        أنثى
+                        <i class="fas fa-female" style="font-size:25px"></i>
+                    </label>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">الصورة الشخصية</label>
+                    <br />
+                    @if (Model.Profile.Pic != string.Empty)
+                    {
+                        // Use a different name for image radio buttons
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            string imageId = "pic" + i;
+                            string imageName = i.ToString();
+                            bool isChecked = (Model.Profile.Pic == imageName);
+
+                            <input type="radio" class="btn-check" name="imageRadio" id="@imageId" autocomplete="off" @(isChecked ? "checked" : "")>
+
+                            <label class="btn rounded-3 mx-2 bg-transparent" for="@imageId" onclick="updateProfileImage('@imageName')">
+                                <img class="rounded-5" src="~/images/users/@(imageName).jpg" style="width:32px ;height:32px ;" />
+                            </label>
+                        }
+                    }
+                    else
+                    {
+
+                        <!-- Image 1 -->
+                        <input type="radio" class="btn-check" name="btnradio" id="pic1" checked>
+                        <label class="btn rounded-3 mx-2 bg-transparent" for="pic1">
+                            <img class="rounded-5" src="~/images/users/1.jpg" style="width:32px ;height:32px ;"
+                                 onclick="updateProfileImage('1')" />
+                        </label>
+
+                        <!-- Image 2 -->
+                        <input type="radio" class="btn-check" name="btnradio" id="pic2">
+                        <label class="btn rounded-3 mx-2 bg-transparent" for="pic2">
+                            <img class="rounded-5" src="~/images/users/2.jpg" style="width:32px ;height:32px ;"
+                                 onclick="updateProfileImage('2')" />
+                        </label>
+                        <!-- Image 3 -->
+                        <input type="radio" class="btn-check" name="btnradio" id="pic3">
+                        <label class="btn rounded-3 mx-2 bg-transparent" for="pic3">
+                            <img class="rounded-5" src="~/images/users/3.jpg" style="width:32px ;height:32px ;"
+                                 onclick="updateProfileImage('3')" />
+                        </label>
+                        <!-- Image 4 -->
+                        <input type="radio" class="btn-check" name="btnradio" id="pic4">
+                        <label class="btn rounded-3 mx-2 bg-transparent" for="pic4">
+                            <img class="rounded-5" src="~/images/users/4.jpg" style="width:32px ;height:32px ;"
+                                 onclick="updateProfileImage('4')" />
+                        </label>
+                        <!-- Image 5 -->
+                        <input type="radio" class="btn-check" name="btnradio" id="pic5">
+                        <label class="btn rounded-3 mx-2 bg-transparent" for="pic5">
+                            <img class="rounded-5" src="~/images/users/5.jpg" style="width:32px ;height:32px ;"
+                                 onclick="updateProfileImage('5')" />
+                        </label>
+                    }
+
+                    <input type="hidden" asp-for="Profile.Pic" id="selectedImage" />
+
+                </div>
+
+                <input type="hidden" asp-for="@Model.Profile.Pic" />
+                <input type="hidden" asp-for="@Model.Profile.Id" />
+                <input type="hidden" asp-for="@Model.UserId" />
+                <input type="hidden" asp-for="@Model.Profile.CreatedDate" />
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-outline-blue w-100 mt-2"> حفظ التعديلات</button>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+
+    <!-- container -->
+    <script>
+        function updateProfileImage(imageSrc) {
+            // Update the src attribute of the img tag
+            document.getElementById('selectedImage').value = imageSrc;
+        }
+
+    </script>

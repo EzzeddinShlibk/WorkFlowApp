@@ -1,0 +1,247 @@
+﻿@model List<TeamViewModel>
+<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">
+                            أعضاء الفريق
+                            <i class="fas fa-users"></i>
+                        </h4>
+                    </div><!--end col-->
+                    <div class="col-lg-6 text-end">
+                        <div class="text-end">
+                        </div>
+
+                    </div>
+                </div>
+                <hr class="hr-dashed">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media mb-3">
+                                <img src="~/images/widgets/followers.png" alt="flolwers" height="100" width="100">
+                                <div class="row ms-2">
+                                    <h5 class="me-0">إستخدم رمز الفريق هذا لدعوة الأشخاص الى فريقك</h5>
+                                    <div class="input-group">
+                                        <input readonly type="text" value="@ViewBag.code" class="form-control" id="myInput" style="width:30px" />
+                                        <button onclick="copyText()" type="submit" class="input-group-text bg-purple p-3">
+                                            <i class="far fa-copy text-white fs-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="media-body align-self-center text-truncate ms-3">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+
+                    @if (Model.Any())
+                    {
+                        <h5 class="text-center">طلبات الإنضمام</h5>
+                        <hr class="hr-dashed">
+                        if (ViewBag.approvedCount > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table mb-0  ">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th></th>
+
+                                            <th>الاسم</th>
+                                            <th>Email</th>
+                                            <th>الهاتف</th>
+                                            <th>الصلاحية </th>
+                                            <th>العمليات</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in Model)
+                                            {
+                                                if (item.isApproved == false)
+                                                {
+                                                    <tr class="text-center">
+                                                        <td class="center">
+                                                            @if (item.Pic == "-")
+                                                            {
+                                                                <img src="~/images/users/profile.png" alt="" class="rounded-circle thumb-xs me-1">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/images/users/@(item.Pic).jpg" alt="" class="rounded-circle thumb-xs me-1">
+
+                                                            }
+                                                        <td>
+                                                                @item.Name
+                                                        </td>
+                                                        <td>@item.Email</td>
+                                                        <td>@item.phone</td>
+                                                            @if (item.isAdmin == true)
+                                                            {
+                                                            <td>مدير</td>
+                                                            }
+                                                            else
+                                                            {
+                                                            <td>عضو</td>
+                                                            }
+                                                        <td>
+                                                            <a asp-action="AcceptUser" asp-controller="Team" asp-route-UserId="@item.UserId" class="btn btn-outline-success mx-2">
+                                                                قبول <i class="fas fa-check"></i>
+                                                            </a>
+
+                                                            <a asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@item.UserId" class="btn btn-outline-pink">
+                                                                رفض
+                                                                <i class="fas fa-times"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <hr class="hr-dashed">
+                            <h6 class="text-center">لايوجد طلبات انضمام </h6>
+                            <hr class="hr-dashed">
+                        }
+
+
+
+
+                        <h5 class="text-center">أعضاء الفريق</h5>
+                        <hr class="hr-dashed">
+                        <div class="table-responsive">
+                            <table class="table mb-0  ">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th></th>
+
+                                        <th>الاسم</th>
+                                        <th>Email</th>
+                                        <th>الهاتف</th>
+                                        <th>الصلاحية </th>
+                                        <th>العمليات</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        foreach (var item in Model)
+                                        {
+                                            if (item.isApproved == true)
+                                            {
+                                                <tr class="text-center">
+                                                    <td class="center">
+                                                        @if (item.Pic == "-")
+                                                        {
+                                                            <img src="~/images/users/profile.png" alt="" class="rounded-circle thumb-xs me-1">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="~/images/users/@(item.Pic).jpg" alt="" class="rounded-circle thumb-xs me-1">
+
+                                                        }
+                                                    <td>
+                                                            @item.Name
+                                                    </td>
+                                                    <td>@item.Email</td>
+                                                    <td>@item.phone</td>
+                                                        @if (item.isAdmin == true)
+                                                        {
+                                                        <td>مدير</td>
+                                                        }
+                                                        else
+                                                        {
+                                                        <td>عضو</td>
+                                                        }
+                                                    <td>
+                                                        <a data-bs-toggle="modal" data-bs-target="#EditUser_@item.UserId" class="btn btn-outline-primary mx-2">
+                                                            تعديل
+                                                            <i class="far fa-edit"></i>
+                                                        </a> 
+                                                        <a asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@item.UserId" class="btn btn-outline-pink">
+                                                            حذف
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+
+                                                @Html.Partial("_Update", item)
+                                         
+
+                                    
+
+
+
+                                            }
+                                        }
+                                    }
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    }
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+@section styles {
+
+}
+
+@section scripts {
+    <script>
+        function copyText() {
+            // Get the input element
+            var inputElement = document.getElementById("myInput");
+
+            // Select the text in the input field
+            inputElement.select();
+
+            // Copy the text to the clipboard
+            document.execCommand("copy");
+
+            // Deselect the text
+            window.getSelection().removeAllRanges();
+
+            alert("تم النسخ بنجاح");
+        }
+    </script>
+}

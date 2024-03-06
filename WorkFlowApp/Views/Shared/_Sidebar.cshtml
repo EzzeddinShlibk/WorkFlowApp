@@ -1,0 +1,117 @@
+﻿<div class="left-sidenav">
+    <!-- LOGO -->
+    <div class="brand">
+        <a asp-controller="home" asp-action="index" class="logo">
+            <span>
+                نظام إدارة
+                <img src="~/images/logo-sm.png" alt="logo-small" class="logo-sm">
+            </span>
+            <span>
+                مشروعك
+            </span>
+        </a>
+    </div>
+    <!--end logo-->
+    <div class="menu-content h-100" data-simplebar>
+        @if (User.IsInRole("Prog"))
+        {
+            <ul class="metismenu left-sidenav-menu">
+
+
+                <li>
+                    <a asp-action="statistics" asp-controller="apps"><i data-feather="pie-chart" class="align-self-center menu-icon"></i><span>الإحصائيات</span></a>
+                </li>
+                <li>
+                    <a href="javascript: void(0);"> <i data-feather="home" class="align-self-center menu-icon"></i><span>البيانات الاساسية</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li class="nav-item"><a class="nav-link" href="index.html"><i class="ti-control-record"></i>حالة الوظيفة</a></li>
+                        <li class="nav-item"><a class="nav-link" href="sales-index.html"><i class="ti-control-record"></i>أهمية الوظيفة</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a asp-action="projects" asp-controller="apps"><i data-feather="file" class="align-self-center menu-icon"></i><span>إدارة المستخدمين</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="Tasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>إدارة الصلاحيات</span></a>
+                </li>
+                <li>
+                    <a asp-action="login" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>الخروج</span></a>
+                </li>
+
+
+            </ul>
+
+
+
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            <ul class="metismenu left-sidenav-menu">
+                <li>
+                    <a asp-action="chat" asp-controller="apps"><i data-feather="pie-chart" class="align-self-center menu-icon"></i><span>لوحة المراقبة</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="Projects" asp-controller="Projects" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="file" class="align-self-center menu-icon"></i><span>المشاريع</span></a>
+                    @* <a asp-action="Index" asp-controller="Projects" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="users" class="align-self-center menu-icon"></i><span>أعضاء الفريق</span></a> *@
+
+                </li>
+
+                <li>
+                    <a asp-action="Tasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهامي</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="FileManager" asp-controller="apps"><i data-feather="star" class="align-self-center menu-icon"></i><span>المفضلة</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="Calendar" asp-controller="apps"><i data-feather="pie-chart" class="align-self-center menu-icon"></i><span> أداء الفريق</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="profile" asp-controller="Pages"><i data-feather="archive" class="align-self-center menu-icon"></i><span>الأرشيف</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="widgets" asp-controller="home"><i data-feather="archive" class="align-self-center menu-icon"></i><span>سلة المهملات</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="Manage" asp-controller="Team" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="users" class="align-self-center menu-icon"></i><span>أعضاء الفريق</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="EcommerceCheckout" asp-controller="apps"><i data-feather="settings" class="align-self-center menu-icon"></i><span>الإعدادت</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="login" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>الخروج</span></a>
+                </li>
+                <li>
+                    <a asp-action="Register" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>التسجيل</span></a>
+                </li>
+                <li>
+                    <a asp-action="RecoverPassword" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>نسيت كلمة المرور</span></a>
+                </li>
+                <li>
+                    <a asp-action="LockScreen" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>كود الفريق</span></a>
+                </li>
+                <li>
+                    <a asp-action="InternalError" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>هل تريد التسجيل</span></a>
+                </li>
+            </ul>
+        }
+        else if (User.IsInRole("User"))
+        {
+            <a asp-action="Tasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهامي</span></a>
+        }
+
+
+
+
+
+
+    </div>
+</div>

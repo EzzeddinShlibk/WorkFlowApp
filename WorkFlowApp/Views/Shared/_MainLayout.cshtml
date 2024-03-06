@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-------------fontawesome links---------------->
+    <link href="~/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
+    <!------------------------------------------------->
+    <link href="~/css2/StyleSheet.css" rel="stylesheet" />
+    <!--<link href="lib/twitter-bootstrap/css/bootstrap.rtl.css" rel="stylesheet" />-->
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+    <title></title>
+</head>
+<body class="cairo">
+
+
+
+
+    <!--------------navbar------------------------>
+
+
+
+
+    @await Component.InvokeAsync("Nav")
+
+
+    @RenderBody()
+
+
+
+
+
+
+
+    <!----------------------footer----------------------->
+    <img src="~/images2/footer-shape.svg" style="background-color: #6d81f5" />
+
+    <div class="footer-back">
+        <nav class="footer">
+            <div class="container">
+                <form action="/" method="post">
+                    <div class="container">
+                        <div class="row justify-content-center pe-lg-5 ">
+                            <div class="col-12">
+                                <p class="fs-2">اتصل بنا</p>
+                            </div>
+
+
+                            <div class="col-12 d-flex gap-lg-3 gap-sm-3">
+                                <div class="mb-3">
+                                    <input type="email" class="contact-input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="الاسم">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="email" class="contact-input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="رقم الهاتف">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <input type="email" class="contact-input2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="البريد الالكتروني">
+                                </div>
+                            </div>
+                            <div class="col-12">
+
+                                <div class="form-floating">
+                                    <textarea class="contact-textarea" placeholder="الرسالة" id="floatingTextarea2" style="height: 100px"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <a class=" btn  btn-success mt-4 py-lg-2 py-sm-2 px-4 mb-sm-3 fs-5  ">
+                                    ارسال
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="ul3">
+                <ul class="ul-left" style="list-style-type:none">
+                    <li class="li">
+                        <div class=" d-flex align-items-center">
+                            <i class="fa-solid fa-location-dot me-1" style="color: #fafcff;font-size:12px; "></i>
+                            <a class="nav-link" href="../login.html">
+                                ليبيا-طرابلس
+                            </a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class=" d-flex align-items-center">
+                            <i class="fa-solid fa-envelope me-1" style="color: #fafcff;font-size:12px; "></i>
+                            <a class="nav-link">
+                                FlowMaster@tq.ly
+                            </a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class=" d-flex align-items-center">
+                            <i class="fa-solid fa-envelope me-1" style="color: #fafcff;font-size:12px; "></i>
+                            <a class="nav-link">
+                                FlowMaster@gmail.com
+
+                            </a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class="  d-flex align-items-center">
+                            <i class="fa-solid fa-mobile me-1" style="color: #ffffff;font-size:12px; "></i>
+                            <a class="nav-link">0200000001</a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class="  d-flex align-items-center">
+                            <i class="fa-solid fa-phone me-1" style="color: #ffffff;font-size:12px; "></i>
+                            <a class="nav-link">
+                                0020000001
+                            </a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class="  d-flex align-items-center">
+                            <i class="fa-brands fa-facebook me-1" style="color: #ffffff;font-size:12px; "></i>
+                            <a class="nav-link" href="../login.html">
+                                Flow Master
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+
+        <nav class="nav4">
+            <p class="p5">      جميع الحقوق محفوظة&copy; Flow Master App  2024  </p>
+
+        </nav>
+
+    </div>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
