@@ -1,4 +1,8 @@
 ﻿@model Project
+
+@* @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} *@
 <div class="modal" id="AddProject">
 
 
@@ -119,7 +123,9 @@
     <script src="~/lib/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js"></script>
     <script src="~/js/pages/jquery.forms-advanced.js"></script>
 
-    <partial name="_ValidationScriptsPartial" />
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-    </script>
+
 }

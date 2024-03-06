@@ -1,0 +1,56 @@
+﻿@model Project
+@{ Layout = null; }
+@* <form asp-controller="Categories" asp-action="CreateOrEditCategorie" enctype="multipart/form-data" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this); ">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label class=" col-form-label input__label">@localizer["Sec"]  </label>
+        @if (CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
+        {
+            <select asp-for="@Model.SectionId" class="form-control  " asp-items="ViewBag.SectionsAr">
+                @if (Model.SectionId == Guid.Empty)
+                {
+                    <option value="">@localizer["ChooseSec"]</option>
+                }
+            </select>
+        }
+        else
+        {
+            <select asp-for="@Model.SectionId" class="form-control" asp-items="ViewBag.SectionsEn">
+                @if (Model.SectionId == Guid.Empty)
+                {
+                    <option value="">@localizer["ChooseSec"]</option>
+                }
+            </select>
+        }
+
+        <span asp-validation-for="@Model.SectionId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class=" col-form-label input__label">@localizer["Name"] [ @localizer["Ar"] ] </label>
+        <input class="form-control mr-sm-2" asp-for="NameAr" type="text">
+        <span class="text-danger" asp-validation-for="NameAr"></span>
+
+    </div>
+    <div class="form-group">
+        <label class=" col-form-label input__label">@localizer["Name"] [ @localizer["En"] ] </label>
+        <input class="form-control mr-sm-2" asp-for="NameEn" type="text"  />
+        <span class="text-danger" asp-validation-for="NameEn"></span>
+
+    </div>
+
+
+
+
+
+    <button name="submit" value="Add" type="submit" class="btn btn-primary">@localizer["Save"]</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">@localizer["Cancel"]</button>
+
+
+
+</form> *@
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+}

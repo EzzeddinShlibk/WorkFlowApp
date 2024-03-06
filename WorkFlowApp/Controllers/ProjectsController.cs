@@ -9,6 +9,8 @@ using NToastNotify;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using WorkFlowApp.ViewModels;
+using System.Security.Policy;
+using WorkFlowApp.Classes;
 
 namespace WorkFlowApp.Controllers
 {
@@ -108,58 +110,85 @@ namespace WorkFlowApp.Controllers
         {
 
             Guid userID = (Guid)TempData["UserId"];
+
             if (ModelState.IsValid)
             {
-                Guid teamID = getTeamID(userID.ToString());
-
-                var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true && a.isApproved == true && a.isDeleted == false).ToListAsync();
-
-
-                Project newProject = new Project();
-                Guid projectId = Guid.NewGuid();
-                newProject.Id = projectId;
-                newProject.Name = model.Name;
-                newProject.Description = model.Description;
-                newProject.StartDate = model.StartDate;
-                newProject.EndDate = model.EndDate;
-                newProject.CreatedDate = DateTime.Now;
-                newProject.IsDeleted = false;
-                newProject.IsArchived = false;
-                _project.Entity.Insert(newProject);
-                await _project.SaveAsync();
-
-                foreach (var item in model.SelectedUserIds)
+                try
                 {
-                    ProjectsUser projectuser = new ProjectsUser();
-                    projectuser.Id = Guid.NewGuid();
-                    projectuser.userId = item;
-                    projectuser.projectId = projectId;
-                    projectuser.CreatedDate = DateTime.Now; ;
-                    projectuser.isManger = true;
-                    _projectsUser.Entity.Insert(projectuser);
-                    await _projectsUser.SaveAsync();
-                }
-                foreach (var item in adminteamusers)
-                {
-                
-                }
+                    Guid teamID = getTeamID(userID.ToString());
+
+                    var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true && a.isApproved == true && a.isDeleted == false).ToListAsync();
+
+
+                    Project newProject = new Project();
+                    Guid projectId = Guid.NewGuid();
+                    newProject.Id = projectId;
+                    newProject.Name = model.Name;
+                    newProject.Description = model.Description;
+                    newProject.StartDate = model.StartDate;
+                    newProject.EndDate = model.EndDate;
+                    newProject.CreatedDate = DateTime.Now;
+                    newProject.IsDeleted = false;
+                    newProject.IsArchived = false;
+                    _project.Entity.Insert(newProject);
+                    await _project.SaveAsync();
+
+
+
+
+                    foreach (var item in model.SelectedUserIds)
+                    {
+                        ProjectsUser projectuser = new ProjectsUser();
+                        projectuser.Id = Guid.NewGuid();
+                        projectuser.userId = item;
+                        projectuser.projectId = projectId;
+                        projectuser.CreatedDate = DateTime.Now; ;
+                        projectuser.isManger = true;
+                        _projectsUser.Entity.Insert(projectuser);
+                        await _projectsUser.SaveAsync();
+                    }
+                    foreach (var item in adminteamusers)
+                    {
+                        foreach (var user in model.SelectedUserIds)
+                        {
+                            if (item.userId != user)
+                            {
+                                ProjectsUser projectuser = new ProjectsUser();
+                                projectuser.Id = Guid.NewGuid();
+                                projectuser.userId = item.userId;
+                                projectuser.projectId = projectId;
+                                projectuser.CreatedDate = DateTime.Now; ;
+                                projectuser.isManger = true;
+                                _projectsUser.Entity.Insert(projectuser);
+                                await _projectsUser.SaveAsync();
+                            }
+
+                        }
+
+
+                    }
 
 
 
                     _toastNotification.AddSuccessToastMessage("تم حقظ المشروع بنجاح", new ToastrOptions() { Title = "" });
+                    return RedirectToAction("Projects", new { UserId = userID.ToString() });
 
-
+                }
+                catch
+                {
+                    //return PartialView("_Create", model);
+                    return PartialView("~/Views/Projects/_Create.cshtml", model);
+                }
             }
-            else
-            {
-                return View("_Create", model);
-            }
+            ModelState.AddModelError("", "1111Please fill all required fields");
+            //return PartialView("_Create", model);
+            //return PartialView("~/Views/Projects/_Create.cshtml", model);
+
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "_Create", model) });
 
 
 
-            //var modelL = GETALLAsync(userID.ToString());
 
-            return RedirectToAction("Projects", new { UserId = userID.ToString() });
 
 
         }

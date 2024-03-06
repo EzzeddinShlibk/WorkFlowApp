@@ -57,7 +57,10 @@
                     @* <a asp-action="Index" asp-controller="Projects" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="users" class="align-self-center menu-icon"></i><span>أعضاء الفريق</span></a> *@
 
                 </li>
+                <li>
+                    <a asp-action="Projects" asp-controller="Project" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="file" class="align-self-center menu-icon"></i><span>المشاريع</span></a>
 
+                </li>
                 <li>
                     <a asp-action="Tasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهامي</span></a>
                 </li>
