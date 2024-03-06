@@ -65,7 +65,7 @@ namespace WorkFlowApp.Controllers
   .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId))
   .ToListAsync();
 
-            //var model = new List<ProjectLine> { };
+            //var model = new List<ProjectLine> { };  
 
             foreach (var item in projects)
             {
