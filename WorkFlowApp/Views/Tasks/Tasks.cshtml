@@ -1,0 +1,128 @@
+﻿@model IEnumerable<ProjectLine>
+
+@{
+    ViewData["Title"] = "المهام";
+}
+
+<div class="container-fluid">
+
+
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="page-title">المهام</h4>
+
+                        </div><!--end col-->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <h6 class="mt-3 text-muted">قائمة بجميع المهام. <span class="badge badge-pink">6</span></h6>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 text-end">
+                                <div class="text-end">
+                                    <ul class="list-inline">
+
+                                        <li class="list-inline-item">
+                                            <button type="button" onclick="showInPopup('@Url.Action("CreateTask","Tasks",null,Context.Request.Scheme)','إضافة مهمة جديدة')" class="btn btn-soft-primary btn-sm">
+                                                <i class="fa fa-plus ml-2"></i>      إضافة مشروع جديد
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div id="view-all">
+
+            @await Html.PartialAsync("_ViewAllTasks", Model)
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-container" tabindex="-1" role="dialog" aria-hidden="true" id="form-modal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn btn-label-danger btn-icon" data-dismiss="modal">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body ">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/site.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+
+    <div class="modal fade" id="AddTask" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-family:Cairo">إضافة مهمة</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+      
+
+
+                </div>
+                <div class="modal-footer">
+              
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div><!-- container -->
+@section styles {
+
+}
+
+@section scripts {
+    <script src="~/lib/apex-charts/apexcharts.min.js"></script>
+    <script src="~/js/pages/jquery.task.init.js"></script>
+}
+

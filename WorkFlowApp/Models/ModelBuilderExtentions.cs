@@ -13,9 +13,21 @@ namespace WorkFlowApp.Models
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Statues>().HasData(
+                new Statues { Id = Guid.NewGuid(), Name = "Pending Task", Num = 0, Percent = 0, CreatedDate = DateTime.Now },
+                new Statues { Id = Guid.NewGuid(), Name = "Critical Issue", Num = 1, Percent = 0, CreatedDate = DateTime.Now },
+                new Statues { Id = Guid.NewGuid(), Name = "In Progress", Num = 2, Percent = 0, CreatedDate = DateTime.Now },
+                new Statues { Id = Guid.NewGuid(), Name = "Done Pending Review", Num = 3, Percent = 50, CreatedDate = DateTime.Now },
+                new Statues { Id = Guid.NewGuid(), Name = "Completed", Num = 4, Percent = 100, CreatedDate = DateTime.Now }
+            );
 
+            modelBuilder.Entity<Priority>().HasData(
+                new Priority { Id = Guid.NewGuid(), Name = "Low", Num = 0, CreatedDate = DateTime.Now },
+                new Priority { Id = Guid.NewGuid(), Name = "Medium", Num = 1, CreatedDate = DateTime.Now },
+                new Priority { Id = Guid.NewGuid(), Name = "High", Num = 2, CreatedDate = DateTime.Now },
+                new Priority { Id = Guid.NewGuid(), Name = "Very High", Num = 3, CreatedDate = DateTime.Now }
+            );
 
-           
 
             string ProgUserId = Guid.NewGuid().ToString();
             string ProgUserName = "Programmer@Gmail.com";

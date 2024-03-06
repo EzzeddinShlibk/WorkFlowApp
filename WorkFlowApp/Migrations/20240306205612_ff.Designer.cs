@@ -12,8 +12,8 @@ using WorkFlowApp.Models;
 namespace WorkFlowApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240306113657_m1")]
-    partial class m1
+    [Migration("20240306205612_ff")]
+    partial class ff
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,19 +54,19 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b025dc7a-80ba-41fb-8746-b4743847341f",
+                            Id = "900c3278-7b0f-4727-a87a-d7056fd0985c",
                             Name = "Prog",
                             NormalizedName = "PROG"
                         },
                         new
                         {
-                            Id = "fc8611a8-a387-46db-b036-3fb3235f2f58",
+                            Id = "dd5a5b4f-74c9-4e3a-89f6-b32d3a009a24",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "be5ee4d1-6e97-4d17-a4f8-d53077a18b40",
+                            Id = "bf84bd5f-bd4a-4279-a151-f2b0c641e830",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -161,13 +161,13 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "77815200-d96f-4933-8faf-5b425c40b0d5",
-                            RoleId = "b025dc7a-80ba-41fb-8746-b4743847341f"
+                            UserId = "cd8b5805-6627-4a91-8009-263145ed9d74",
+                            RoleId = "900c3278-7b0f-4727-a87a-d7056fd0985c"
                         },
                         new
                         {
-                            UserId = "bb530f1b-02bc-41f2-85e9-3eadaffa225d",
-                            RoleId = "b025dc7a-80ba-41fb-8746-b4743847341f"
+                            UserId = "5a9abb2e-7e81-47d6-8677-ef6e565d9104",
+                            RoleId = "900c3278-7b0f-4727-a87a-d7056fd0985c"
                         });
                 });
 
@@ -263,16 +263,16 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "77815200-d96f-4933-8faf-5b425c40b0d5",
+                            Id = "cd8b5805-6627-4a91-8009-263145ed9d74",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b8da3830-760d-43d9-94ad-1f1ccc191d03",
-                            CreatedDate = new DateTime(2024, 3, 6, 13, 36, 56, 593, DateTimeKind.Local).AddTicks(7186),
+                            ConcurrencyStamp = "b5253822-3f3f-491b-994b-92eab84f31cc",
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(9072),
                             Email = "Programmer@Gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "PROGRAMMER@GMAIL.COM",
                             NormalizedUserName = "PROGRAMMER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJJnH9FzCkglbdIQVsHk/tFdcHXY++1v7q2LxJRRAzf/teRZ4Wc68E8xTtCmPftoDw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELMiWYCVEwP0eTSLXCVKukh7RJCRXjMdNB10WK8yAabNDKWj3pP4Qy1qRuC+NB72Qg==",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
                             TwoFactorEnabled = false,
@@ -280,16 +280,16 @@ namespace WorkFlowApp.Migrations
                         },
                         new
                         {
-                            Id = "bb530f1b-02bc-41f2-85e9-3eadaffa225d",
+                            Id = "5a9abb2e-7e81-47d6-8677-ef6e565d9104",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "628177bc-98de-457f-95f9-9ddf006feb0c",
-                            CreatedDate = new DateTime(2024, 3, 6, 13, 36, 56, 655, DateTimeKind.Local).AddTicks(9733),
+                            ConcurrencyStamp = "1e1299dc-591b-47a9-ba45-2d2de978b9be",
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 545, DateTimeKind.Local).AddTicks(8298),
                             Email = "Manager@Gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@GMAIL.COM",
                             NormalizedUserName = "MANAGER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO6+HyBi96vkvWh4rR7pQYCwk6y0OaoES5YBx5bw2GawAO913Aj6sPmejFKAYTEPlg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED4P+UqTNqTX/uCuABsuSFIdKHby7PJUm2F+mAN/AYgkcnP7yuCMysH/JMoV7ERgsA==",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
                             TwoFactorEnabled = false,
@@ -342,10 +342,6 @@ namespace WorkFlowApp.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
@@ -353,9 +349,42 @@ namespace WorkFlowApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Num")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Priorities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fd9bd3a6-4367-4d7f-891d-aee115fb2a33"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(8913),
+                            Name = "Low",
+                            Num = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("b5057584-26d3-4898-9b65-12cb8fd3351c"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(8917),
+                            Name = "Medium",
+                            Num = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("b327fa94-963c-47c6-9ba3-65e538a529c8"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(8919),
+                            Name = "High",
+                            Num = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("74f5ab65-ec4c-48c9-a4b8-3d451d03e796"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(8921),
+                            Name = "Very High",
+                            Num = 3
+                        });
                 });
 
             modelBuilder.Entity("WorkFlowApp.Models.Entities.Profile", b =>
@@ -403,24 +432,24 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b22181bc-54fa-4402-af65-87113c308213"),
-                            CreatedDate = new DateTime(2024, 3, 6, 13, 36, 56, 655, DateTimeKind.Local).AddTicks(9688),
+                            Id = new Guid("55411784-4696-4034-8d88-d660f8b0e0ad"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 545, DateTimeKind.Local).AddTicks(8201),
                             DisplayName = "Programmer",
                             Gender = false,
                             PhoneNum = "09233333333",
                             Pic = "",
-                            UserId = "77815200-d96f-4933-8faf-5b425c40b0d5",
+                            UserId = "cd8b5805-6627-4a91-8009-263145ed9d74",
                             bio = ""
                         },
                         new
                         {
-                            Id = new Guid("b4ff7a3d-e129-41e7-96ae-b555fdd95f74"),
-                            CreatedDate = new DateTime(2024, 3, 6, 13, 36, 56, 719, DateTimeKind.Local).AddTicks(7410),
+                            Id = new Guid("f71c7f02-8c77-4b9d-a6c5-df9cabaf4f2b"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 638, DateTimeKind.Local).AddTicks(1864),
                             DisplayName = "Manager",
                             Gender = false,
                             PhoneNum = "093435345",
                             Pic = "",
-                            UserId = "bb530f1b-02bc-41f2-85e9-3eadaffa225d",
+                            UserId = "5a9abb2e-7e81-47d6-8677-ef6e565d9104",
                             bio = ""
                         });
                 });
@@ -453,7 +482,8 @@ namespace WorkFlowApp.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -564,9 +594,57 @@ namespace WorkFlowApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Num")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Percent")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Statuess");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2dd0fa62-95ae-468e-8187-714feeb22e90"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(8688),
+                            Name = "Pending Task",
+                            Num = 0,
+                            Percent = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("c201bda9-80ce-4021-a475-858c20dda3c7"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(8703),
+                            Name = "Critical Issue",
+                            Num = 1,
+                            Percent = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("04bc1582-351a-48fe-bede-8bcaf979716f"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(8706),
+                            Name = "In Progress",
+                            Num = 2,
+                            Percent = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("28129857-c9ae-4870-99b7-d8be4e51cfdc"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(8708),
+                            Name = "Done Pending Review",
+                            Num = 3,
+                            Percent = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("69561463-28cd-4b75-b5cc-071e9250cd69"),
+                            CreatedDate = new DateTime(2024, 3, 6, 22, 56, 11, 458, DateTimeKind.Local).AddTicks(8711),
+                            Name = "Completed",
+                            Num = 4,
+                            Percent = 100
+                        });
                 });
 
             modelBuilder.Entity("WorkFlowApp.Models.Entities.Team", b =>
