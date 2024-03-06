@@ -62,7 +62,7 @@ namespace WorkFlowApp.Controllers
 
             //if (await _userManager.IsInRoleAsync(user, "Admin"))
             //{
-            
+
             //}
             //else if (await _userManager.IsInRoleAsync(user, "User"))
             //{
@@ -70,43 +70,42 @@ namespace WorkFlowApp.Controllers
             //}
 
 
-                        var projects = await _project.Entity.GetAll()
-            .Include(a => a.ProjectsUsers)
-            .ThenInclude(i => i.user)
-            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId))
-            .ToListAsync();
+            var projects = await _project.Entity.GetAll()
+.Include(a => a.ProjectsUsers)
+.ThenInclude(i => i.user)
+.Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId))
+.ToListAsync();
 
 
-            var model = new List<ProjectLine> { };
+            var projectlinelist = new List<ProjectLine> { };
 
-            //foreach (var item in projects)
-            //{
+            foreach (var item in projects)
+            {
+                TimeSpan difference = item.EndDate - item.StartDate;
+                int daysDifference = Math.Abs(difference.Days);
 
-            //    int taskscount = _projectTask.Entity.GetAll().Where(a=>a.)
+                int taskscount = _projectTask.Entity.GetAll().Where(a => a.projectId == item.Id).Count();
 
-            //    var projectLine = new ProjectLine
-            //    {
-            //        Name = item.Name,
-            //        Description = item.Description,
-            //        EndDate = item.EndDate,
-
-            //        //phone = userphone,
-            //        //Pic = userpic,
-            //        //isAdmin = item.isAdmin,
-            //        //isApproved = item.isApproved,
-
-
-            //    };
-            //    model.Add(teamViewModel);
-            //}
+                var projectLine = new ProjectLine
+                {
+                    Name = item.Name,
+                    Description = item.Description,
+                    EndDate = item.EndDate,
+                    TaskCount = taskscount,
+                    DaysLeft = daysDifference,
+                    Percent = 0
+                };
+                projectlinelist.Add(projectLine);
+            }
 
 
-            //var model = new ProjectViewModel
-            //{
-            //    Project = new Project(),
-            //    projects = await _project.Entity.GetAll().ToListAsync(),
+            var model = new ProjectViewModel
+            {
+                Project = new Project(),
+                projects = await _project.Entity.GetAll().ToListAsync(),
+                projectList = projectlinelist
 
-            //};
+            };
 
 
 
