@@ -1,76 +1,74 @@
-﻿@model ProjectViewModel
-@* <div class="row">
-    <div class="card-body">
-        @if (Model.projectList.Any())
+﻿@model IEnumerable<ProjectLine>
+<div class="row">
+
+    @{
+        int i = 0;
+        foreach (var item in Model)
         {
+            i++;
 
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media mb-3">
+                            <img src="~/images/widgets/project2.png" alt="" class="thumb-md ">
+                            <div class="media-body align-self-center text-truncate ms-3">
+                                <h4 class="m-0 fw-semibold text-dark font-15">@item.Name</h4>
+                                <p class="text-muted  mb-0 font-13"><span>@item.Description</span></p>
+                            </div>
+                        </div>
+                        <hr class="hr-dashed">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6 class="fw-semibold m-0">الموعد النهائي :<span class="text-muted fw-normal">@item.EndDate.Date.ToString("yyyy-MM-dd")</span> </h6>
+                            <span class="badge badge-soft-success  fw-semibold ms-2"><i class="far fa-fw fa-clock"></i> باقي @item.DaysLeft يوم  </span>
+                        </div>
+                        <div>
+                            <p class="text-muted text-end mb-1">@item.Percent % مكتمل</p>
+                            <div class="progress mb-4" style="height: 4px;">
+                                <div class="progress-bar bg-purple" role="progressbar" style="width: @item.Percent%;" aria-valuenow="@item.Percent" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="d-flex justify-content-start">
 
-
-            <div class="col-sm-12">
-                <table id="datatable-1" class="table table-bordered  table-hover dataTable no-footer dtr-inline" aria-describedby="datatable-1_info" style="width: 1191px;">
-                    <thead>
-                        <tr>
-                            <th>@localizer["N"]</th>
-                            <th>@localizer["Sec"]</th>
-                            <th>@localizer["Cat"]</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @{ int i = 0;
-                            foreach (var item in Model.projectList.ToList())
-                            {
-                                i++;
-                                <tr>
-
-                                    <td class="d-flex dtr-control sorting_1">@i</td>
-
-                           
-                                        <td>@item.Section.NameAr</td>
-                                        <td>@item.NameAr</td>
-
-                       
-
-
-
-                                    <td class="text-nowrap">
-                                        <a onclick="showInPopup('@Url.Action("CreateOrEditCategorie","Categories",new {id=item.Id},Context.Request.Scheme)','@localizer["Edit"]')" class="btn btn-label-primary btn-icon mr-1">
-                                            <i class="fa fa-edit"></i>
+                                <ul class="list-inline mb-0 align-self-center">
+                                    <li class="list-item d-inline-block">
+                                        <a class="ms-2" href="#">
+                                            <span class="text-muted fw-bold">@item.TaskCount</span>
+                                            <i class="mdi mdi-format-list-bulleted text-muted font-18" data-toggle="tooltip" data-placement="bottom" title="عدد المهام للمشروع"></i>
                                         </a>
-                                        <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                                    </li>
+
+                                    <li class="list-item d-inline-block">
+                                        <a onclick="showInPopup('@Url.Action("CreateOrEditProject","Project",new {id=item.Id},Context.Request.Scheme)','تعديل')" class="mdi mdi-pencil-outline text-muted font-18">
+
+                                        </a>
+
+                                    </li>
+                                    <li class="list-item d-inline-block">
+                                        <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this)" >
                                             <input type="hidden" asp-for="@item.Id" />
-                                            <button type="submit" class="btn btn-label-primary btn-icon mr-1">
-                                                <i class="fa fa-trash"></i>
+                                            <button type="submit" class="mdi mdi-trash-can-outline text-muted font-18">
+                                                <!-- <i class="fa fa-trash"></i>-->
                                             </button>
                                         </form>
 
-
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!--end task-box-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
             </div>
 
-
-
+            <!--end col-->
         }
-        else
-        {
-            <div class="card">
-                <div class="card-header" style="font-size:18px;">
-                    @localizer["Embty"]
-                </div>
-            </div>
-        }
-    </div>
-</div> *@
-<script>
-    $(document).ready(function () {
-        $('#datatable-1').DataTable({
 
-        });
-    });
-</script>
+
+
+
+
+
+
+
+
+    }
+</div>

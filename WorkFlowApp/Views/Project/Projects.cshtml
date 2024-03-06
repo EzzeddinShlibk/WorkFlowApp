@@ -1,39 +1,70 @@
-﻿@model IEnumerable<Project>
-@* 
-@{ ViewData["Title"] = @localizer["Categories"]; }
+﻿@model IEnumerable<ProjectLine>
 
-<div class="content ">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-               
-                <div class="portlet">
-                    <div class="portlet-header portlet-header-bordered">
-                        <h3 class="portlet-title">@localizer["Categories"]</h3>
-                        <button type="button" onclick="showInPopup('@Url.Action("CreateOrEditCategorie","Categories",null,Context.Request.Scheme)','@localizer["AddCat"]')" class="btn btn-primary btn-lg">
-                            <i class="fa fa-plus ml-2"></i> @localizer["Add"]
-                        </button>
-                    </div>
-                    <div class="portlet-body">
-                        <div id="view-all">
-                            @await Html.PartialAsync("_ViewAllCategories", Model)
-                        </div>
+@{
+    ViewData["Title"] = "المشاريع";
+}
+
+<div class="container-fluid">
+
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title"> المشاريع</h4>
+
+
                     </div>
                 </div>
-         
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <h5 class="mt-0">قائمة بالمشاريع المراد ادارتها. <span class="badge badge-pink">6</span></h5>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-6 text-end">
+                <div class="text-end">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <div class="input-group">
+                                <input type="text" id="example-input1-group2" name="example-input1-group2" class="form-control form-control-sm" placeholder="بحث">
+                                <button type="button" class="btn btn-soft-primary btn-sm"><i class="fas fa-search"></i></button>
+                            </div>
+                        </li>
+                        <li class="list-inline-item">
+                            <button type="button" class="btn btn-soft-primary btn-sm"><i class="fas fa-refresh"></i></button>
+                        </li>
+                        <li class="list-inline-item">
+                            <button type="button" onclick="showInPopup('@Url.Action("CreateOrEditProject","Project",null,Context.Request.Scheme)','إضافة مشروع جديد')" class="btn btn-soft-primary btn-sm">
+                                <i class="fa fa-plus ml-2"></i>      إضافة مشروع جديد
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        @await Html.PartialAsync("_ViewAllProjects", Model)
+
+
     </div>
 </div>
- *@
-
-
-
 
 <div class="modal fade modal-container" tabindex="-1" role="dialog" aria-hidden="true" id="form-modal">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-    
+
             <div class="modal-header">
                 <h5 class="modal-title"></h5>
                 <button type="button" class="btn btn-label-danger btn-icon" data-dismiss="modal">
@@ -41,7 +72,6 @@
                 </button>
             </div>
             <div class="modal-body ">
-
             </div>
         </div>
     </div>
