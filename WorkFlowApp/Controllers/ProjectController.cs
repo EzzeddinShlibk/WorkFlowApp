@@ -270,12 +270,13 @@ namespace WorkFlowApp.Controllers
                     {
                         foreach (var item in oldprojectuser)
                         {
-                            var projectuser = _projectsUser.Entity.GetAll().Where(p => p.Id == item.Id).FirstOrDefault();
-                           var m= _projectsUser.Entity.GetByIdAsync(item.Id);
 
 
-                            _projectsUser.Entity.Delete(m);
-                            _projectsUser.SaveAsync();
+                            Guid delId = item.Id;
+                            _projectsUser.Entity.Delete(delId);
+                            await _projectsUser.SaveAsync();
+
+                  
 
 
                         }
@@ -335,11 +336,15 @@ namespace WorkFlowApp.Controllers
             try
             {
 
-                var model = await _project.Entity.GetByIdAsync(id);
-                model.IsDeleted = true;
-                model.ModifiedDate = DateTime.Now;
+                //var model = await _project.Entity.GetByIdAsync(id);
+                //model.IsDeleted = true;
+                //model.ModifiedDate = DateTime.Now;
 
-                _project.Entity.Update(model);
+                //_project.Entity.Update(model);
+                //await _project.SaveAsync();
+                var model = await _project.Entity.GetByIdAsync(id);
+
+                _project.Entity.Delete(id);
                 await _project.SaveAsync();
 
                 _toastNotification.AddSuccessToastMessage("تم الحذف بنجاح", new ToastrOptions() { Title = "" });
