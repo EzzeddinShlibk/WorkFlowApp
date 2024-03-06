@@ -1,42 +1,45 @@
 ﻿@model Project
-@{ Layout = null; }
-@* <form asp-controller="Categories" asp-action="CreateOrEditCategorie" enctype="multipart/form-data" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this); ">
+@{
+    Layout = null;
+}
+<form asp-controller="Project" asp-action="CreateOrEditProject" enctype="multipart/form-data" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this); ">
     <input type="hidden" asp-for="Id" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="form-group">
-        <label class=" col-form-label input__label">@localizer["Sec"]  </label>
-        @if (CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
-        {
-            <select asp-for="@Model.SectionId" class="form-control  " asp-items="ViewBag.SectionsAr">
-                @if (Model.SectionId == Guid.Empty)
-                {
-                    <option value="">@localizer["ChooseSec"]</option>
-                }
-            </select>
-        }
-        else
-        {
-            <select asp-for="@Model.SectionId" class="form-control" asp-items="ViewBag.SectionsEn">
-                @if (Model.SectionId == Guid.Empty)
-                {
-                    <option value="">@localizer["ChooseSec"]</option>
-                }
-            </select>
-        }
 
-        <span asp-validation-for="@Model.SectionId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label class=" col-form-label input__label">@localizer["Name"] [ @localizer["Ar"] ] </label>
-        <input class="form-control mr-sm-2" asp-for="NameAr" type="text">
-        <span class="text-danger" asp-validation-for="NameAr"></span>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">الإسم</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="أدخل إسم المشروع">
+        <span asp-validation-for="Name" class="text-danger"></span>
 
     </div>
-    <div class="form-group">
-        <label class=" col-form-label input__label">@localizer["Name"] [ @localizer["En"] ] </label>
-        <input class="form-control mr-sm-2" asp-for="NameEn" type="text"  />
-        <span class="text-danger" asp-validation-for="NameEn"></span>
+    <div class="mb-3">
+        <label asp-for="Description" for="projectDescription" class="form-label">الوصف</label>
+        <textarea class="form-control" asp-for="Description" placeholder="وصف للمشروع" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+
+    </div>
+    <div class="mb-3">
+        <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
+        <input value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="StartDate">
+        <span asp-validation-for="CreatedDate" class="text-danger"></span>
+
+    </div>
+    <div class="mb-3">
+        <label asp-for="EndDate" class="form-label">تاريخ النهاية</label>
+        <input value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="EndDate">
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+
+    </div>
+    <div class="mb-3">
+        <label for="userInput" class="form-label">إضافة المستخدمين</label>
+
+
+
+        <select asp-for="SelectedUserIds" multiple="multiple" class="form-control  " asp-items="ViewBag.UsersList">
+        </select>
+        <span asp-validation-for="SelectedUserIds" class="text-danger"></span>
 
     </div>
 
@@ -44,13 +47,15 @@
 
 
 
-    <button name="submit" value="Add" type="submit" class="btn btn-primary">@localizer["Save"]</button>
-    <button type="button" class="btn btn-default" data-dismiss="modal">@localizer["Cancel"]</button>
+
+  @*   <button name="submit" value="Add" type="submit" class="btn btn-primary">@localizer["Save"]</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">@localizer["Cancel"]</button> *@
+    <button name="submit" type="submit" class="btn btn-primary">إضافة</button>
+    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إغلاق</button>
 
 
-
-</form> *@
-@section Scripts{
+</form>
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
 }

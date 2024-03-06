@@ -47,19 +47,9 @@ namespace WorkFlowApp.Controllers
 
         public async Task<IActionResult> Projects(string UserId)
         {
-
-            //var model = GETALLAsync(UserId);
-
             await PopulateUsersDropDownList(UserId);
-
-
-
-
             Guid teamID = getTeamID(UserId);
             var user = await _userManager.FindByIdAsync(UserId);
-
-
-
             //if (await _userManager.IsInRoleAsync(user, "Admin"))
             //{
 
@@ -68,13 +58,11 @@ namespace WorkFlowApp.Controllers
             //{
 
             //}
-
-
             var projects = await _project.Entity.GetAll()
-.Include(a => a.ProjectsUsers)
-.ThenInclude(i => i.user)
-.Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId))
-.ToListAsync();
+            .Include(a => a.ProjectsUsers)
+            .ThenInclude(i => i.user)
+            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId))
+            .ToListAsync();
 
 
             var projectlinelist = new List<ProjectLine> { };
