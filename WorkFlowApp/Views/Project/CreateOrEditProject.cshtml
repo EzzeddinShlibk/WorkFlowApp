@@ -4,7 +4,7 @@
 }
 <form asp-controller="Project" asp-action="CreateOrEditProject" enctype="multipart/form-data" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this); ">
     <input type="hidden" asp-for="Id" />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="All" class="text-danger"></div>
 
 
 
@@ -20,18 +20,46 @@
         <span asp-validation-for="Description" class="text-danger"></span>
 
     </div>
-    <div class="mb-3">
-        <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
-        <input value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="StartDate">
-        <span asp-validation-for="CreatedDate" class="text-danger"></span>
 
-    </div>
-    <div class="mb-3">
-        <label asp-for="EndDate" class="form-label">تاريخ النهاية</label>
-        <input value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="EndDate">
-        <span asp-validation-for="EndDate" class="text-danger"></span>
 
-    </div>
+    @if (Model.StartDate == null)
+    {
+        <div class="mb-3">
+            <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
+            <input value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="StartDate">
+            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+
+        </div>
+    }
+    else
+    {
+        <div class="mb-3">
+            <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
+            <input value="@Model.StartDate.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="StartDate">
+            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+
+        </div>
+    }
+    @if (Model.StartDate == null)
+    {
+        <div class="mb-3">
+            <label asp-for="EndDate" class="form-label">تاريخ النهاية</label>
+            <input value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="EndDate">
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+
+        </div>
+    }
+    else
+    {
+        <div class="mb-3">
+            <label asp-for="EndDate" class="form-label">تاريخ النهاية</label>
+            <input value="@Model.EndDate.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="EndDate">
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+
+        </div>
+    }
+
+
     <div class="mb-3">
         <label for="userInput" class="form-label">إضافة المستخدمين</label>
 
@@ -47,14 +75,19 @@
 
 
 
-
-  @*   <button name="submit" value="Add" type="submit" class="btn btn-primary">@localizer["Save"]</button>
-    <button type="button" class="btn btn-default" data-dismiss="modal">@localizer["Cancel"]</button> *@
-    <button name="submit" type="submit" class="btn btn-primary">إضافة</button>
+    <button name="submit" type="submit" class="btn btn-primary">حفظ</button>
     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إغلاق</button>
+
+    @if (ViewBag.edit == true)
+    {
+        <a asp-action="Archive" asp-controller="project" asp-route-id="@Model.Id" class="btn btn-dark" onsubmit="return jQueryAjaxDelete(this)">
+            ارشفه
+        </a>
+    }
 
 
 </form>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 

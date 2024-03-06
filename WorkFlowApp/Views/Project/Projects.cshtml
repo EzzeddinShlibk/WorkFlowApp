@@ -52,12 +52,11 @@
 
     </div>
 
+    <div class="portlet-body">
+        <div id="view-all">
 
-    <div class="row">
-
-        @await Html.PartialAsync("_ViewAllProjects", Model)
-
-
+            @await Html.PartialAsync("_ViewAllProjects", Model)
+        </div>
     </div>
 </div>
 
@@ -76,3 +75,4 @@
         </div>
     </div>
 </div>
+<script src="~/js/site.js"></script>

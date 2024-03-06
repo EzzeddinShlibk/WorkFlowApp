@@ -26,7 +26,7 @@
                             @if (_signInManager.IsSignedIn(User))
                             {
                             <li class="nav-item">
-                                <a id="manage" class="nav-item me-lg-4 me-sm-2 btn btn-outline-purple " asp-action="Projects" asp-controller="projects" asp-route-UserId="@_userManager.GetUserId(User)"  title="Manage">@ViewBag.UserName</a>
+                                <a id="manage" class="nav-item me-lg-4 me-sm-2 btn btn-outline-purple " asp-action="Projects" asp-controller="project" asp-route-UserId="@_userManager.GetUserId(User)"  title="Manage">@ViewBag.UserName</a>
                             </li>
                             <li class="nav-item">
                                 <a asp-action="Logout" asp-controller="Account" type="submit" class="nav-item btn btn-purple me-lg-4 me-sm-2">تسجيل الخروج</a>

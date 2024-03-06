@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using WorkFlowApp.ViewModels;
 using System.Security.Policy;
 using WorkFlowApp.Classes;
+using System.Security.Claims;
 
 namespace WorkFlowApp.Controllers
 {
@@ -108,8 +109,8 @@ namespace WorkFlowApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProject(Project model)
         {
-
-            Guid userID = (Guid)TempData["UserId"];
+            var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //Guid userID = (Guid)TempData["UserId"];
 
             if (ModelState.IsValid)
             {

@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using NToastNotify;
-using static System.Collections.Specialized.BitVector32;
-using static WorkFlowApp.Classes.Helper;
+using System.Security.Claims;
 using WorkFlowApp.Classes;
 using WorkFlowApp.Models.Entities;
 using WorkFlowApp.Models.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using WorkFlowApp.ViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Collections.Specialized.BitVector32;
+using static WorkFlowApp.Classes.Helper;
 
 namespace WorkFlowApp.Controllers
 {
@@ -58,7 +57,8 @@ namespace WorkFlowApp.Controllers
         }
         private async Task PopulateUsersDropDownList(string UserId, object selected = null)
         {
-            Guid teamID = getTeamID(UserId);
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Guid teamID = getTeamID(userId);
 
             var teamUsers = await _teamuser.Entity.GetAll()
                 .Where(a => a.teamId == teamID && a.isDeleted == false && a.isApproved == true)
@@ -76,13 +76,13 @@ namespace WorkFlowApp.Controllers
 
 
 
-        public async Task getDataAsync( string UserId)
+        public async Task<List<ProjectLine>> getDataAsync(string UserId)
         {
             await PopulateUsersDropDownList(UserId);
             var projects = await _project.Entity.GetAll()
            .Include(a => a.ProjectsUsers)
            .ThenInclude(i => i.user)
-           .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId))
+               .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId) && p.IsDeleted == false && p.IsArchived == false)
            .ToListAsync();
             var projectlinelist = new List<ProjectLine> { };
             foreach (var item in projects)
@@ -104,10 +104,13 @@ namespace WorkFlowApp.Controllers
                 };
                 projectlinelist.Add(projectLine);
             }
+
+            return projectlinelist;
         }
-        public async Task<IActionResult> Projects(string UserId, string message)
+        public async Task<IActionResult> Projects(string message)
         {
             ViewBag.Message = message;
+            var UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
 
             await PopulateUsersDropDownList(UserId);
@@ -116,7 +119,7 @@ namespace WorkFlowApp.Controllers
             var projects = await _project.Entity.GetAll()
            .Include(a => a.ProjectsUsers)
            .ThenInclude(i => i.user)
-           .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId))
+           .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId) && p.IsDeleted == false && p.IsArchived == false)
            .ToListAsync();
 
 
@@ -151,12 +154,28 @@ namespace WorkFlowApp.Controllers
         [NoDirectAccess]
         public async Task<IActionResult> CreateOrEditProject(Guid id)
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            await PopulateUsersDropDownList(userId.ToString());
 
             if (id == Guid.Empty)
-                return View(new Project());
+            {
+                var model = new Project();
+                model.StartDate = DateTime.Now;
+                model.EndDate = DateTime.Now;
+                ViewBag.edit = false;
+
+                return View(model);
+            }
+
             else
             {
-                var model = await _project.Entity.GetByIdAsync(id);
+                ViewBag.edit = true;
+                var model = await _project.Entity.GetAll().Where(a => a.Id == id).Include(a => a.ProjectsUsers).FirstOrDefaultAsync();
+
+                model.SelectedUserIds = model.ProjectsUsers.Select(pu => pu.userId.ToString()).ToList();
+
+
+
                 if (model == null)
                 {
                     return NotFound();
@@ -165,89 +184,154 @@ namespace WorkFlowApp.Controllers
             }
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> CreateOrEditProject(Guid id, Section model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        string ImageName, CoverName;
-        //        if (id == Guid.Empty)
-        //        {
-        //            var ExistName = await _Section.Entity.GetAll().Where(a => a.NameAr.ToUpper() == model.NameAr.ToUpper() || a.NameEn.ToUpper() == model.NameEn.ToUpper()).FirstOrDefaultAsync();
-
-        //            if (ExistName == null)
-        //            {
-        //                ImageName = UploadedFile(model.Image);
-        //                CoverName = UploadedFile(model.CoverImage);
-        //                Section newsection = new Section();
-        //                newsection.NameAr = model.NameAr;
-        //                newsection.NameEn = model.NameEn;
-        //                newsection.Pic = ImageName;
-        //                newsection.CoverPic = CoverName;
-        //                newsection.CreatedDate = DateTime.Now;
-        //                _Section.Entity.Insert(newsection);
-        //                await _Section.SaveAsync();
-        //                _toastNotification.AddSuccessToastMessage(_localizer["SaveMsg"].Value, new ToastrOptions() { Title = "" });
-
-        //            }
-        //            else
-        //            {
-        //                _toastNotification.AddErrorToastMessage(_localizer["Alreadyexists"].Value, new ToastrOptions() { Title = "" });
-
-        //            }
-        //        }
-        //        else
-        //        {
-        //            var ExistSecName = await _Section.Entity.GetAll().Where(a => a.NameAr.ToUpper() == model.NameAr.ToUpper() && a.Id != model.Id || a.NameEn.ToUpper() == model.NameEn.ToUpper() && a.Id != model.Id).FirstOrDefaultAsync();
-        //            if (ExistSecName == null)
-        //            {
-        //                if (model.Image != null)
-        //                {
-        //                    DeleteImg(model.Pic);
-        //                    ImageName = UploadedFile(model.Image);
-        //                }
-        //                else
-        //                {
-        //                    ImageName = model.Pic;
-        //                }
-        //                if (model.CoverImage != null)
-        //                {
-        //                    DeleteImg(model.CoverPic);
-        //                    CoverName = UploadedFile(model.CoverImage);
-        //                }
-        //                else
-        //                {
-        //                    CoverName = model.CoverPic;
-        //                }
-        //                var sections = await _Section.Entity.GetByIdAsync(model.Id);
-        //                sections.NameAr = model.NameAr;
-        //                sections.NameEn = model.NameEn;
-        //                sections.Pic = ImageName;
-        //                sections.CoverPic = CoverName;
-
-        //                sections.ModifiedDate = DateTime.Now;
-        //                _Section.Entity.Update(sections);
-        //                await _Section.SaveAsync();
-        //                _toastNotification.AddSuccessToastMessage(_localizer["SaveMsg"].Value, new ToastrOptions() { Title = "" });
-
-        //                id = Guid.Empty;
-        //            }
-        //            else
-        //            {
-        //                _toastNotification.AddErrorToastMessage(_localizer["Alreadyexists"].Value, new ToastrOptions() { Title = "" });
-
-
-        //            }
-        //        }
-        //        return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllSections", await _Section.Entity.GetAll().AsNoTracking().ToListAsync()) });
-        //    }
-        //    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditSection", model) });
-        //}
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateOrEditProject(Guid id, Project model, string name)
+        {
+            var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Guid teamID = getTeamID(userID.ToString());
+            var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true && a.isApproved == true && a.isDeleted == false).ToListAsync();
+
+            if (ModelState.IsValid)
+            {
+                if (id == Guid.Empty)
+                {
+                    try
+                    {
+                        Project newProject = new Project();
+                        Guid projectId = Guid.NewGuid();
+                        newProject.Id = projectId;
+                        newProject.Name = model.Name;
+                        newProject.Description = model.Description;
+                        newProject.StartDate = model.StartDate;
+                        newProject.EndDate = model.EndDate;
+                        newProject.CreatedDate = DateTime.Now;
+                        newProject.IsDeleted = false;
+                        newProject.IsArchived = false;
+                        _project.Entity.Insert(newProject);
+                        await _project.SaveAsync();
+                        foreach (var item in model.SelectedUserIds)
+                        {
+                            ProjectsUser projectuser = new ProjectsUser();
+                            projectuser.Id = Guid.NewGuid();
+                            projectuser.userId = item;
+                            projectuser.projectId = projectId;
+                            projectuser.CreatedDate = DateTime.Now; ;
+                            projectuser.isManger = true;
+                            _projectsUser.Entity.Insert(projectuser);
+                            await _projectsUser.SaveAsync();
+                        }
+
+
+                        foreach (var item in adminteamusers)
+                        {
+                            if (!model.SelectedUserIds.Contains(item.userId))
+                            {
+                                ProjectsUser projectuser = new ProjectsUser();
+                                projectuser.Id = Guid.NewGuid();
+                                projectuser.userId = item.userId;
+                                projectuser.projectId = projectId;
+                                projectuser.CreatedDate = DateTime.Now; ;
+                                projectuser.isManger = true;
+                                _projectsUser.Entity.Insert(projectuser);
+                                await _projectsUser.SaveAsync();
+                            }
+                        }
+
+
+
+                        _toastNotification.AddSuccessToastMessage("تم حقظ المشروع بنجاح", new ToastrOptions() { Title = "" });
+
+
+                    }
+                    catch
+                    {
+
+                    }
+
+
+                }
+                else
+                {
+
+                    var oldproject = await _project.Entity.GetByIdAsync(model.Id);
+                    oldproject.Name = model.Name;
+                    oldproject.Description = model.Description;
+                    oldproject.StartDate = model.StartDate;
+                    oldproject.EndDate = model.EndDate;
+                    oldproject.ModifiedDate = DateTime.Now;
+                    _project.Entity.Update(oldproject);
+                    await _project.SaveAsync();
+
+
+                    var oldprojectuser = await _projectsUser.Entity.GetAll().Where(p => p.projectId == model.Id).ToListAsync();
+
+                    if (oldprojectuser.Any())
+                    {
+                        foreach (var item in oldprojectuser)
+                        {
+                            var projectuser = _projectsUser.Entity.GetAll().Where(p => p.Id == item.Id).FirstOrDefault();
+                           var m= _projectsUser.Entity.GetByIdAsync(item.Id);
+
+
+                            _projectsUser.Entity.Delete(m);
+                            _projectsUser.SaveAsync();
+
+
+                        }
+                    }
+                    foreach (var item in model.SelectedUserIds)
+                    {
+                        ProjectsUser projectuser = new ProjectsUser();
+                        projectuser.Id = Guid.NewGuid();
+                        projectuser.userId = item;
+                        projectuser.projectId = model.Id;
+                        projectuser.CreatedDate = DateTime.Now; ;
+                        projectuser.isManger = true;
+                        _projectsUser.Entity.Insert(projectuser);
+                        await _projectsUser.SaveAsync();
+                    }
+
+
+                    foreach (var item in adminteamusers)
+                    {
+                        if (!model.SelectedUserIds.Contains(item.userId))
+                        {
+                            ProjectsUser projectuser = new ProjectsUser();
+                            projectuser.Id = Guid.NewGuid();
+                            projectuser.userId = item.userId;
+                            projectuser.projectId = model.Id;
+                            projectuser.CreatedDate = DateTime.Now; ;
+                            projectuser.isManger = true;
+                            _projectsUser.Entity.Insert(projectuser);
+                            await _projectsUser.SaveAsync();
+                        }
+                    }
+
+
+
+                    id = Guid.Empty;
+
+                }
+                var returnmodel = await getDataAsync(userID.ToString());
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProjects", returnmodel) });
+            }
+            await PopulateUsersDropDownList(userID.ToString());
+
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditProject", model) });
+
+
+
+
+        }
+
+
+        [ViewLayout("_Layout")]
+
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
+            var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             try
             {
 
@@ -261,13 +345,67 @@ namespace WorkFlowApp.Controllers
                 _toastNotification.AddSuccessToastMessage("تم الحذف بنجاح", new ToastrOptions() { Title = "" });
 
 
-                return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllSections", await _Section.Entity.GetAll().AsNoTracking().ToListAsync()) });
+                var returnmodel = await getDataAsync(userID.ToString());
+
+                //return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllProjects", returnmodel) });
+                //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProjects", returnmodel) });
+
+
+                //return PartialView("~/Views/Project/_ViewAllProjects.cshtml", returnmodel);
+                return RedirectToAction("Projects", new { UserId = userID.ToString() });
+
             }
             catch
             {
+                return View("projects");
+
+
                 throw;
             }
+
         }
+
+        [ViewLayout("_Layout")]
+
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Archive(Guid id)
+        {
+            var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            try
+            {
+
+                var model = await _project.Entity.GetByIdAsync(id);
+                model.IsArchived = true;
+                model.ModifiedDate = DateTime.Now;
+
+                _project.Entity.Update(model);
+                await _project.SaveAsync();
+
+                _toastNotification.AddSuccessToastMessage("تمت الارشفة  بنجاح", new ToastrOptions() { Title = "" });
+
+
+                var returnmodel = await getDataAsync(userID.ToString());
+
+                //return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllProjects", returnmodel) });
+                //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProjects", returnmodel) });
+
+
+                //return PartialView("~/Views/Project/_ViewAllProjects.cshtml", returnmodel);
+                return RedirectToAction("Projects", new { UserId = userID.ToString() });
+
+            }
+            catch
+            {
+                return View("projects");
+
+
+                throw;
+            }
+
+        }
+
+
+
 
     }
 }

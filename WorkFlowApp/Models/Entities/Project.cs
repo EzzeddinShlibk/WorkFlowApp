@@ -6,6 +6,8 @@ namespace WorkFlowApp.Models.Entities
     public class Project : BaseEntity
     {
         [Required(ErrorMessage = "please choose Name")]
+        [StringLength(50, MinimumLength = 5)]
+
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
