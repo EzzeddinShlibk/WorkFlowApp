@@ -66,24 +66,20 @@
                 </li>
 
                 <li>
-                    <a asp-action="FileManager" asp-controller="apps"><i data-feather="star" class="align-self-center menu-icon"></i><span>المفضلة</span></a>
+                    <a asp-action="TeamPerformance" asp-controller="apps"><i data-feather="pie-chart" class="align-self-center menu-icon"></i><span> أداء الفريق</span></a>
                 </li>
-
-                <li>
-                    <a asp-action="Calendar" asp-controller="apps"><i data-feather="pie-chart" class="align-self-center menu-icon"></i><span> أداء الفريق</span></a>
-                </li>
-
-                <li>
-                    <a asp-action="profile" asp-controller="Pages"><i data-feather="archive" class="align-self-center menu-icon"></i><span>الأرشيف</span></a>
-                </li>
-
-                <li>
-                    <a asp-action="widgets" asp-controller="home"><i data-feather="archive" class="align-self-center menu-icon"></i><span>سلة المهملات</span></a>
-                </li>
-
                 <li>
                     <a asp-action="Manage" asp-controller="Team" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="users" class="align-self-center menu-icon"></i><span>أعضاء الفريق</span></a>
                 </li>
+                <li>
+                    <a asp-action="archives" asp-controller="Pages"><i data-feather="archive" class="align-self-center menu-icon"></i><span>الأرشيف</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="DeletedProjects" asp-controller="apps"><i data-feather="archive" class="align-self-center menu-icon"></i><span>سلة المهملات</span></a>
+                </li>
+
+              
 
               
                 <li>

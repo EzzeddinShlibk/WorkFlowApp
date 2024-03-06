@@ -35,18 +35,78 @@
 
                     </div>
                     <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
-                    <button type="submit" class="btn btn-outline-success" >تعديل</button>
-                    <input type="hidden" value="@Model.UserId"  asp-for="UserId" />
+                    <button type="submit" class="btn btn-outline-success">تعديل</button>
+                    <input type="hidden" value="@Model.UserId" asp-for="UserId" />
 
 
                 </div>
 
 
-                <div class="modal-footer">
-  @*                   <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
-                    <button type="submit" class="btn btn-outline-success" data-bs-dismiss="modal">تعديل</button> *@
-                </div>
             </form>
         </div>
+    </div>
+</div>
+
+<div class="modal" id="DelteUser_@Model.UserId">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-family:Cairo">إدارة المستخدمين</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+            </div>
+            <div class="modal-body mb-2">
+                <h6>هل تريد حذف المستخدم @Model.Name</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
+                <button type="submit" class="btn btn-outline-success" asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@Model.UserId">موافق</button>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<div class="modal" id="AcpUser">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-family:Cairo">إدارة المستخدمين</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+            </div>
+            <div class="modal-body mb-2">
+                <h6>هل تريد قبول المستخدم    للانضمام للفريق</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
+                @* <button type="submit" class="btn btn-outline-success" asp-action="AcceptUser" asp-controller="Team" asp-route-UserId="@Model.UserId">موافق</button>  *@
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<div class="modal" id="DirUser">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-family:Cairo">إدارة المستخدمين</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+            </div>
+            <div class="modal-body mb-2">
+                <h6>هل تريد رفض المستخدم     للانضمام للفريق</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
+                @* <button type="submit" asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@Model.UserId">موافق</button>  *@
+            </div>
+
+        </div>
+
+
     </div>
 </div>

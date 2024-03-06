@@ -27,9 +27,10 @@
                                     <h5 class="me-0">إستخدم رمز الفريق هذا لدعوة الأشخاص الى فريقك</h5>
                                     <div class="input-group">
                                         @* <input readonly type="text" value="@ViewBag.code" class="form-control" id="myInput" style="width:30px" /> *@
-                                        <span id="spanId" class="px-2" style="font-size:30px;">@ViewBag.code </span>
-                                        <button onclick="copyText()" type="submit" class="input-group-text bg-purple p-3">
-                                            <i class="far fa-copy text-white fs-4"></i>
+                                        <span id="spanId" class="px-2 py-2" style="font-size:30px;">@ViewBag.code </span>
+                                        <button onclick="copyText()" type="submit" class="input-group-text bg-purple text-white p-3 fs-4">
+                                          نسخ رابط الدعوة
+                                          <i class="far fa-copy text-white fs-4 px-2"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -39,9 +40,7 @@
 
                         </div>
                     </div>
-                    <br />
-                    <br />
-                    <br />
+               
 
                     @if (Model.Any())
                     {
@@ -65,27 +64,27 @@
                                     </thead>
                                     <tbody>
                                         @{
-                                            foreach (var item in Model)
+                                            foreach (var user in Model)
                                             {
-                                                if (item.isApproved == false)
+                                                if (user.isApproved == false)
                                                 {
                                                     <tr class="text-center">
                                                         <td class="center">
-                                                            @if (item.Pic == "-")
+                                                            @if (user.Pic == "-")
                                                             {
                                                                 <img src="~/images/users/profile.png" alt="" class="rounded-circle thumb-xs me-1">
                                                             }
                                                             else
                                                             {
-                                                                <img src="~/images/users/@(item.Pic).jpg" alt="" class="rounded-circle thumb-xs me-1">
+                                                                <img src="~/images/users/@(user.Pic).jpg" alt="" class="rounded-circle thumb-xs me-1">
 
                                                             }
                                                         <td>
-                                                                @item.Name
+                                                                @user.Name
                                                         </td>
-                                                        <td>@item.Email</td>
-                                                        <td>@item.phone</td>
-                                                            @if (item.isAdmin == true)
+                                                        <td>@user.Email</td>
+                                                        <td>@user.phone</td>
+                                                            @if (user.isAdmin == true)
                                                             {
                                                             <td>مدير</td>
                                                             }
@@ -94,11 +93,11 @@
                                                             <td>عضو</td>
                                                             }
                                                         <td>
-                                                            <a asp-action="AcceptUser" asp-controller="Team" asp-route-UserId="@item.UserId" class="btn btn-outline-success mx-2">
+                                                            <a class="btn btn-outline-success mx-2" data-bs-toggle="modal" data-bs-target="#AcpUser">
                                                                 قبول <i class="fas fa-check"></i>
                                                             </a>
 
-                                                            <a asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@item.UserId" class="btn btn-outline-pink">
+                                                            <a data-bs-toggle="modal" data-bs-target="#DirUser"  class="btn btn-outline-pink">
                                                                 رفض
                                                                 <i class="fas fa-times"></i>
                                                             </a>
@@ -143,27 +142,27 @@
                                 </thead>
                                 <tbody>
                                     @{
-                                        foreach (var item in Model)
+                                        foreach (var User in Model)
                                         {
-                                            if (item.isApproved == true)
+                                            if (User.isApproved == true)
                                             {
                                                 <tr class="text-center">
                                                     <td class="center">
-                                                        @if (item.Pic == "-")
+                                                        @if (User.Pic == "-")
                                                         {
                                                             <img src="~/images/users/profile.png" alt="" class="rounded-circle thumb-xs me-1">
                                                         }
                                                         else
                                                         {
-                                                            <img src="~/images/users/@(item.Pic).jpg" alt="" class="rounded-circle thumb-xs me-1">
+                                                            <img src="~/images/users/@(User.Pic).jpg" alt="" class="rounded-circle thumb-xs me-1">
 
                                                         }
                                                     <td>
-                                                            @item.Name
+                                                            @User.Name
                                                     </td>
-                                                    <td>@item.Email</td>
-                                                    <td>@item.phone</td>
-                                                        @if (item.isAdmin == true)
+                                                    <td>@User.Email</td>
+                                                    <td>@User.phone</td>
+                                                        @if (User.isAdmin == true)
                                                         {
                                                         <td>مدير</td>
                                                         }
@@ -172,11 +171,11 @@
                                                         <td>عضو</td>
                                                         }
                                                     <td>
-                                                        <a data-bs-toggle="modal" data-bs-target="#EditUser_@item.UserId" class="btn btn-outline-primary mx-2">
+                                                        <a data-bs-toggle="modal" data-bs-target="#EditUser_@User.UserId" class="btn btn-outline-primary mx-2">
                                                             تعديل
                                                             <i class="far fa-edit"></i>
-                                                        </a> 
-                                                        <a asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@item.UserId" class="btn btn-outline-pink">
+                                                        </a>
+                                                        <a class="btn btn-outline-pink" data-bs-toggle="modal" data-bs-target="#DelteUser_@User.UserId">
                                                             حذف
                                                             <i class="far fa-trash-alt"></i>
                                                         </a>
@@ -184,7 +183,7 @@
                                                 </tr>
 
 
-                                                @Html.Partial("_Update", item)
+                                                @Html.Partial("_Update", User)
                                          
 
                                     
@@ -217,15 +216,12 @@
 
 
 </div>
+ 
 
 
 
 
 
-
-@section styles {
-
-}
 
 @section scripts {
     <script>
