@@ -10,7 +10,7 @@ namespace WorkFlowApp.Controllers
 
         public IActionResult ReadEmail() => View();
 
-        public IActionResult Chat() => View();
+        public IActionResult Chart() => View();
         public IActionResult Contacts() => View();
 
         public IActionResult TeamPerformance() => View();
@@ -25,8 +25,8 @@ namespace WorkFlowApp.Controllers
 
         public IActionResult Project() => View();
 
-        [HttpGet("Project/Overview")]
-        public IActionResult ProjectOverview() => View();
+        [HttpGet("SiteStatus")]
+        public IActionResult SiteStatus() => View();
         
         [HttpGet("Project/Board")]
         public IActionResult ProjectBoard() => View();
@@ -45,6 +45,8 @@ namespace WorkFlowApp.Controllers
 
         [HttpGet("Ecommerce/ProcuctDetail")]
         public IActionResult EcommerceProcuctDetail() => View();
+        [HttpGet("statistics")]
+        public IActionResult statistics() => View();
 
         [HttpGet("Ecommerce/Cart")]
         public IActionResult EcommerceCart() => View();
