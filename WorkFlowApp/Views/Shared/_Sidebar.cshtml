@@ -82,25 +82,11 @@
                     <a asp-action="Manage" asp-controller="Team" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="users" class="align-self-center menu-icon"></i><span>أعضاء الفريق</span></a>
                 </li>
 
-                <li>
-                    <a asp-action="EcommerceCheckout" asp-controller="apps"><i data-feather="settings" class="align-self-center menu-icon"></i><span>الإعدادت</span></a>
-                </li>
-
+              
                 <li>
                     <a asp-action="login" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>الخروج</span></a>
                 </li>
-                <li>
-                    <a asp-action="Register" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>التسجيل</span></a>
-                </li>
-                <li>
-                    <a asp-action="RecoverPassword" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>نسيت كلمة المرور</span></a>
-                </li>
-                <li>
-                    <a asp-action="LockScreen" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>كود الفريق</span></a>
-                </li>
-                <li>
-                    <a asp-action="InternalError" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>هل تريد التسجيل</span></a>
-                </li>
+              
             </ul>
         }
         else if (User.IsInRole("User"))

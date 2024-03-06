@@ -26,7 +26,8 @@
                                 <div class="row ms-2">
                                     <h5 class="me-0">إستخدم رمز الفريق هذا لدعوة الأشخاص الى فريقك</h5>
                                     <div class="input-group">
-                                        <input readonly type="text" value="@ViewBag.code" class="form-control" id="myInput" style="width:30px" />
+                                        @* <input readonly type="text" value="@ViewBag.code" class="form-control" id="myInput" style="width:30px" /> *@
+                                        <span id="spanId" class="px-2" style="font-size:30px;">@ViewBag.code </span>
                                         <button onclick="copyText()" type="submit" class="input-group-text bg-purple p-3">
                                             <i class="far fa-copy text-white fs-4"></i>
                                         </button>
@@ -44,7 +45,7 @@
 
                     @if (Model.Any())
                     {
-                        <h5 class="text-center">طلبات الإنضمام</h5>
+                        <h5 >طلبات الإنضمام</h5>
                         <hr class="hr-dashed">
                         if (ViewBag.approvedCount > 0)
                         {
@@ -124,7 +125,7 @@
 
 
 
-                        <h5 class="text-center">أعضاء الفريق</h5>
+                        <h5 >أعضاء الفريق</h5>
                         <hr class="hr-dashed">
                         <div class="table-responsive">
                             <table class="table mb-0  ">
@@ -229,18 +230,21 @@
 @section scripts {
     <script>
         function copyText() {
-            // Get the input element
-            var inputElement = document.getElementById("myInput");
+   
+            // // الحصول على عنصر span
+            var spanElement = document.getElementById("spanId"); // استبدل "spanId" بمعرف العنصر الفعلي
 
-            // Select the text in the input field
-            inputElement.select();
+            // إنشاء نطاق اختيار جديد
+            var range = document.createRange();
 
-            // Copy the text to the clipboard
+            // تحديد المحتوى داخل النطاق
+            range.selectNodeContents(spanElement);
+
+            // نسخ المحتوى المحدد إلى الحافظة
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
             document.execCommand("copy");
-
-            // Deselect the text
-            window.getSelection().removeAllRanges();
-
             alert("تم النسخ بنجاح");
         }
     </script>
