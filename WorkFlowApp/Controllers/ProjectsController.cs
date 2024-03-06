@@ -17,6 +17,7 @@ namespace WorkFlowApp.Controllers
     public class ProjectsController : Controller
     {
         private readonly IUnitOfWork<Project> _project;
+        private readonly IUnitOfWork<ProjectTask> _projectTask;
         private readonly IUnitOfWork<ProjectsUser> _projectsUser;
         private readonly IUnitOfWork<TeamUser> _teamuser;
         private readonly IToastNotification _toastNotification;
@@ -25,6 +26,7 @@ namespace WorkFlowApp.Controllers
 
         public ProjectsController(
                      IUnitOfWork<Project> project,
+                     IUnitOfWork<ProjectTask> projectTask,
                      IUnitOfWork<ProjectsUser> projectsUser,
                      IUnitOfWork<TeamUser> teamUser,
                         UserManager<ApplicationUser> userManager,
@@ -38,6 +40,7 @@ namespace WorkFlowApp.Controllers
             _webHostEnvironment = hostEnvironment;
             _userManager = userManager;
             _toastNotification = toastNotification;
+            _projectTask = projectTask;
         }
 
 
@@ -53,47 +56,57 @@ namespace WorkFlowApp.Controllers
 
 
             Guid teamID = getTeamID(UserId);
+            var user = await _userManager.FindByIdAsync(UserId);
 
 
 
             //if (await _userManager.IsInRoleAsync(user, "Admin"))
-            //{ }
+            //{
+            
+            //}
+            //else if (await _userManager.IsInRoleAsync(user, "User"))
+            //{
+
+            //}
 
 
-
-            var projects = await _project.Entity.GetAll()
-  .Include(a => a.ProjectsUsers)
-      .ThenInclude(i => i.user)
-  .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId))
-  .ToListAsync();
-
-            //var model = new List<ProjectLine> { };  
-
-            foreach (var item in projects)
-            {
-                //var projectLine = new ProjectLine
-                //{
-                //    Name = item.Name,
-                //    Description = item.Description,
-                //    EndDate = item.EndDate,
-
-                //    phone = userphone,
-                //    Pic = userpic,
-                //    isAdmin = item.isAdmin,
-                //    isApproved = item.isApproved,
+                        var projects = await _project.Entity.GetAll()
+            .Include(a => a.ProjectsUsers)
+            .ThenInclude(i => i.user)
+            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId))
+            .ToListAsync();
 
 
-                //};
-                //model.Add(teamViewModel);
-            }
+            var model = new List<ProjectLine> { };
+
+            //foreach (var item in projects)
+            //{
+
+            //    int taskscount = _projectTask.Entity.GetAll().Where(a=>a.)
+
+            //    var projectLine = new ProjectLine
+            //    {
+            //        Name = item.Name,
+            //        Description = item.Description,
+            //        EndDate = item.EndDate,
+
+            //        //phone = userphone,
+            //        //Pic = userpic,
+            //        //isAdmin = item.isAdmin,
+            //        //isApproved = item.isApproved,
 
 
-            var model = new ProjectViewModel
-            {
-                Project = new Project(),
-                projects = await _project.Entity.GetAll().ToListAsync(),
+            //    };
+            //    model.Add(teamViewModel);
+            //}
 
-            };
+
+            //var model = new ProjectViewModel
+            //{
+            //    Project = new Project(),
+            //    projects = await _project.Entity.GetAll().ToListAsync(),
+
+            //};
 
 
 

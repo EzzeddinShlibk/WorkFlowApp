@@ -4,6 +4,8 @@ namespace WorkFlowApp.Models.Entities
 {
     public class ProjectTask:BaseEntity
     {
+        public Guid projectId { get; set; }
+        public Project project { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
