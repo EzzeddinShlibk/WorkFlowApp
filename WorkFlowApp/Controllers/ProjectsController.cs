@@ -84,7 +84,7 @@ namespace WorkFlowApp.Controllers
                 //};
                 //model.Add(teamViewModel);
             }
-     
+
 
             var model = new ProjectViewModel
             {
@@ -110,6 +110,9 @@ namespace WorkFlowApp.Controllers
             Guid userID = (Guid)TempData["UserId"];
             if (ModelState.IsValid)
             {
+                Guid teamID = getTeamID(userID.ToString());
+
+                var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true && a.isApproved == true && a.isDeleted == false).ToListAsync();
 
 
                 Project newProject = new Project();
@@ -133,16 +136,17 @@ namespace WorkFlowApp.Controllers
                     projectuser.projectId = projectId;
                     projectuser.CreatedDate = DateTime.Now; ;
                     projectuser.isManger = true;
-
                     _projectsUser.Entity.Insert(projectuser);
                     await _projectsUser.SaveAsync();
-
-
-
+                }
+                foreach (var item in adminteamusers)
+                {
+                
                 }
 
 
-                _toastNotification.AddSuccessToastMessage("تم حقظ المشروع بنجاح", new ToastrOptions() { Title = "" });
+
+                    _toastNotification.AddSuccessToastMessage("تم حقظ المشروع بنجاح", new ToastrOptions() { Title = "" });
 
 
             }
