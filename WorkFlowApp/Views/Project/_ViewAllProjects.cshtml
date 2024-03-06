@@ -1,0 +1,76 @@
+﻿@model ProjectViewModel
+@* <div class="row">
+    <div class="card-body">
+        @if (Model.projectList.Any())
+        {
+
+
+
+            <div class="col-sm-12">
+                <table id="datatable-1" class="table table-bordered  table-hover dataTable no-footer dtr-inline" aria-describedby="datatable-1_info" style="width: 1191px;">
+                    <thead>
+                        <tr>
+                            <th>@localizer["N"]</th>
+                            <th>@localizer["Sec"]</th>
+                            <th>@localizer["Cat"]</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{ int i = 0;
+                            foreach (var item in Model.projectList.ToList())
+                            {
+                                i++;
+                                <tr>
+
+                                    <td class="d-flex dtr-control sorting_1">@i</td>
+
+                           
+                                        <td>@item.Section.NameAr</td>
+                                        <td>@item.NameAr</td>
+
+                       
+
+
+
+                                    <td class="text-nowrap">
+                                        <a onclick="showInPopup('@Url.Action("CreateOrEditCategorie","Categories",new {id=item.Id},Context.Request.Scheme)','@localizer["Edit"]')" class="btn btn-label-primary btn-icon mr-1">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                                            <input type="hidden" asp-for="@item.Id" />
+                                            <button type="submit" class="btn btn-label-primary btn-icon mr-1">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        }
+        else
+        {
+            <div class="card">
+                <div class="card-header" style="font-size:18px;">
+                    @localizer["Embty"]
+                </div>
+            </div>
+        }
+    </div>
+</div> *@
+<script>
+    $(document).ready(function () {
+        $('#datatable-1').DataTable({
+
+        });
+    });
+</script>

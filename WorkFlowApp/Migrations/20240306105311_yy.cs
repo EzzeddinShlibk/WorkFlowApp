@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WorkFlowApp.Migrations
 {
     /// <inheritdoc />
-    public partial class a1 : Migration
+    public partial class yy : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -310,6 +310,7 @@ namespace WorkFlowApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    projectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -334,6 +335,12 @@ namespace WorkFlowApp.Migrations
                         name: "FK_ProjectTasks_Profile_userId",
                         column: x => x.userId,
                         principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProjectTasks_Projects_projectId",
+                        column: x => x.projectId,
+                        principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -378,9 +385,9 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2d657fab-6719-4801-92db-f926e53fd5e0", null, "User", "USER" },
-                    { "42a9185a-f5e2-4c7b-9103-8b14f5af4474", null, "Admin", "ADMIN" },
-                    { "80764bec-24bf-40ef-8595-ef1abea52c13", null, "Prog", "PROG" }
+                    { "17e93a8f-4403-4496-9897-88a9e0d65d0e", null, "Prog", "PROG" },
+                    { "6b2d8f16-7b0c-4f9a-ab10-b5cf2c08da8f", null, "Admin", "ADMIN" },
+                    { "c8d6668c-3697-49b0-9387-5d2bea0e756d", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -388,8 +395,8 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "ModifiedDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "01b9bbfb-af88-4b47-b478-7c27dab9f679", 0, "a48a5d76-32ff-4e72-9ea8-5ae1b04be496", new DateTime(2024, 3, 6, 11, 31, 11, 640, DateTimeKind.Local).AddTicks(5020), "Manager@Gmail.com", true, false, null, null, "MANAGER@GMAIL.COM", "MANAGER@GMAIL.COM", "AQAAAAIAAYagAAAAEBmG7uo7fdX6upDklSxUIMpxdu3Cd1+6ZRcUo6+DofQrQjRAN582/53FI8FTSPx7vA==", null, true, "00000000-0000-0000-0000-000000000000", false, "Manager@Gmail.com" },
-                    { "887632e9-8dc6-41b5-afd2-0915b3f8d33d", 0, "def1be8a-3c39-4a4b-8bd3-21bca4288943", new DateTime(2024, 3, 6, 11, 31, 11, 577, DateTimeKind.Local).AddTicks(2996), "Programmer@Gmail.com", true, true, null, null, "PROGRAMMER@GMAIL.COM", "PROGRAMMER@GMAIL.COM", "AQAAAAIAAYagAAAAEPWUKeGrdEM4oewvmM2hOfEL4Aw/vRsbReKLuuZT0Dlk0wMnCq5uA5fmn/tENcBY8w==", null, true, "00000000-0000-0000-0000-000000000000", false, "Programmer@Gmail.com" }
+                    { "77791ad8-39b6-4124-863f-5ae590269e41", 0, "c1f2f0ab-cb82-4164-bbbf-50f70f5fcc40", new DateTime(2024, 3, 6, 12, 53, 10, 475, DateTimeKind.Local).AddTicks(2574), "Programmer@Gmail.com", true, true, null, null, "PROGRAMMER@GMAIL.COM", "PROGRAMMER@GMAIL.COM", "AQAAAAIAAYagAAAAEJu/vnaqQbOhBE4NQryksVmMpiSzItpT7r1QnWW1DxhbMN4roGrWpqfIs4sF8e/wBg==", null, true, "00000000-0000-0000-0000-000000000000", false, "Programmer@Gmail.com" },
+                    { "ff128c58-f70c-4b90-979f-6dd2c81cce16", 0, "0645d6b6-c789-42c5-9001-8c96911769b8", new DateTime(2024, 3, 6, 12, 53, 10, 526, DateTimeKind.Local).AddTicks(4844), "Manager@Gmail.com", true, false, null, null, "MANAGER@GMAIL.COM", "MANAGER@GMAIL.COM", "AQAAAAIAAYagAAAAEPbv/tdIiGqYMpUpUl06f6M6U5W09uItI6sedTxS/j9OhfCKC8Y9xGHtgsOdvjYFXw==", null, true, "00000000-0000-0000-0000-000000000000", false, "Manager@Gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -397,8 +404,8 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "80764bec-24bf-40ef-8595-ef1abea52c13", "01b9bbfb-af88-4b47-b478-7c27dab9f679" },
-                    { "80764bec-24bf-40ef-8595-ef1abea52c13", "887632e9-8dc6-41b5-afd2-0915b3f8d33d" }
+                    { "17e93a8f-4403-4496-9897-88a9e0d65d0e", "77791ad8-39b6-4124-863f-5ae590269e41" },
+                    { "17e93a8f-4403-4496-9897-88a9e0d65d0e", "ff128c58-f70c-4b90-979f-6dd2c81cce16" }
                 });
 
             migrationBuilder.InsertData(
@@ -406,8 +413,8 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "CreatedDate", "DisplayName", "Gender", "ModifiedDate", "PhoneNum", "Pic", "UserId", "bio" },
                 values: new object[,]
                 {
-                    { new Guid("0a8143ed-e351-4052-915e-6052d6782072"), new DateTime(2024, 3, 6, 11, 31, 11, 640, DateTimeKind.Local).AddTicks(4939), "Programmer", false, null, "09233333333", "", "887632e9-8dc6-41b5-afd2-0915b3f8d33d", "" },
-                    { new Guid("15260c8e-c907-42ea-a7db-50e5c474b67b"), new DateTime(2024, 3, 6, 11, 31, 11, 703, DateTimeKind.Local).AddTicks(5377), "Manager", false, null, "093435345", "", "01b9bbfb-af88-4b47-b478-7c27dab9f679", "" }
+                    { new Guid("4d1a1635-5916-45ca-a46b-a01ac598b420"), new DateTime(2024, 3, 6, 12, 53, 10, 526, DateTimeKind.Local).AddTicks(4815), "Programmer", false, null, "09233333333", "", "77791ad8-39b6-4124-863f-5ae590269e41", "" },
+                    { new Guid("82d63796-bf50-4494-8c54-b4592f6a5ed7"), new DateTime(2024, 3, 6, 12, 53, 10, 577, DateTimeKind.Local).AddTicks(5599), "Manager", false, null, "093435345", "", "ff128c58-f70c-4b90-979f-6dd2c81cce16", "" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -475,6 +482,11 @@ namespace WorkFlowApp.Migrations
                 column: "priorityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProjectTasks_projectId",
+                table: "ProjectTasks",
+                column: "projectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProjectTasks_statuesId",
                 table: "ProjectTasks",
                 column: "statuesId");
@@ -524,9 +536,6 @@ namespace WorkFlowApp.Migrations
                 name: "ProjectTasks");
 
             migrationBuilder.DropTable(
-                name: "Projects");
-
-            migrationBuilder.DropTable(
                 name: "Teams");
 
             migrationBuilder.DropTable(
@@ -534,6 +543,9 @@ namespace WorkFlowApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Profile");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Statuess");

@@ -12,8 +12,8 @@ using WorkFlowApp.Models;
 namespace WorkFlowApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240306093112_a1")]
-    partial class a1
+    [Migration("20240306105311_yy")]
+    partial class yy
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,19 +54,19 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "80764bec-24bf-40ef-8595-ef1abea52c13",
+                            Id = "17e93a8f-4403-4496-9897-88a9e0d65d0e",
                             Name = "Prog",
                             NormalizedName = "PROG"
                         },
                         new
                         {
-                            Id = "42a9185a-f5e2-4c7b-9103-8b14f5af4474",
+                            Id = "6b2d8f16-7b0c-4f9a-ab10-b5cf2c08da8f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2d657fab-6719-4801-92db-f926e53fd5e0",
+                            Id = "c8d6668c-3697-49b0-9387-5d2bea0e756d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -161,13 +161,13 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "887632e9-8dc6-41b5-afd2-0915b3f8d33d",
-                            RoleId = "80764bec-24bf-40ef-8595-ef1abea52c13"
+                            UserId = "77791ad8-39b6-4124-863f-5ae590269e41",
+                            RoleId = "17e93a8f-4403-4496-9897-88a9e0d65d0e"
                         },
                         new
                         {
-                            UserId = "01b9bbfb-af88-4b47-b478-7c27dab9f679",
-                            RoleId = "80764bec-24bf-40ef-8595-ef1abea52c13"
+                            UserId = "ff128c58-f70c-4b90-979f-6dd2c81cce16",
+                            RoleId = "17e93a8f-4403-4496-9897-88a9e0d65d0e"
                         });
                 });
 
@@ -263,16 +263,16 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "887632e9-8dc6-41b5-afd2-0915b3f8d33d",
+                            Id = "77791ad8-39b6-4124-863f-5ae590269e41",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "def1be8a-3c39-4a4b-8bd3-21bca4288943",
-                            CreatedDate = new DateTime(2024, 3, 6, 11, 31, 11, 577, DateTimeKind.Local).AddTicks(2996),
+                            ConcurrencyStamp = "c1f2f0ab-cb82-4164-bbbf-50f70f5fcc40",
+                            CreatedDate = new DateTime(2024, 3, 6, 12, 53, 10, 475, DateTimeKind.Local).AddTicks(2574),
                             Email = "Programmer@Gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "PROGRAMMER@GMAIL.COM",
                             NormalizedUserName = "PROGRAMMER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPWUKeGrdEM4oewvmM2hOfEL4Aw/vRsbReKLuuZT0Dlk0wMnCq5uA5fmn/tENcBY8w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJu/vnaqQbOhBE4NQryksVmMpiSzItpT7r1QnWW1DxhbMN4roGrWpqfIs4sF8e/wBg==",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
                             TwoFactorEnabled = false,
@@ -280,16 +280,16 @@ namespace WorkFlowApp.Migrations
                         },
                         new
                         {
-                            Id = "01b9bbfb-af88-4b47-b478-7c27dab9f679",
+                            Id = "ff128c58-f70c-4b90-979f-6dd2c81cce16",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a48a5d76-32ff-4e72-9ea8-5ae1b04be496",
-                            CreatedDate = new DateTime(2024, 3, 6, 11, 31, 11, 640, DateTimeKind.Local).AddTicks(5020),
+                            ConcurrencyStamp = "0645d6b6-c789-42c5-9001-8c96911769b8",
+                            CreatedDate = new DateTime(2024, 3, 6, 12, 53, 10, 526, DateTimeKind.Local).AddTicks(4844),
                             Email = "Manager@Gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@GMAIL.COM",
                             NormalizedUserName = "MANAGER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBmG7uo7fdX6upDklSxUIMpxdu3Cd1+6ZRcUo6+DofQrQjRAN582/53FI8FTSPx7vA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPbv/tdIiGqYMpUpUl06f6M6U5W09uItI6sedTxS/j9OhfCKC8Y9xGHtgsOdvjYFXw==",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
                             TwoFactorEnabled = false,
@@ -403,24 +403,24 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0a8143ed-e351-4052-915e-6052d6782072"),
-                            CreatedDate = new DateTime(2024, 3, 6, 11, 31, 11, 640, DateTimeKind.Local).AddTicks(4939),
+                            Id = new Guid("4d1a1635-5916-45ca-a46b-a01ac598b420"),
+                            CreatedDate = new DateTime(2024, 3, 6, 12, 53, 10, 526, DateTimeKind.Local).AddTicks(4815),
                             DisplayName = "Programmer",
                             Gender = false,
                             PhoneNum = "09233333333",
                             Pic = "",
-                            UserId = "887632e9-8dc6-41b5-afd2-0915b3f8d33d",
+                            UserId = "77791ad8-39b6-4124-863f-5ae590269e41",
                             bio = ""
                         },
                         new
                         {
-                            Id = new Guid("15260c8e-c907-42ea-a7db-50e5c474b67b"),
-                            CreatedDate = new DateTime(2024, 3, 6, 11, 31, 11, 703, DateTimeKind.Local).AddTicks(5377),
+                            Id = new Guid("82d63796-bf50-4494-8c54-b4592f6a5ed7"),
+                            CreatedDate = new DateTime(2024, 3, 6, 12, 53, 10, 577, DateTimeKind.Local).AddTicks(5599),
                             DisplayName = "Manager",
                             Gender = false,
                             PhoneNum = "093435345",
                             Pic = "",
-                            UserId = "01b9bbfb-af88-4b47-b478-7c27dab9f679",
+                            UserId = "ff128c58-f70c-4b90-979f-6dd2c81cce16",
                             bio = ""
                         });
                 });
@@ -497,6 +497,9 @@ namespace WorkFlowApp.Migrations
                     b.Property<Guid>("priorityId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("projectId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("statuesId")
                         .HasColumnType("uniqueidentifier");
 
@@ -506,6 +509,8 @@ namespace WorkFlowApp.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("priorityId");
+
+                    b.HasIndex("projectId");
 
                     b.HasIndex("statuesId");
 
@@ -709,6 +714,12 @@ namespace WorkFlowApp.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("WorkFlowApp.Models.Entities.Project", "project")
+                        .WithMany()
+                        .HasForeignKey("projectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("WorkFlowApp.Models.Entities.Statues", "statues")
                         .WithMany()
                         .HasForeignKey("statuesId")
@@ -724,6 +735,8 @@ namespace WorkFlowApp.Migrations
                     b.Navigation("User");
 
                     b.Navigation("priority");
+
+                    b.Navigation("project");
 
                     b.Navigation("statues");
                 });
