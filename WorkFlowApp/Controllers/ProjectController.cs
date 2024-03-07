@@ -118,7 +118,6 @@ namespace WorkFlowApp.Controllers
 
             var projects = await _project.Entity.GetAll()
            .Include(a => a.ProjectsUsers)
-           .ThenInclude(i => i.user)
            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId) && p.IsDeleted == false && p.IsArchived == false)
            .ToListAsync();
 
@@ -127,7 +126,7 @@ namespace WorkFlowApp.Controllers
 
             foreach (var item in projects)
             {
-                TimeSpan difference = item.EndDate - item.StartDate;
+                TimeSpan difference = DateTime.Now - item.EndDate;
                 int daysDifference = Math.Abs(difference.Days);
 
                 int taskscount = _projectTask.Entity.GetAll().Where(a => a.projectId == item.Id).Count();
