@@ -7,7 +7,6 @@
         public Guid projectId { get; set; }
         public Project project { get; set; }
 
-        public bool isManger { get; set; }
 
 
 
