@@ -40,8 +40,8 @@ namespace WorkFlowApp.Controllers
         [HttpGet("MyTasks")]
         public IActionResult MyTasks() => View();
 
-        [HttpGet("Ecommerce/ProductsList")]
-        public IActionResult EcommerceProductList() => View();
+        [HttpGet("EditTask")]
+        public IActionResult EditTask() => View();
 
         [HttpGet("Ecommerce/ProcuctDetail")]
         public IActionResult EcommerceProcuctDetail() => View();
