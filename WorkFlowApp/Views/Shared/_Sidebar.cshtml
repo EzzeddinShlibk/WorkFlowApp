@@ -16,8 +16,6 @@
         @if (User.IsInRole("Prog"))
         {
             <ul class="metismenu left-sidenav-menu">
-
-
                 <li>
                     <a asp-action="statistics" asp-controller="apps"><i data-feather="pie-chart" class="align-self-center menu-icon"></i><span>الإحصائيات</span></a>
                 </li>
@@ -42,10 +40,7 @@
                     <a asp-action="Logout" asp-controller="Account"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>الخروج</span></a>
                 </li>
 
-
             </ul>
-
-
 
         }
         else if (User.IsInRole("Admin"))
