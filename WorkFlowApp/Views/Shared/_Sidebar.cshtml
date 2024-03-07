@@ -39,7 +39,7 @@
                     <a asp-action="Tasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>إدارة الصلاحيات</span></a>
                 </li>
                 <li>
-                    <a asp-action="login" asp-controller="Authentication"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>الخروج</span></a>
+                    <a asp-action="Logout" asp-controller="Account"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>الخروج</span></a>
                 </li>
 
 
@@ -61,7 +61,10 @@
 
                 </li>
                 <li>
-                    <a asp-action="Tasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهامي</span></a>
+                    <a asp-action="Tasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهام المشاريع</span></a>
+                </li>
+                <li>
+                    <a asp-action="MyTasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهامي</span></a>
                 </li>
 
                 <li>
@@ -73,9 +76,10 @@
                 <li>
                     <a asp-action="archives" asp-controller="Pages"><i data-feather="archive" class="align-self-center menu-icon"></i><span>الأرشيف</span></a>
                 </li>
+ 
 
                 <li>
-                    <a asp-action="DeletedProjects" asp-controller="apps"><i data-feather="archive" class="align-self-center menu-icon"></i><span>سلة المهملات</span></a>
+                    <a asp-action="DeletedProjects" asp-controller="apps"><i data-feather="trash" class="align-self-center menu-icon"></i><span>سلة المهملات</span></a>
                 </li>
 
               

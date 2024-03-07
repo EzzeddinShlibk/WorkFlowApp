@@ -7,9 +7,12 @@
                
                     <div class="portlet-body">
                         <div class="jumbotron">
-                            <h1 class="display-6" style="text-align: center;font-size: 23px;">@ViewBag.SaccessTitle</h1>
+                            <h1 class="display-6 text-success" style="text-align: center;font-size: 23px;">لقد تم التسجيل بنجاح</h1>
                             <hr />
-                            <p class="lead" style="text-align: center;">@ViewBag.SaccessMessage</p>
+                            <p class="lead" style="text-align: center;">يرجى التحقق من بريدك الإلكتروني، لقد أرسلنا رابط التأكيد</p>
+                            <div class="d-flex justify-content-center">
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-purple w-25 my-3 waves-effect waves-light" type="submit">العودة الى الصفحة الرئيسية <i class="fas fa-sign-in-alt ms-1"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>

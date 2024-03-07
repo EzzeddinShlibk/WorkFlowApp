@@ -63,7 +63,7 @@
                 <div class="dropdown-menu dropdown-menu-end">
 
                     <a class="dropdown-item" asp-action="Profile" asp-controller="Account" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="user" class="align-self-center icon-xs icon-dual me-1"></i> الملف الشخصي</a>
-                    <a class="dropdown-item" href="#"><i data-feather="help-circle" class="align-self-center icon-xs icon-dual me-1"></i> المساعدة والدعم</a>
+                    @* <a class="dropdown-item" href="#"><i data-feather="help-circle" class="align-self-center icon-xs icon-dual me-1"></i> المساعدة والدعم</a> *@
                     <div class="dropdown-divider mb-0"></div>
                     <a asp-action="Logout" asp-controller="Account" class="dropdown-item"><i data-feather="power" class="align-self-center icon-xs icon-dual me-1"></i> تسجيل الخروج</a>
                 </div>

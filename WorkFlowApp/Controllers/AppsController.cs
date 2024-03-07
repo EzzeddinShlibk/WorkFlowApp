@@ -37,8 +37,8 @@ namespace WorkFlowApp.Controllers
         [HttpGet("Project/Files")]
         public IActionResult ProjectFiles() => View();
 
-        [HttpGet("Ecommerce/Products")]
-        public IActionResult EcommerceProducts() => View();
+        [HttpGet("MyTasks")]
+        public IActionResult MyTasks() => View();
 
         [HttpGet("Ecommerce/ProductsList")]
         public IActionResult EcommerceProductList() => View();
