@@ -42,14 +42,16 @@ namespace WorkFlowApp.Models
             modelBuilder.Entity<Profile>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
 
 
-            modelBuilder.Entity<ProjectsUser>().HasKey(x => new { x.projectId, x.userId });
+            modelBuilder.Entity<ProjectsUser>().HasKey(x => new {  x.Id });
+            //modelBuilder.Entity<ProjectsUser>().HasKey(x => new { x.projectId, x.userId ,x.Id});
             modelBuilder.Entity<TeamUser>().HasKey(x => new { x.teamId, x.userId });
 
 
             modelBuilder.Entity<Project>()
        .HasMany(a => a.ProjectsUsers)
        .WithOne(b => b.project)
-       .HasForeignKey(b => b.projectId);
+       .HasForeignKey(b => b.projectId );
+       //.HasForeignKey(b => b.projectId && b.userId);
 
             foreach (var foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {

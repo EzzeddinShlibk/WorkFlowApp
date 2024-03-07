@@ -216,7 +216,6 @@ namespace WorkFlowApp.Controllers
                             projectuser.userId = item;
                             projectuser.projectId = projectId;
                             projectuser.CreatedDate = DateTime.Now; ;
-                            projectuser.isManger = true;
                             _projectsUser.Entity.Insert(projectuser);
                             await _projectsUser.SaveAsync();
                         }
@@ -231,7 +230,6 @@ namespace WorkFlowApp.Controllers
                                 projectuser.userId = item.userId;
                                 projectuser.projectId = projectId;
                                 projectuser.CreatedDate = DateTime.Now; ;
-                                projectuser.isManger = true;
                                 _projectsUser.Entity.Insert(projectuser);
                                 await _projectsUser.SaveAsync();
                             }
@@ -252,65 +250,69 @@ namespace WorkFlowApp.Controllers
                 }
                 else
                 {
-
-                    var oldproject = await _project.Entity.GetByIdAsync(model.Id);
-                    oldproject.Name = model.Name;
-                    oldproject.Description = model.Description;
-                    oldproject.StartDate = model.StartDate;
-                    oldproject.EndDate = model.EndDate;
-                    oldproject.ModifiedDate = DateTime.Now;
-                    _project.Entity.Update(oldproject);
-                    await _project.SaveAsync();
-
-
-                    var oldprojectuser = await _projectsUser.Entity.GetAll().Where(p => p.projectId == model.Id).ToListAsync();
-
-                    if (oldprojectuser.Any())
+                    try
                     {
-                        foreach (var item in oldprojectuser)
+                        var oldproject = await _project.Entity.GetByIdAsync(model.Id);
+                        oldproject.Name = model.Name;
+                        oldproject.Description = model.Description;
+                        oldproject.StartDate = model.StartDate;
+                        oldproject.EndDate = model.EndDate;
+                        oldproject.ModifiedDate = DateTime.Now;
+                        _project.Entity.Update(oldproject);
+                        await _project.SaveAsync();
+
+
+                        var oldprojectuser = await _projectsUser.Entity.GetAll().Where(p => p.projectId == model.Id).ToListAsync();
+
+                        if (oldprojectuser.Any())
                         {
+                            foreach (var item in oldprojectuser)
+                            {
 
 
-                            Guid delId = item.Id;
-                            _projectsUser.Entity.Delete(delId);
-                            await _projectsUser.SaveAsync();
-
-                  
+                                Guid delId = item.Id;
+                                _projectsUser.Entity.Delete(delId);
+                                await _projectsUser.SaveAsync();
 
 
+                            }
                         }
-                    }
-                    foreach (var item in model.SelectedUserIds)
-                    {
-                        ProjectsUser projectuser = new ProjectsUser();
-                        projectuser.Id = Guid.NewGuid();
-                        projectuser.userId = item;
-                        projectuser.projectId = model.Id;
-                        projectuser.CreatedDate = DateTime.Now; ;
-                        projectuser.isManger = true;
-                        _projectsUser.Entity.Insert(projectuser);
-                        await _projectsUser.SaveAsync();
-                    }
-
-
-                    foreach (var item in adminteamusers)
-                    {
-                        if (!model.SelectedUserIds.Contains(item.userId))
+                        foreach (var item in model.SelectedUserIds)
                         {
                             ProjectsUser projectuser = new ProjectsUser();
                             projectuser.Id = Guid.NewGuid();
-                            projectuser.userId = item.userId;
+                            projectuser.userId = item;
                             projectuser.projectId = model.Id;
                             projectuser.CreatedDate = DateTime.Now; ;
-                            projectuser.isManger = true;
                             _projectsUser.Entity.Insert(projectuser);
                             await _projectsUser.SaveAsync();
                         }
+
+
+                        foreach (var item in adminteamusers)
+                        {
+                            if (!model.SelectedUserIds.Contains(item.userId))
+                            {
+                                ProjectsUser projectuser = new ProjectsUser();
+                                projectuser.Id = Guid.NewGuid();
+                                projectuser.userId = item.userId;
+                                projectuser.projectId = model.Id;
+                                projectuser.CreatedDate = DateTime.Now; ;
+                                _projectsUser.Entity.Insert(projectuser);
+                                await _projectsUser.SaveAsync();
+                            }
+                        }
+
+
+
+                        id = Guid.Empty;
                     }
+                    catch (Exception)
+                    {
 
-
-
-                    id = Guid.Empty;
+                        throw;
+                    }
+                    
 
                 }
                 var returnmodel = await getDataAsync(userID.ToString());
