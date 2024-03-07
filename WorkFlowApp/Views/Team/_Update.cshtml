@@ -16,7 +16,7 @@
                         <input asp-for="Name" type="text" readonly class="form-control" value="@Model.Name">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">الإيميل</label>
+                        <label for="exampleInputPassword1" class="form-label">البريد الالكتروني</label>
                         <input asp-for="Email" type="email" readonly class="form-control" value="@Model.Email">
                     </div>
                     <div class="mb-3">
@@ -60,7 +60,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
-                <button type="submit" class="btn btn-outline-success" asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@Model.UserId">موافق</button>
+                <a  class="btn btn-outline-success" asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@Model.UserId">موافق</a>
             </div>
 
         </div>
@@ -68,7 +68,7 @@
 
     </div>
 </div>
-<div class="modal" id="AcpUser">
+<div class="modal" id="AcpUser_@Model.UserId">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -77,11 +77,11 @@
 
             </div>
             <div class="modal-body mb-2">
-                <h6>هل تريد قبول المستخدم    للانضمام للفريق</h6>
+                <h6>هل تريد قبول المستخدم  @Model.Name  للانضمام للفريق</h6>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
-                @* <button type="submit" class="btn btn-outline-success" asp-action="AcceptUser" asp-controller="Team" asp-route-UserId="@Model.UserId">موافق</button>  *@
+                <a  class="btn btn-outline-success" asp-action="AcceptUser" asp-controller="Team" asp-route-UserId="@Model.UserId">موافق</a> 
             </div>
 
         </div>
@@ -89,7 +89,7 @@
 
     </div>
 </div>
-<div class="modal" id="DirUser">
+<div class="modal" id="DirUser_@Model.UserId">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,11 +98,11 @@
 
             </div>
             <div class="modal-body mb-2">
-                <h6>هل تريد رفض المستخدم     للانضمام للفريق</h6>
+                <h6>هل تريد رفض المستخدم   @Model.Name  للانضمام للفريق</h6>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
-                @* <button type="submit" asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@Model.UserId">موافق</button>  *@
+                <a  asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@Model.UserId">موافق</a> 
             </div>
 
         </div>
