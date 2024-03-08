@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectTask>
+﻿@model IEnumerable<TaskListViewModel>
 <div class="row">
     @{
         int i = 0;
@@ -14,39 +14,46 @@
                                     <i class="las la-ellipsis-v font-24 text-muted"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
-                                    <a class="dropdown-item" href="#">تعديل المهمة</a>
-                                    @*     <a onclick="showInPopup('@Url.Action("CreateOrEditTask","ProjectTasks",new {id=item.Id},Context.Request.Scheme)','تعديل')" class="mdi mdi-pencil-outline text-muted font-18">
-                            </a> *@
-                                    <a class="dropdown-item" href="#">حذف المهمة</a>
+                                    <a asp-controller="ProjectTasks" asp-action="EditTask" asp-route-id="@item.TaskId" class="dropdown-item" >تعديل المهمة</a>
+                                    <a asp-controller="ProjectTasks" asp-action="DeleteTask" asp-route-id="@item.TaskId" class="dropdown-item" >حذف المهمة</a>
                                 </div>
                             </div>
                         </div>
                         <div class="media align-items-center">
-                            <img src="~/images/users/1.jpg" alt="" class="rounded-circle user-img">
+                            @if (item.UserPic == "-")
+                            {
+                                <img src="~/images/users/1.jpg" alt="" class="rounded-circle user-img">
+
+                            }
+                            else
+                            {
+                                <img src="~/images/users/@(item.UserPic).jpg" alt="" class="rounded-circle user-img" />
+
+                            }
                             <div class="online-circle">
                                 <i class="fa fa-circle text-success"></i>
                             </div>
                             <div class="media-body ms-3 align-self-center">
-                                <h4 class="team-leader m-0">عزالدين شليبك</h4>
-                                <p class="text-muted font-12 mb-0">اضافة مقترح مشروع</p>
+                                <h4 class="team-leader m-0">@item.UserName</h4>
+                                <p class="text-muted font-12 mb-0">@item.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")</p>
                             </div>
                         </div>
-                        <h4 class="m-0 mt-4 font-14 font-weight-semibold">وصف المهمة</h4>
-                        <p class="text-muted mb-0">اضافة مقترج لمشروع تخرج جديد</p>
+                        <h4 class="m-0 mt-4 font-14 font-weight-semibold">@item.Name</h4>
+                        <p class="text-muted mb-0">@item.Description</p>
                         <div class="mt-4 d-flex justify-content-between">
                             <div>
                                 <h5 class="team-leader m-0">حالة المهمة :</h5>
-                                <p class="text-muted font-12 mb-0"> بنتظار البدء</p>
+                                <p class="text-muted font-12 mb-0">@item.Statues</p>
 
                             </div>
                             <div>
                                 <h5 class="team-leader m-0">أولوية المهمة</h5>
-                                <p class="text-muted font-12 mb-0">أولوية متوسطة</p>
+                                <p class="text-muted font-12 mb-0">@item.priority</p>
                             </div>
                         </div>
 
-                    </div><!--end card-body-->
-                </div><!--end card-->
+                    </div>
+                </div>
             </div>
 
         }

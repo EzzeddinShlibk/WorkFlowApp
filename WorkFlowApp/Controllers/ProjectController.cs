@@ -339,16 +339,13 @@ namespace WorkFlowApp.Controllers
             try
             {
 
-                //var model = await _project.Entity.GetByIdAsync(id);
-                //model.IsDeleted = true;
-                //model.ModifiedDate = DateTime.Now;
-
-                //_project.Entity.Update(model);
-                //await _project.SaveAsync();
                 var model = await _project.Entity.GetByIdAsync(id);
+                model.IsDeleted = true;
+                model.ModifiedDate = DateTime.Now;
 
-                _project.Entity.Delete(id);
+                _project.Entity.Update(model);
                 await _project.SaveAsync();
+
 
                 _toastNotification.AddSuccessToastMessage("تم الحذف بنجاح", new ToastrOptions() { Title = "" });
 

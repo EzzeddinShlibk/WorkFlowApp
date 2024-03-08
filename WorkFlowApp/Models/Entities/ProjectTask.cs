@@ -19,13 +19,12 @@ namespace WorkFlowApp.Models.Entities
         public Guid priorityId { get; set; }
         public Priority priority { get; set; }
 
-        public Profile User { get; set; }
-        public Guid userId { get; set; }
+        public ApplicationUser User { get; set; }
+        public string userId { get; set; }
 
         public string FilePath { get; set; } = string.Empty;
 
-        [NotMapped]
-        public IFormFile File { get; set; }
+   
 
    
     }

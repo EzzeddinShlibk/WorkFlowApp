@@ -255,4 +255,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Files\" />
+    <Folder Include="wwwroot\Files\TaskAttach\" />
+  </ItemGroup>
+
 </Project>

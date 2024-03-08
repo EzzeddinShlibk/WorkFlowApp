@@ -59,6 +59,7 @@ namespace WorkFlowApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    Num = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -93,6 +94,7 @@ namespace WorkFlowApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    Num = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -277,6 +279,52 @@ namespace WorkFlowApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProjectTasks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    projectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    statuesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    priorityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectTasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectTasks_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProjectTasks_Priorities_priorityId",
+                        column: x => x.priorityId,
+                        principalTable: "Priorities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProjectTasks_Projects_projectId",
+                        column: x => x.projectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProjectTasks_Statuess_statuesId",
+                        column: x => x.statuesId,
+                        principalTable: "Statuess",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TeamUsers",
                 columns: table => new
                 {
@@ -302,52 +350,6 @@ namespace WorkFlowApp.Migrations
                         name: "FK_TeamUsers_Teams_teamId",
                         column: x => x.teamId,
                         principalTable: "Teams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectTasks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
-                    projectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    statuesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    priorityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectTasks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProjectTasks_Priorities_priorityId",
-                        column: x => x.priorityId,
-                        principalTable: "Priorities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ProjectTasks_Profile_userId",
-                        column: x => x.userId,
-                        principalTable: "Profile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ProjectTasks_Projects_projectId",
-                        column: x => x.projectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ProjectTasks_Statuess_statuesId",
-                        column: x => x.statuesId,
-                        principalTable: "Statuess",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -386,9 +388,9 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5f862f92-046d-4462-9f8d-54424995ca83", null, "Admin", "ADMIN" },
-                    { "71ffe5ab-e896-4a25-9770-692b29b65d1c", null, "User", "USER" },
-                    { "778d63e4-28c9-447e-82fe-fe4677b0e606", null, "Prog", "PROG" }
+                    { "c93163d8-5907-4747-baf6-229dd000c402", null, "Admin", "ADMIN" },
+                    { "d5c1d0bb-8b9f-4518-a403-333cd862c83a", null, "Prog", "PROG" },
+                    { "e8603778-b09b-4bf8-b996-3c5966a1f23b", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -396,31 +398,31 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "ModifiedDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "deb22435-0a26-4e6c-9824-f376760ce639", 0, "be63c562-9dcb-423e-87e2-77f0e55312e2", new DateTime(2024, 3, 8, 20, 38, 36, 19, DateTimeKind.Local).AddTicks(9311), "Manager@Gmail.com", true, false, null, null, "MANAGER@GMAIL.COM", "MANAGER@GMAIL.COM", "AQAAAAIAAYagAAAAEEtGwoPz5bKSdtBNLoCbcipIV6RcFL2HuUpoIn79tA2V50BS00rJKgYyhvDripfz7g==", null, true, "00000000-0000-0000-0000-000000000000", false, "Manager@Gmail.com" },
-                    { "f36d0cf7-72eb-48bd-a1b0-7b381023b144", 0, "573b05fc-d6f5-42bb-84eb-6aafdd6c1ee6", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7337), "Programmer@Gmail.com", true, true, null, null, "PROGRAMMER@GMAIL.COM", "PROGRAMMER@GMAIL.COM", "AQAAAAIAAYagAAAAEJYQrGyEPhxRIRokNdve0eOX7t7Q4MOY4KWFtwfm7W0h/R30aRS/bOIY5TgnXvNlkA==", null, true, "00000000-0000-0000-0000-000000000000", false, "Programmer@Gmail.com" }
+                    { "825ceed3-960a-4312-b819-6349e5c85b8f", 0, "3d1ef061-2c3c-4c97-bf11-7780e352b8bb", new DateTime(2024, 3, 8, 22, 49, 51, 269, DateTimeKind.Local).AddTicks(4038), "Manager@Gmail.com", true, false, null, null, "MANAGER@GMAIL.COM", "MANAGER@GMAIL.COM", "AQAAAAIAAYagAAAAEBQRMX+kRlGCSL5xguEERwqiQJXFK6TVatUgUrXcQeZL3wJ89hDKFz/hioAJGcEjLQ==", null, true, "00000000-0000-0000-0000-000000000000", false, "Manager@Gmail.com" },
+                    { "fda43775-63be-4ea4-b856-558c273bf09c", 0, "304f8894-3c24-4614-9c50-50e07e91c8c8", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8962), "Programmer@Gmail.com", true, true, null, null, "PROGRAMMER@GMAIL.COM", "PROGRAMMER@GMAIL.COM", "AQAAAAIAAYagAAAAEEuO2gXqy1k8iAh2sptZB+ivrL+Fdm408H0+L2Izr5jAdtrb9pugX+7ELOPhoYZUag==", null, true, "00000000-0000-0000-0000-000000000000", false, "Programmer@Gmail.com" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Priorities",
-                columns: new[] { "Id", "Color", "CreatedDate", "ModifiedDate", "Name" },
+                columns: new[] { "Id", "Color", "CreatedDate", "ModifiedDate", "Name", "Num" },
                 values: new object[,]
                 {
-                    { new Guid("84aeff18-230b-4cca-963c-b8265c41fcf8"), "secondary", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7201), null, "بدون اولوية" },
-                    { new Guid("b2e84d83-7730-41c0-ab1c-12c401246262"), "pink", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7203), null, "اولوية مبدئية" },
-                    { new Guid("cbf75dcc-c449-4c4f-9c82-3d4dc551af85"), "warning", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7204), null, "اولوية متوسطة" },
-                    { new Guid("d3303287-2509-488f-bb18-a4997ec103a6"), "danger", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7205), null, "اولوية قصوى" }
+                    { new Guid("04c3228c-87b4-4442-ba78-8240cc7b9e8b"), "danger", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8818), null, "اولوية قصوى", 4 },
+                    { new Guid("41d83aa8-6115-482c-972d-afd084f1b376"), "secondary", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8803), null, "بدون اولوية", 1 },
+                    { new Guid("6ce54352-72d8-461d-9acf-20397a5bdab9"), "warning", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8817), null, "اولوية متوسطة", 3 },
+                    { new Guid("d2171277-c8eb-4ed3-b163-dfaf1087381a"), "pink", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8806), null, "اولوية مبدئية", 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Statuess",
-                columns: new[] { "Id", "Color", "CreatedDate", "Icon", "ModifiedDate", "Name" },
+                columns: new[] { "Id", "Color", "CreatedDate", "Icon", "ModifiedDate", "Name", "Num" },
                 values: new object[,]
                 {
-                    { new Guid("13fe6930-30f1-4876-b3f1-36f2e3ba3458"), "blue", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7119), "fas fa-tasks", null, "قيد التنفيد" },
-                    { new Guid("18c07b81-388b-4b23-ad28-6946ac1e66e3"), "purple", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7093), "fas fa-clock", null, "بانتظار البدء" },
-                    { new Guid("406c3e2d-342a-487a-bc0f-cb98c8f601ad"), "danger", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7115), "fas fa-stop-circle", null, "توقف حرج" },
-                    { new Guid("68437724-1d11-4351-a896-893402a971b4"), "success", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7120), "fas fa-check-circle", null, "مكتملة" },
-                    { new Guid("fb25b4da-5ffe-4ce3-b484-4b0e4c4672e3"), "warning", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7117), "fas fa-clipboard-check", null, "بانتظار المراجعة" }
+                    { new Guid("0ec8fadf-5b9c-4c76-ac42-4c4d3c3729a7"), "blue", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8689), "fas fa-tasks", null, "قيد التنفيد", 4 },
+                    { new Guid("3ee2d299-c611-4b5b-a80b-2cf789bcfa44"), "purple", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8673), "fas fa-clock", null, "بانتظار البدء", 1 },
+                    { new Guid("5d7f95e2-9766-4d72-9c13-e240d9436657"), "success", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8691), "fas fa-check-circle", null, "مكتملة", 5 },
+                    { new Guid("c081b072-a395-47ee-a0b5-dfe49dbbd5b8"), "warning", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8688), "fas fa-clipboard-check", null, "بانتظار المراجعة", 3 },
+                    { new Guid("d43b77ce-d434-43d5-baa2-326ee7b8179e"), "danger", new DateTime(2024, 3, 8, 22, 49, 51, 217, DateTimeKind.Local).AddTicks(8686), "fas fa-stop-circle", null, "توقف حرج", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -428,8 +430,8 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "778d63e4-28c9-447e-82fe-fe4677b0e606", "deb22435-0a26-4e6c-9824-f376760ce639" },
-                    { "778d63e4-28c9-447e-82fe-fe4677b0e606", "f36d0cf7-72eb-48bd-a1b0-7b381023b144" }
+                    { "d5c1d0bb-8b9f-4518-a403-333cd862c83a", "825ceed3-960a-4312-b819-6349e5c85b8f" },
+                    { "d5c1d0bb-8b9f-4518-a403-333cd862c83a", "fda43775-63be-4ea4-b856-558c273bf09c" }
                 });
 
             migrationBuilder.InsertData(
@@ -437,8 +439,8 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "CreatedDate", "DisplayName", "Gender", "ModifiedDate", "PhoneNum", "Pic", "UserId", "bio" },
                 values: new object[,]
                 {
-                    { new Guid("4cc9b214-0b0f-4799-9769-0cf70b4194b9"), new DateTime(2024, 3, 8, 20, 38, 36, 71, DateTimeKind.Local).AddTicks(7114), "Manager", false, null, "093435345", "", "deb22435-0a26-4e6c-9824-f376760ce639", "" },
-                    { new Guid("7d776318-4851-4020-b26b-ae02a1d0d00e"), new DateTime(2024, 3, 8, 20, 38, 36, 19, DateTimeKind.Local).AddTicks(9295), "Programmer", false, null, "09233333333", "", "f36d0cf7-72eb-48bd-a1b0-7b381023b144", "" }
+                    { new Guid("129ff7a6-0fa1-4bf0-b87f-7534849b4d71"), new DateTime(2024, 3, 8, 22, 49, 51, 321, DateTimeKind.Local).AddTicks(238), "Manager", false, null, "093435345", "", "825ceed3-960a-4312-b819-6349e5c85b8f", "" },
+                    { new Guid("b17d9d78-ff1a-4f88-9123-929a736122eb"), new DateTime(2024, 3, 8, 22, 49, 51, 269, DateTimeKind.Local).AddTicks(4007), "Programmer", false, null, "09233333333", "", "fda43775-63be-4ea4-b856-558c273bf09c", "" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -562,25 +564,25 @@ namespace WorkFlowApp.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Profile");
+
+            migrationBuilder.DropTable(
                 name: "ProjectTasks");
 
             migrationBuilder.DropTable(
                 name: "Teams");
 
             migrationBuilder.DropTable(
-                name: "Priorities");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Profile");
+                name: "Priorities");
 
             migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Statuess");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }
