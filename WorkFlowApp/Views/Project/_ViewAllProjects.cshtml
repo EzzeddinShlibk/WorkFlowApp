@@ -13,7 +13,7 @@
                         <div class="media mb-3">
                             <img src="~/images/widgets/project2.png" alt="" class="thumb-md ">
                             <div class="media-body align-self-center text-truncate ms-3">
-                                <h4 class="m-0 fw-semibold text-dark font-15">    <a asp-controller="ProjectTasks" asp-action="Tasks">  @item.Name </a> </h4>
+                                <h4 class="m-0 fw-semibold text-dark font-15">    <a asp-controller="ProjectTasks" asp-action="Tasks" asp-route-projectId="@item.Id">  @item.Name </a> </h4>
                                 <p class="text-muted  mb-0 font-13"><span>@item.Description</span></p>
                             </div>
                         </div>

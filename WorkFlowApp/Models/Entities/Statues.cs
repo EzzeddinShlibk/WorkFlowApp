@@ -3,7 +3,7 @@
     public class Statues:BaseEntity
     {
         public string Name { get; set; } = string.Empty;
-        public int Num { get; set; } 
-        public int Percent { get; set; }
+        public string Color { get; set; } 
+        public string Icon { get; set; }
     }
 }

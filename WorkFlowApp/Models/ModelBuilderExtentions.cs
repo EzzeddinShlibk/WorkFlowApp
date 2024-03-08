@@ -14,18 +14,18 @@ namespace WorkFlowApp.Models
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Statues>().HasData(
-                new Statues { Id = Guid.NewGuid(), Name = "Pending Task", Num = 0, Percent = 0, CreatedDate = DateTime.Now },
-                new Statues { Id = Guid.NewGuid(), Name = "Critical Issue", Num = 1, Percent = 0, CreatedDate = DateTime.Now },
-                new Statues { Id = Guid.NewGuid(), Name = "In Progress", Num = 2, Percent = 0, CreatedDate = DateTime.Now },
-                new Statues { Id = Guid.NewGuid(), Name = "Done Pending Review", Num = 3, Percent = 50, CreatedDate = DateTime.Now },
-                new Statues { Id = Guid.NewGuid(), Name = "Completed", Num = 4, Percent = 100, CreatedDate = DateTime.Now }
+                new Statues { Id = Guid.NewGuid(), Name = "بانتظار البدء", Color = "purple", Icon = "fas fa-clock", CreatedDate = DateTime.Now },
+                new Statues { Id = Guid.NewGuid(), Name = "توقف حرج", Color = "danger", Icon = "fas fa-stop-circle", CreatedDate = DateTime.Now },
+                new Statues { Id = Guid.NewGuid(), Name = "بانتظار المراجعة", Color = "warning", Icon = "fas fa-clipboard-check", CreatedDate = DateTime.Now },
+                new Statues { Id = Guid.NewGuid(), Name = "قيد التنفيد", Color = "blue", Icon = "fas fa-tasks", CreatedDate = DateTime.Now },
+                new Statues { Id = Guid.NewGuid(), Name = "مكتملة", Color = "success", Icon = "fas fa-check-circle", CreatedDate = DateTime.Now }
             );
 
             modelBuilder.Entity<Priority>().HasData(
-                new Priority { Id = Guid.NewGuid(), Name = "Low", Num = 0, CreatedDate = DateTime.Now },
-                new Priority { Id = Guid.NewGuid(), Name = "Medium", Num = 1, CreatedDate = DateTime.Now },
-                new Priority { Id = Guid.NewGuid(), Name = "High", Num = 2, CreatedDate = DateTime.Now },
-                new Priority { Id = Guid.NewGuid(), Name = "Very High", Num = 3, CreatedDate = DateTime.Now }
+                new Priority { Id = Guid.NewGuid(), Name = "بدون اولوية", Color = "secondary", CreatedDate = DateTime.Now },
+                new Priority { Id = Guid.NewGuid(), Name = "اولوية مبدئية", Color = "pink", CreatedDate = DateTime.Now },
+                new Priority { Id = Guid.NewGuid(), Name = "اولوية متوسطة", Color = "warning", CreatedDate = DateTime.Now },
+                new Priority { Id = Guid.NewGuid(), Name = "اولوية قصوى", Color = "danger", CreatedDate = DateTime.Now }
             );
 
 

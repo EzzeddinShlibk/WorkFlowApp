@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WorkFlowApp.Migrations
 {
     /// <inheritdoc />
-    public partial class m1 : Migration
+    public partial class yt : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,7 +60,7 @@ namespace WorkFlowApp.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Num = table.Column<int>(type: "int", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -94,8 +94,8 @@ namespace WorkFlowApp.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Num = table.Column<int>(type: "int", nullable: false),
-                    Percent = table.Column<int>(type: "int", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -386,9 +386,9 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2cd14206-e5f3-4d33-aec3-b9e8b3002a2b", null, "Admin", "ADMIN" },
-                    { "97c3ae2e-ae63-4f49-bf6f-56a43aeb99a9", null, "User", "USER" },
-                    { "c476759a-aacd-4263-9a1e-43ed98d4bfa7", null, "Prog", "PROG" }
+                    { "5f862f92-046d-4462-9f8d-54424995ca83", null, "Admin", "ADMIN" },
+                    { "71ffe5ab-e896-4a25-9770-692b29b65d1c", null, "User", "USER" },
+                    { "778d63e4-28c9-447e-82fe-fe4677b0e606", null, "Prog", "PROG" }
                 });
 
             migrationBuilder.InsertData(
@@ -396,31 +396,31 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "ModifiedDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "3761bb0d-c079-48af-a3ef-5910e36b7f97", 0, "884c070f-20a9-4d18-b58b-01c3f1cf45b4", new DateTime(2024, 3, 8, 14, 53, 59, 463, DateTimeKind.Local).AddTicks(5747), "Manager@Gmail.com", true, false, null, null, "MANAGER@GMAIL.COM", "MANAGER@GMAIL.COM", "AQAAAAIAAYagAAAAEPkYDmQo9j5sfkl97xpordZPyN1R7rgk2gWTWcihkfhLQpNf9Ctcty0j64uPbEwMcw==", null, true, "00000000-0000-0000-0000-000000000000", false, "Manager@Gmail.com" },
-                    { "b43ac5aa-18bb-45ca-a96e-6c73af7349d6", 0, "bc3157d3-45ec-403a-8e44-41befa0c31ef", new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3929), "Programmer@Gmail.com", true, true, null, null, "PROGRAMMER@GMAIL.COM", "PROGRAMMER@GMAIL.COM", "AQAAAAIAAYagAAAAEO9S3vYQGpF9+p+HqgRBGvn0szTPrrReHmGCe3/jd1uSVurRvNycup6OyNUQDjnF3g==", null, true, "00000000-0000-0000-0000-000000000000", false, "Programmer@Gmail.com" }
+                    { "deb22435-0a26-4e6c-9824-f376760ce639", 0, "be63c562-9dcb-423e-87e2-77f0e55312e2", new DateTime(2024, 3, 8, 20, 38, 36, 19, DateTimeKind.Local).AddTicks(9311), "Manager@Gmail.com", true, false, null, null, "MANAGER@GMAIL.COM", "MANAGER@GMAIL.COM", "AQAAAAIAAYagAAAAEEtGwoPz5bKSdtBNLoCbcipIV6RcFL2HuUpoIn79tA2V50BS00rJKgYyhvDripfz7g==", null, true, "00000000-0000-0000-0000-000000000000", false, "Manager@Gmail.com" },
+                    { "f36d0cf7-72eb-48bd-a1b0-7b381023b144", 0, "573b05fc-d6f5-42bb-84eb-6aafdd6c1ee6", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7337), "Programmer@Gmail.com", true, true, null, null, "PROGRAMMER@GMAIL.COM", "PROGRAMMER@GMAIL.COM", "AQAAAAIAAYagAAAAEJYQrGyEPhxRIRokNdve0eOX7t7Q4MOY4KWFtwfm7W0h/R30aRS/bOIY5TgnXvNlkA==", null, true, "00000000-0000-0000-0000-000000000000", false, "Programmer@Gmail.com" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Priorities",
-                columns: new[] { "Id", "CreatedDate", "ModifiedDate", "Name", "Num" },
+                columns: new[] { "Id", "Color", "CreatedDate", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("4e0a0ef0-fbb3-4c00-ad16-80199290c576"), new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3824), null, "High", 2 },
-                    { new Guid("5e1c0a78-37da-4e6e-a04a-ed02137a32da"), new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3813), null, "Low", 0 },
-                    { new Guid("649d9143-d3bd-472a-bb02-d1bb9a56e325"), new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3815), null, "Medium", 1 },
-                    { new Guid("de6e85c8-859b-4099-83cb-6db2c7f34748"), new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3826), null, "Very High", 3 }
+                    { new Guid("84aeff18-230b-4cca-963c-b8265c41fcf8"), "secondary", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7201), null, "بدون اولوية" },
+                    { new Guid("b2e84d83-7730-41c0-ab1c-12c401246262"), "pink", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7203), null, "اولوية مبدئية" },
+                    { new Guid("cbf75dcc-c449-4c4f-9c82-3d4dc551af85"), "warning", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7204), null, "اولوية متوسطة" },
+                    { new Guid("d3303287-2509-488f-bb18-a4997ec103a6"), "danger", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7205), null, "اولوية قصوى" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Statuess",
-                columns: new[] { "Id", "CreatedDate", "ModifiedDate", "Name", "Num", "Percent" },
+                columns: new[] { "Id", "Color", "CreatedDate", "Icon", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("2182efd5-630f-4a03-88c5-763b07d035e3"), new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3707), null, "Completed", 4, 100 },
-                    { new Guid("98f20a37-2bec-4e8e-a07b-aa8f8d571fb6"), new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3702), null, "Critical Issue", 1, 0 },
-                    { new Guid("e3c4ff8d-b664-43cf-b0ed-56a779a71401"), new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3704), null, "In Progress", 2, 0 },
-                    { new Guid("f158a853-5e30-439f-9de1-3638e2739ea8"), new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3690), null, "Pending Task", 0, 0 },
-                    { new Guid("fad21b97-a5f2-497f-8c28-8a1ad6d98c7a"), new DateTime(2024, 3, 8, 14, 53, 59, 402, DateTimeKind.Local).AddTicks(3706), null, "Done Pending Review", 3, 50 }
+                    { new Guid("13fe6930-30f1-4876-b3f1-36f2e3ba3458"), "blue", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7119), "fas fa-tasks", null, "قيد التنفيد" },
+                    { new Guid("18c07b81-388b-4b23-ad28-6946ac1e66e3"), "purple", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7093), "fas fa-clock", null, "بانتظار البدء" },
+                    { new Guid("406c3e2d-342a-487a-bc0f-cb98c8f601ad"), "danger", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7115), "fas fa-stop-circle", null, "توقف حرج" },
+                    { new Guid("68437724-1d11-4351-a896-893402a971b4"), "success", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7120), "fas fa-check-circle", null, "مكتملة" },
+                    { new Guid("fb25b4da-5ffe-4ce3-b484-4b0e4c4672e3"), "warning", new DateTime(2024, 3, 8, 20, 38, 35, 968, DateTimeKind.Local).AddTicks(7117), "fas fa-clipboard-check", null, "بانتظار المراجعة" }
                 });
 
             migrationBuilder.InsertData(
@@ -428,8 +428,8 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "c476759a-aacd-4263-9a1e-43ed98d4bfa7", "3761bb0d-c079-48af-a3ef-5910e36b7f97" },
-                    { "c476759a-aacd-4263-9a1e-43ed98d4bfa7", "b43ac5aa-18bb-45ca-a96e-6c73af7349d6" }
+                    { "778d63e4-28c9-447e-82fe-fe4677b0e606", "deb22435-0a26-4e6c-9824-f376760ce639" },
+                    { "778d63e4-28c9-447e-82fe-fe4677b0e606", "f36d0cf7-72eb-48bd-a1b0-7b381023b144" }
                 });
 
             migrationBuilder.InsertData(
@@ -437,8 +437,8 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "CreatedDate", "DisplayName", "Gender", "ModifiedDate", "PhoneNum", "Pic", "UserId", "bio" },
                 values: new object[,]
                 {
-                    { new Guid("1ea35439-012d-4f22-8f88-5e9d0560dc29"), new DateTime(2024, 3, 8, 14, 53, 59, 463, DateTimeKind.Local).AddTicks(5669), "Programmer", false, null, "09233333333", "", "b43ac5aa-18bb-45ca-a96e-6c73af7349d6", "" },
-                    { new Guid("bb7fc4ff-60bb-4a2a-8f15-91de6cf8dbfd"), new DateTime(2024, 3, 8, 14, 53, 59, 525, DateTimeKind.Local).AddTicks(559), "Manager", false, null, "093435345", "", "3761bb0d-c079-48af-a3ef-5910e36b7f97", "" }
+                    { new Guid("4cc9b214-0b0f-4799-9769-0cf70b4194b9"), new DateTime(2024, 3, 8, 20, 38, 36, 71, DateTimeKind.Local).AddTicks(7114), "Manager", false, null, "093435345", "", "deb22435-0a26-4e6c-9824-f376760ce639", "" },
+                    { new Guid("7d776318-4851-4020-b26b-ae02a1d0d00e"), new DateTime(2024, 3, 8, 20, 38, 36, 19, DateTimeKind.Local).AddTicks(9295), "Programmer", false, null, "09233333333", "", "f36d0cf7-72eb-48bd-a1b0-7b381023b144", "" }
                 });
 
             migrationBuilder.CreateIndex(

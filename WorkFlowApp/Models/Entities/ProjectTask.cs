@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using WorkFlowApp.ViewModels;
 
 namespace WorkFlowApp.Models.Entities
 {
@@ -26,6 +27,6 @@ namespace WorkFlowApp.Models.Entities
         [NotMapped]
         public IFormFile File { get; set; }
 
-
+   
     }
 }

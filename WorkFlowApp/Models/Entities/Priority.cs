@@ -6,7 +6,7 @@ namespace WorkFlowApp.Models.Entities
     {
         [Required]
         public string Name { get; set; } = string.Empty;
-        public int Num { get; set; } 
+        public string Color { get; set; } 
 
     }
 }

@@ -1,0 +1,98 @@
+﻿@model TaskViewModel
+@{
+    Layout = null;
+}
+<form asp-controller="Tasks" asp-action="CreateOrEditTask" enctype="multipart/form-data" asp-route-id="@Model.ProjectId" onsubmit="return jQueryAjaxPost(this); ">
+
+    <input type="hidden" asp-for="ProjectId" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="projectTask.Name" class="form-label">المهمة</label>
+        <input asp-for="projectTask.Name" type="text" class="form-control" placeholder="أدخل المهمة">
+        <span asp-validation-for="projectTask.Name" class="text-danger"></span>
+
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="projectTask.StartDate" class="form-label">تاريخ البداية</label>
+        <input value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for="projectTask.StartDate">
+        <span asp-validation-for="projectTask.StartDate" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="projectTask.EndDate" class="form-label">تاريخ الانتهاء</label>
+        <input value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for="projectTask.EndDate">
+        <span asp-validation-for="projectTask.EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="row mb-3  ">
+        <label class="form-label">المستخدمين</label>
+        <select asp-for="projectTask.userId" class="form-control  " asp-items="ViewBag.UsersList">
+        </select>
+        <span asp-validation-for="projectTask.userId" class="text-danger"></span>
+    </div>
+
+
+    <div class="row mb-3">
+        <label for="addFile" class="form-label">اضافة ملفات</label>
+        <input type="file" multiple class="form-control" id="addFile" name="File" asp-for="projectTask.File">
+    </div>
+
+
+    <div class="row mb-3">
+        <label asp-for="projectTask.Description" for="projectDescription" class="form-label">وصف المهمة</label>
+        <textarea class="form-control" asp-for="projectTask.Description" placeholder="وصف المهمة" rows="3"></textarea>
+        <span asp-validation-for="projectTask.Description" class="text-danger"></span>
+
+    </div>
+
+
+    <div class="row mb-3">
+        <label class="form-label me-5">الحالة</label>
+        <div class="d-inline">
+            @foreach (var item in Model.statues)
+            {
+                <input type="radio" class="btn-check" name="State" id="@($"State{@item.Id}")" autocomplete="off">
+                <label class="btn btn-sm me-2 @($"btn-outline-{@item.Color}")" title="@item.Name" for="@($"State{@item.Id}")">
+                    <i class="@item.Icon"></i>
+                </label>
+            }
+        </div>
+    </div>
+
+    <div class=" row mb-3">
+        <label class="form-label me-5">الاولوية</label>
+        <div class="d-inline">
+
+
+            @foreach (var item in Model.Priorities)
+            {
+                <input type="radio" class="btn-check" name="Priorty" id="@($"Prior{@item.Id}")" autocomplete="off">
+                <label class="btn btn-sm me-2 @($"btn-outline-{@item.Color}")" title="@item.Name" for="@($"State{@item.Id}")">
+                    <i class="far fa-flag"></i>
+                </label>
+            }
+        </div>
+    </div>
+
+
+    <button name="submit" type="button" class="btn btn-outline-purple">إضافة</button>
+
+
+    <button type="button" class="btn btn-outline-pink" data-bs-dismiss="modal">إغلاق</button>
+</form>
+}
+@section styles {
+    <!-- Plugins css -->
+    <link href="~/lib/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/huebee/huebee.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/timepicker/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <link href="~/lib/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+}
+
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

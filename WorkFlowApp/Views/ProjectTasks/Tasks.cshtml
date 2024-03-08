@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectLine>
+﻿@model IEnumerable<ProjectTask>
 
 @{
     ViewData["Title"] = "المشاريع";
@@ -41,7 +41,7 @@
                             <button type="button" class="btn btn-soft-primary btn-sm"><i class="fas fa-refresh"></i></button>
                         </li>
                         <li class="list-inline-item">
-                            <button type="button" onclick="showInPopup('@Url.Action("CreateOrEditProject","ProjectTasks",null,Context.Request.Scheme)','إضافة مشروع جديد')" class="btn btn-soft-primary btn-sm">
+                            <button type="button" onclick="showInPopup('@Url.Action("CreateOrEditTask","ProjectTasks",null,Context.Request.Scheme)','إضافة مشروع جديد')" class="btn btn-soft-primary btn-sm">
                                 <i class="fa fa-plus ml-2"></i>      إضافة مشروع جديد
                             </button>
                         </li>
@@ -55,7 +55,7 @@
     <div class="portlet-body">
         <div id="view-all">
 
-            @await Html.PartialAsync("_ViewAllProjects", Model)
+            @await Html.PartialAsync("_ViewAllTasks", Model)
         </div>
     </div>
 </div>
