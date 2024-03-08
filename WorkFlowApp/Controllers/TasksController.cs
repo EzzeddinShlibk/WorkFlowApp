@@ -7,6 +7,7 @@ using System.Security.Claims;
 using WorkFlowApp.Models.Entities;
 using WorkFlowApp.Models.Interfaces;
 using WorkFlowApp.ViewModels;
+using static WorkFlowApp.Classes.Helper;
 
 namespace WorkFlowApp.Controllers
 {
@@ -83,6 +84,19 @@ namespace WorkFlowApp.Controllers
 
             //return View(projectlinelist);
             return View();
+        }
+
+        [NoDirectAccess]
+        public async Task<IActionResult> CreateOrEditTask(Guid id)
+        {
+     
+                var model = new ProjectTask();
+                model.StartDate = DateTime.Now;
+                model.EndDate = DateTime.Now;
+                ViewBag.edit = false;
+
+                return View(model);
+        
         }
 
     }
