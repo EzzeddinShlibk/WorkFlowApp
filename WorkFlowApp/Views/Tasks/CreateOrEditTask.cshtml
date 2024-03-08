@@ -37,20 +37,23 @@
     <div class="row mb-3">
         <label class="form-label me-5">الحالة</label>
         <div class="d-inline">
+ 
 
+ 
+            <input type="radio" class="btn-check" name="options-outlined" id="State1" autocomplete="off" checked>
+            <label class="btn btn-sm me-2 btn-outline-purple  " title="بانتظار البدء" for="State1"><i class="fas fa-clock"></i></label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="pic1" checked>
-            <label class="btn rounded-3 mx-2 bg-transparent" for="pic1">
-                <img class="rounded-5" src="~/images/users/1.jpg" style="width:32px ;height:32px ;"
-                     onclick="updateProfileImage('1')" />
-            </label>
+            <input type="radio" class="btn-check" name="options-outlined" id="State2" autocomplete="off" checked>
+            <label class="btn btn-sm me-2 btn-outline-danger  " title="توقف حرج" for="State2"><i class="far fa-stop-circle"></i></label>
 
+            <input type="radio" class="btn-check" name="options-outlined" id="State3" autocomplete="off" checked>
+            <label class="btn btn-sm me-2 btn-outline-warning  " title="بانتظار المراجعة" for="State3"><i class="fas fa-clipboard-check"></i></label>
 
-            <a href="#" class="btn btn-sm me-2 btn-outline-purple  " title="بانتظار البدء"> <i class="fas fa-clock"></i></a>
-            <a href="#" class="btn btn-sm me-2 btn-outline-danger  " title="توقف حرج">  <i class="far fa-stop-circle"></i>  </a>
-            <a href="#" class="btn btn-sm me-2 btn-outline-warning  " title="بانتظار المراجعة"><i class="fas fa-clipboard-check"></i></a>
-            <a href="#" class="btn btn-sm me-2 btn-outline-blue  " title="قيد التنفيد">   <i class="fas fa-tasks"></i></a>
-            <a href="#" class="btn btn-sm me-2 btn-outline-success  " title="مكتملة">    <i class="fas fa-check-circle"></i></a>
+            <input type="radio" class="btn-check" name="options-outlined" id="State4" autocomplete="off" checked>
+            <label class="btn btn-sm me-2 btn-outline-blue  " title="قيد التنفيد" for="State4"><i class="fas fa-tasks"></i></label>
+
+            <input type="radio" class="btn-check" name="options-outlined" id="State5" autocomplete="off" checked>
+            <label class="btn btn-sm me-2 btn-outline-success  " title="مكتملة" for="State5"><i class="fas fa-check-circle"></i></label>
 
     @*         <a href="#" class="btn btn-sm me-2 btn-outline-purple  " title="بانتظار البدء"> <i class="fas fa-clock"></i></a>
             <a href="#" class="btn btn-sm me-2 btn-outline-danger  " title="توقف حرج">  <i class="far fa-stop-circle"></i>  </a>
