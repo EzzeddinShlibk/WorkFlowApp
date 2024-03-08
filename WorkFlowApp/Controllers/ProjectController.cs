@@ -50,7 +50,7 @@ namespace WorkFlowApp.Controllers
             Guid teamID = Guid.Empty;
             if (team != null)
             {
-                teamID = team.team.Id;
+                teamID = team.teamId;
             }
 
             return teamID;

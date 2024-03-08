@@ -107,7 +107,7 @@ namespace WorkFlowApp.Controllers
 
             return projectlinelist;
         }
-        public async Task<IActionResult> Projects(string message)
+        public async Task<IActionResult> Tasks(string message)
         {
             ViewBag.Message = message;
             var UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -358,7 +358,7 @@ namespace WorkFlowApp.Controllers
 
 
                 //return PartialView("~/Views/Project/_ViewAllProjects.cshtml", returnmodel);
-                return RedirectToAction("Projects", new { UserId = userID.ToString() });
+                return RedirectToAction("Tasks", new { UserId = userID.ToString() });
 
             }
             catch
@@ -397,7 +397,7 @@ namespace WorkFlowApp.Controllers
 
 
                 //return PartialView("~/Views/Project/_ViewAllProjects.cshtml", returnmodel);
-                return RedirectToAction("Projects", new { UserId = userID.ToString() });
+                return RedirectToAction("Tasks", new { UserId = userID.ToString() });
 
             }
             catch
