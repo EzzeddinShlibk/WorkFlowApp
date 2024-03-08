@@ -1,0 +1,130 @@
+﻿<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">
+                            إدارة المسؤولين
+                            <i class="fas fa-users"></i>
+                        </h4>
+                    </div><!--end col-->
+                    <div class="col-lg-6 text-end">
+                        <div class="text-end">
+                            <ul class="list-inline">
+
+                                <li class="list-inline-item">
+                                    <button type="button" class="btn btn-soft-primary btn-sm" data-toggle="modal" data-target="#AddUser">
+                                        إضافة مسؤول جديد جديد
+                                        <i class="fa fa-user-plus"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div><!--end col-->
+                </div><!--end row-->
+                <hr class="hr-dashed">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table class="table mb-0  ">
+                                <thead>
+                                    <tr class="text-center">
+                               
+                                        <th>Email</th>
+                                        <th>الهاتف</th>
+                                        <th>الصلاحية </th>
+                                        <th>العمليات</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="text-center">
+                                 
+                                        <td>AsmaElassar@gmail.com</td>
+                                        <td>091000000</td>
+                                        <td>مدير</td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-pink">
+                                                حذف
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                             
+                                </tbody>
+                            </table>
+                            <!--end /table-->
+                        </div>
+                    </div><!--end col-->
+                </div><!--end page-title-box-->
+
+            </div><!--end col-->
+        </div><!--end row-->
+        <!-- end page title end breadcrumb -->
+
+    </div>
+</div>
+
+<!-------------the model------------------------------->
+<div class="modal" id="AddUser">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- The Modal -->
+
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-family:Cairo">إدارة المستخدمين</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form style="padding:10px 10px;">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">الاسم</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">الإيميل</label>
+                    <input type="email" class="form-control" id="exampleInputPassword1">
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">الهاتف</label>
+                    <input type="tel" class="form-control" id="exampleInputPassword1">
+                </div>
+
+
+
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">كلمة المرور</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1">
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">تأكيد كلمة المرور</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1">
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">نوع المستخدم</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1">
+                </div>
+
+
+
+
+
+            </form>
+
+
+
+
+            <!-- Modal footer -->
+
+
+        </div>
+    </div>
+</div>

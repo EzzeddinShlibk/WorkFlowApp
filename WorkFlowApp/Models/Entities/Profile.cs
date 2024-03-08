@@ -18,9 +18,9 @@ namespace WorkFlowApp.Models.Entities
 
 
         public bool Gender { get; set; }
-        public string UserId { get; set; } = string.Empty;
 
-        public ApplicationUser user { get; set; }   
+        public ApplicationUser user { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
 
 

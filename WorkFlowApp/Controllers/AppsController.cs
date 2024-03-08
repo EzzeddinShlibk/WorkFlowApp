@@ -28,8 +28,8 @@ namespace WorkFlowApp.Controllers
         [HttpGet("SiteStatus")]
         public IActionResult SiteStatus() => View();
         
-        [HttpGet("Project/Board")]
-        public IActionResult ProjectBoard() => View();
+        [HttpGet("UserMangment")]
+        public IActionResult UserMangment() => View();
 
         [HttpGet("Project/Teams")]
         public IActionResult ProjectTeams() => View();

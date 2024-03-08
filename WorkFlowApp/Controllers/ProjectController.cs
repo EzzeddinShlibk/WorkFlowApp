@@ -45,7 +45,7 @@ namespace WorkFlowApp.Controllers
 
         public Guid getTeamID(string UserID)
         {
-            var team = _teamuser.Entity.GetAll().Where(a => a.userId == UserID).Include(k => k.team).FirstOrDefault();
+            var team = _teamuser.Entity.GetAll().Where(a => a.userId == UserID).FirstOrDefault();
 
             Guid teamID = Guid.Empty;
             if (team != null)
@@ -54,6 +54,8 @@ namespace WorkFlowApp.Controllers
             }
 
             return teamID;
+
+      
         }
         private async Task PopulateUsersDropDownList(string UserId, object selected = null)
         {
