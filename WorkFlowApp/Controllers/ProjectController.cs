@@ -86,56 +86,15 @@ namespace WorkFlowApp.Controllers
 
             
 
-            ViewBag.UsersList = new SelectList(usersList, "Value", "Text", selected);
+            ViewBag.UsersList = new SelectList(usersList, "Value", "Text", null);
 
         }
 
 
-
+        //
         public async Task<List<ProjectViewModel>> getDataAsync(string UserId)
         {
-            await PopulateUsersDropDownList(UserId);
-            var projects = await _project.Entity.GetAll()
-           .Include(a => a.ProjectsUsers)
-           .ThenInclude(i => i.user)
-               .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId) && p.IsDeleted == false && p.IsArchived == false)
-           .ToListAsync();
-            var projectlinelist = new List<ProjectViewModel> { };
-            foreach (var item in projects)
-            {
-                TimeSpan difference = item.EndDate - item.StartDate;
-                int daysDifference = Math.Abs(difference.Days);
-
-                int taskscount = _projectTask.Entity.GetAll().Where(a => a.projectId == item.Id).Count();
-
-                var projectLine = new ProjectViewModel
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Description = item.Description,
-                    EndDate = item.EndDate,
-                    TaskCount = taskscount,
-                    DaysLeft = daysDifference,
-                    Percent = 0
-                };
-                projectlinelist.Add(projectLine);
-            }
-
-            return projectlinelist;
-        }
-
-        //لجلب قائمة من المشاريع في لست
-        public async Task<IActionResult> Projects(string message)
-        {
-            ViewBag.Message = message;
-
-            //جلب المستخدم الحالي
-            var UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            //جلب قامة المستخدمين 
-            await PopulateUsersDropDownList(UserId);
-
-            //قائمة المشاريع
+            //جلب قائمة المشاريع الخاصة بالمستخدم فيي حال كان المستخدم مدير فعند اضافة اي مشروع يتم اضافة المدير بشكل تلقائي واذا كان مستخدم عادي سيتم جلب مشاريعه اي انه سا تتم جلب قائمة المشاريع بناء على المستخدم الحالي
             var projects = await _project.Entity.GetAll()
            .Include(a => a.ProjectsUsers)
            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId) && p.IsDeleted == false && p.IsArchived == false)
@@ -166,24 +125,44 @@ namespace WorkFlowApp.Controllers
                 model.Add(projectViewModel);
             }
 
+            return model;
+        }
+
+        //لجلب قائمة من المشاريع في لست
+        public async Task<IActionResult> Projects(string message)
+        {
+            ViewBag.Message = message;
+
+            //جلب المستخدم الحالي
+            var UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            //جلب قائمة المستخدمين 
+            await PopulateUsersDropDownList(UserId);
+
+
+
+            var model = await getDataAsync(UserId.ToString());
 
 
             //بعتنا الموديل 
             return View(model);
         }
-
+        //لانه حيجيه من دالة الجافا سكبرت
         [NoDirectAccess]
         public async Task<IActionResult> CreateOrEditProject(Guid id)
         {
-
+            //Guid id هذا لو كان فاضي معناها اضافة ولو كان فيه قيمة معناها تعديل
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await PopulateUsersDropDownList(userId.ToString());
-
+            //في حال كان جاي ويبي يدير اضافة 
             if (id == Guid.Empty)
             {
+                //بنعرف متغير جديد وفاضي من المشروع واندير تاريخ ووقت اليوم فيه 
                 var model = new Project();
                 model.StartDate = DateTime.Now;
                 model.EndDate = DateTime.Now;
+
+                //هذه باش يخفي ولا يعرض زر الارشفة 
                 ViewBag.edit = false;
 
                 return View(model);
@@ -191,7 +170,9 @@ namespace WorkFlowApp.Controllers
 
             else
             {
+                //في حال التعديل لاظهار زر الارشفة
                 ViewBag.edit = true;
+                //بنجيب بيانات السطر اللي نبي نعدله
                 var model = await _project.Entity.GetAll().Where(a => a.Id == id).Include(a => a.ProjectsUsers).FirstOrDefaultAsync();
 
                 model.SelectedUserIds = model.ProjectsUsers.Select(pu => pu.userId.ToString()).ToList();
@@ -212,6 +193,7 @@ namespace WorkFlowApp.Controllers
         {
             var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             Guid teamID = getTeamID(userID.ToString());
+            //لجلب كافة مدراء المشورع لكي تتم اضافتهم
             var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true && a.isApproved == true && a.isDeleted == false).ToListAsync();
 
             if (ModelState.IsValid)
@@ -232,6 +214,7 @@ namespace WorkFlowApp.Controllers
                         newProject.IsArchived = false;
                         _project.Entity.Insert(newProject);
                         await _project.SaveAsync();
+
                         foreach (var item in model.SelectedUserIds)
                         {
                             ProjectsUser projectuser = new ProjectsUser();
@@ -243,9 +226,10 @@ namespace WorkFlowApp.Controllers
                             await _projectsUser.SaveAsync();
                         }
 
-
+                        //هنا لاضافة مدراء المشروع نقوم بالتحقق ان مدير المشروع لم يتم اضافته مسبقا 
                         foreach (var item in adminteamusers)
                         {
+                            //تحقق من ان المستخدم المدير لم تتم اضافته  مسبقا في قائمة المستخدمين 
                             if (!model.SelectedUserIds.Contains(item.userId))
                             {
                                 ProjectsUser projectuser = new ProjectsUser();
@@ -284,7 +268,7 @@ namespace WorkFlowApp.Controllers
                         _project.Entity.Update(oldproject);
                         await _project.SaveAsync();
 
-
+                        //جلب كافة مستخدمين المشروع الحالي
                         var oldprojectuser = await _projectsUser.Entity.GetAll().Where(p => p.projectId == model.Id).ToListAsync();
 
                         if (oldprojectuser.Any())
@@ -371,14 +355,6 @@ namespace WorkFlowApp.Controllers
 
                 _toastNotification.AddSuccessToastMessage("تم الحذف بنجاح", new ToastrOptions() { Title = "" });
 
-
-                var returnmodel = await getDataAsync(userID.ToString());
-
-                //return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllProjects", returnmodel) });
-                //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProjects", returnmodel) });
-
-
-                //return PartialView("~/Views/Project/_ViewAllProjects.cshtml", returnmodel);
                 return RedirectToAction("Projects", new { UserId = userID.ToString() });
 
             }
@@ -411,13 +387,6 @@ namespace WorkFlowApp.Controllers
                 _toastNotification.AddSuccessToastMessage("تمت الارشفة  بنجاح", new ToastrOptions() { Title = "" });
 
 
-                var returnmodel = await getDataAsync(userID.ToString());
-
-                //return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllProjects", returnmodel) });
-                //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllProjects", returnmodel) });
-
-
-                //return PartialView("~/Views/Project/_ViewAllProjects.cshtml", returnmodel);
                 return RedirectToAction("Projects", new { UserId = userID.ToString() });
 
             }

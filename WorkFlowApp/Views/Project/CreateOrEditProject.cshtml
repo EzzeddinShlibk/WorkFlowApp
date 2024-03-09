@@ -40,11 +40,11 @@
 
         </div>
     }
-    @if (Model.StartDate == null)
+    @if (Model.EndDate == null)
     {
         <div class="mb-3">
             <label asp-for="EndDate" class="form-label">تاريخ النهاية</label>
-            <input value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="EndDate">
+            <input value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" type="date" class="form-control" asp-for="EndDate">
             <span asp-validation-for="EndDate" class="text-danger"></span>
 
         </div>
@@ -65,7 +65,7 @@
 
 
 
-        <select asp-for="SelectedUserIds" multiple="multiple" class="form-control  " asp-items="ViewBag.UsersList">
+        <select asp-for="SelectedUserIds" multiple="multiple" class="form-control" asp-items="ViewBag.UsersList">
         </select>
         <span asp-validation-for="SelectedUserIds" class="text-danger"></span>
 

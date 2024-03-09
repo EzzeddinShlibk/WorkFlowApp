@@ -93,11 +93,11 @@
                                                             <td>عضو</td>
                                                             }
                                                         <td>
-                                                            <a class="btn btn-outline-success mx-2" data-bs-toggle="modal" data-bs-target="#AcpUser_@user.UserId">
+                                                            <a class="btn btn-outline-success mx-2" asp-action="AcceptUser" asp-controller="Team" asp-route-UserId="@user.UserId">
                                                                 قبول <i class="fas fa-check"></i>
                                                             </a>
 
-                                                            <a data-bs-toggle="modal" data-bs-target="#DirUser_@user.UserId" class="btn btn-outline-pink">
+                                                            <a asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@user.UserId" class="btn btn-outline-pink">
                                                                 رفض
                                                                 <i class="fas fa-times"></i>
                                                             </a>
