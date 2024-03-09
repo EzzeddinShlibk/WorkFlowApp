@@ -72,8 +72,6 @@ namespace WorkFlowApp.Controllers
                 .Include(a => a.user)
                 .ToListAsync();
 
-
-
             var usersList = teamUsers.Select(a =>
             {
                 var profile = _profile.Entity.GetAll().FirstOrDefault(k => k.UserId == a.userId);
@@ -262,7 +260,7 @@ namespace WorkFlowApp.Controllers
 
 
 
-                        _toastNotification.AddSuccessToastMessage("تم حقظ المشروع بنجاح", new ToastrOptions() { Title = "" });
+                        _toastNotification.AddSuccessToastMessage("تم حفظ المشروع بنجاح", new ToastrOptions() { Title = "" });
 
 
                     }
@@ -328,6 +326,7 @@ namespace WorkFlowApp.Controllers
                             }
                         }
 
+                        _toastNotification.AddSuccessToastMessage("تم حفظ المشروع بنجاح", new ToastrOptions() { Title = "" });
 
 
                         id = Guid.Empty;
