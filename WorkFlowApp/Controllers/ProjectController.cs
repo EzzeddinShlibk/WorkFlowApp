@@ -110,7 +110,13 @@ namespace WorkFlowApp.Controllers
                 int daysDifference = Math.Abs(difference.Days);
 
                 //باش يعد كم فيه تاسك في المشروع 
-                int taskscount = _projectTask.Entity.GetAll().Where(a => a.projectId == item.Id).Count();
+
+
+                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.projectId == item.Id).ToListAsync();
+                int all = tasks.Count;
+                int completed = tasks.Where(k => k.statues.Num == 5).Count();
+
+                double percent = (double)completed / all * 100;
 
                 var projectViewModel = new ProjectViewModel
                 {
@@ -118,9 +124,9 @@ namespace WorkFlowApp.Controllers
                     Name = item.Name,
                     Description = item.Description,
                     EndDate = item.EndDate,
-                    TaskCount = taskscount,
+                    TaskCount = all,
                     DaysLeft = daysDifference,
-                    Percent = 0
+                    Percent = percent
                 };
                 model.Add(projectViewModel);
             }
@@ -428,7 +434,11 @@ namespace WorkFlowApp.Controllers
             foreach (var item in projects)
             {
 
+                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.projectId == item.Id).ToListAsync();
+                int all = tasks.Count;
+                int completed = tasks.Where(k => k.statues.Num == 5).Count();
 
+                double percent = (double)completed / all * 100;
 
                 var deletedProjectViewModel = new DelArchProjectViewModel
                 {
@@ -437,7 +447,7 @@ namespace WorkFlowApp.Controllers
                     Description = item.Description,
                     CreatedDate = item.CreatedDate,
                     ModifiedDate = item.ModifiedDate,
-                    Percent = 0
+                    Percent = percent
                 };
                 model.Add(deletedProjectViewModel);
             }
