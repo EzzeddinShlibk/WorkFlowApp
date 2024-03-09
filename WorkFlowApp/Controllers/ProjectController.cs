@@ -18,6 +18,7 @@ namespace WorkFlowApp.Controllers
     {
         private readonly IUnitOfWork<Project> _project;
         private readonly IUnitOfWork<ProjectTask> _projectTask;
+        private readonly IUnitOfWork<Profile> _profile;
         private readonly IUnitOfWork<ProjectsUser> _projectsUser;
         private readonly IUnitOfWork<TeamUser> _teamuser;
         private readonly IToastNotification _toastNotification;
@@ -27,6 +28,7 @@ namespace WorkFlowApp.Controllers
         public ProjectController(
                      IUnitOfWork<Project> project,
                      IUnitOfWork<ProjectTask> projectTask,
+                     IUnitOfWork<Profile> profile,
                      IUnitOfWork<ProjectsUser> projectsUser,
                      IUnitOfWork<TeamUser> teamUser,
                         UserManager<ApplicationUser> userManager,
@@ -36,27 +38,30 @@ namespace WorkFlowApp.Controllers
         {
             _project = project;
             _teamuser = teamUser;
+            _profile = profile;
             _projectsUser = projectsUser;
             _webHostEnvironment = hostEnvironment;
             _userManager = userManager;
             _toastNotification = toastNotification;
             _projectTask = projectTask;
         }
-
+        //تجيب الفريق اللي مسجل فيه المستخدم
         public Guid getTeamID(string UserID)
         {
-            var team = _teamuser.Entity.GetAll().Where(a => a.userId == UserID).FirstOrDefault();
+            var data = _teamuser.Entity.GetAll().Where(a => a.userId == UserID).FirstOrDefault();
 
             Guid teamID = Guid.Empty;
-            if (team != null)
+            if (data != null)
             {
-                teamID = team.teamId;
+                teamID = data.teamId;
             }
 
             return teamID;
 
       
         }
+
+        //لتعبئة اسماء المستخدمين في اللست
         private async Task PopulateUsersDropDownList(string UserId, object selected = null)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -66,11 +71,22 @@ namespace WorkFlowApp.Controllers
                 .Where(a => a.teamId == teamID && a.isDeleted == false && a.isApproved == true)
                 .Include(a => a.user)
                 .ToListAsync();
-            var usersList = teamUsers.Select(a => new SelectListItem
+
+
+
+            var usersList = teamUsers.Select(a =>
             {
-                Value = a.userId.ToString(),
-                Text = a.user.UserName
-            });
+                var profile = _profile.Entity.GetAll().FirstOrDefault(k => k.UserId == a.userId);
+
+                return new SelectListItem
+                {
+                    Value = a.userId.ToString(),
+                    Text = profile != null ? profile.DisplayName : a.user.UserName
+                };
+
+            }).ToList();
+
+            
 
             ViewBag.UsersList = new SelectList(usersList, "Value", "Text", selected);
 
@@ -78,7 +94,7 @@ namespace WorkFlowApp.Controllers
 
 
 
-        public async Task<List<ProjectLine>> getDataAsync(string UserId)
+        public async Task<List<ProjectViewModel>> getDataAsync(string UserId)
         {
             await PopulateUsersDropDownList(UserId);
             var projects = await _project.Entity.GetAll()
@@ -86,7 +102,7 @@ namespace WorkFlowApp.Controllers
            .ThenInclude(i => i.user)
                .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId) && p.IsDeleted == false && p.IsArchived == false)
            .ToListAsync();
-            var projectlinelist = new List<ProjectLine> { };
+            var projectlinelist = new List<ProjectViewModel> { };
             foreach (var item in projects)
             {
                 TimeSpan difference = item.EndDate - item.StartDate;
@@ -94,7 +110,7 @@ namespace WorkFlowApp.Controllers
 
                 int taskscount = _projectTask.Entity.GetAll().Where(a => a.projectId == item.Id).Count();
 
-                var projectLine = new ProjectLine
+                var projectLine = new ProjectViewModel
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -109,31 +125,37 @@ namespace WorkFlowApp.Controllers
 
             return projectlinelist;
         }
+
+        //لجلب قائمة من المشاريع في لست
         public async Task<IActionResult> Projects(string message)
         {
             ViewBag.Message = message;
+
+            //جلب المستخدم الحالي
             var UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-
+            //جلب قامة المستخدمين 
             await PopulateUsersDropDownList(UserId);
 
-
+            //قائمة المشاريع
             var projects = await _project.Entity.GetAll()
            .Include(a => a.ProjectsUsers)
            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId) && p.IsDeleted == false && p.IsArchived == false)
            .ToListAsync();
 
-
-            var projectlinelist = new List<ProjectLine> { };
-
+            //تعريف موديل لكي يتم بعته للفي اللي اسمها بورجكتس كقائمة
+            var model = new List<ProjectViewModel> { };
+            //بنلف على كل بروجكت باش انضيفه للفيو موديل لست
             foreach (var item in projects)
             {
+                //لجلب الفرق بين تاريخ اليوم وتاريخ نهاية المشروع
                 TimeSpan difference = DateTime.Now - item.EndDate;
                 int daysDifference = Math.Abs(difference.Days);
 
+                //باش يعد كم فيه تاسك في المشروع 
                 int taskscount = _projectTask.Entity.GetAll().Where(a => a.projectId == item.Id).Count();
 
-                var projectLine = new ProjectLine
+                var projectViewModel = new ProjectViewModel
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -143,18 +165,19 @@ namespace WorkFlowApp.Controllers
                     DaysLeft = daysDifference,
                     Percent = 0
                 };
-                projectlinelist.Add(projectLine);
+                model.Add(projectViewModel);
             }
 
 
 
-
-            return View(projectlinelist);
+            //بعتنا الموديل 
+            return View(model);
         }
 
         [NoDirectAccess]
         public async Task<IActionResult> CreateOrEditProject(Guid id)
         {
+
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await PopulateUsersDropDownList(userId.ToString());
 

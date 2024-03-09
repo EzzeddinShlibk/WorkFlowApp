@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System;
 namespace WorkFlowApp.ViewModels
 {
-   public class ProjectLine
+   public class ProjectViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -20,13 +20,5 @@ namespace WorkFlowApp.ViewModels
 
 
     }
-    public class ProjectViewModel
-    {
-        public IEnumerable<Project> projects;
-        public Project Project { get; set; }
-        public ProjectsUser ProjectsUser { get; set; }
-        public IEnumerable<ProjectLine> projectList { get; set; } 
 
-    
-    }
 }
