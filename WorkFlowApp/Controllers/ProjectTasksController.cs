@@ -79,16 +79,16 @@ namespace WorkFlowApp.Controllers
 
         }
 
-
-        public async Task<IActionResult> Tasks(Guid projectId, string message)
+        public async Task<List<TaskListViewModel>> getDataAsync(Guid projectId)
         {
-            ViewBag.Message = message;
-
-            ViewBag.projectId = projectId;
-
             await PopulateUsersDropDownList(projectId);
 
-            var data = await _projectTask.Entity.GetAll().Where(k => k.projectId == projectId).Include(s => s.project).Include(k => k.statues).Include(s => s.priority).Include(k => k.User).ToListAsync();
+            var data = await _projectTask.Entity.GetAll()
+                .Where(k => k.projectId == projectId && k.isDeleted == false)
+                .Include(s => s.project)
+                .Include(k => k.statues)
+                .Include(s => s.priority).Include(k => k.User)
+                .ToListAsync();
 
 
             var model = new List<TaskListViewModel> { };
@@ -124,13 +124,16 @@ namespace WorkFlowApp.Controllers
             }
 
 
+            return model;
+
+        }
+        public async Task<IActionResult> Tasks(Guid projectId, string message)
+        {
+            ViewBag.Message = message;
+
+            ViewBag.projectId = projectId;
+            var model = await getDataAsync(projectId);
             return View(model);
-
-
-
-
-
-
         }
 
         [NoDirectAccess]
@@ -195,7 +198,8 @@ namespace WorkFlowApp.Controllers
                         userId = model.userId.ToString(),
                         StartDate = model.StartDate,
                         EndDate = model.EndDate,
-                        projectId = model.ProjectId
+                        projectId = model.ProjectId,
+                        isDeleted = false,
 
                     };
                     _projectTask.Entity.Insert(newTask);
@@ -207,7 +211,8 @@ namespace WorkFlowApp.Controllers
 
                     throw;
                 }
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllTasks", null) });
+                var returnmodel =await getDataAsync(model.ProjectId);
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllTasks", returnmodel) });
 
             }
             model.statues = await _statues.Entity.GetAll().ToListAsync();
@@ -254,9 +259,18 @@ namespace WorkFlowApp.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> DeleteTask(Guid id)
         {
-            var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var model = await _projectTask.Entity.GetByIdAsync(id);
+            model.isDeleted = true;
+            model.ModifiedDate = DateTime.Now;
 
-            return View();
+            _projectTask.Entity.Update(model);
+            await _projectTask.SaveAsync();
+
+            _toastNotification.AddSuccessToastMessage("تم حفظ المهمة بنجاح", new ToastrOptions() { Title = "" });
+
+
+
+            return RedirectToAction("Tasks", new { projectId = model.projectId.ToString() });
         }
 
         public async Task<IActionResult> EditTask(Guid id)

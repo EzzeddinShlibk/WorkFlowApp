@@ -58,7 +58,7 @@ namespace WorkFlowApp.Controllers
 
             return teamID;
 
-      
+
         }
 
         //لتعبئة اسماء المستخدمين في اللست
@@ -84,7 +84,7 @@ namespace WorkFlowApp.Controllers
 
             }).ToList();
 
-            
+
 
             ViewBag.UsersList = new SelectList(usersList, "Value", "Text", null);
 
@@ -320,7 +320,7 @@ namespace WorkFlowApp.Controllers
 
                         throw;
                     }
-                    
+
 
                 }
                 var returnmodel = await getDataAsync(userID.ToString());
@@ -344,7 +344,17 @@ namespace WorkFlowApp.Controllers
             var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             try
             {
+                var projectTasks = await _projectTask.Entity.GetAll().Where(a => a.projectId == id).ToListAsync();
 
+
+                foreach (var item in projectTasks)
+                {
+                    var task = await _projectTask.Entity.GetByIdAsync(item.Id);
+                    task.isDeleted = true;
+                    task.ModifiedDate = DateTime.Now;
+                    _projectTask.Entity.Update(task);
+                    await _projectTask.SaveAsync();
+                }
                 var model = await _project.Entity.GetByIdAsync(id);
                 model.IsDeleted = true;
                 model.ModifiedDate = DateTime.Now;
@@ -402,6 +412,122 @@ namespace WorkFlowApp.Controllers
 
 
 
+        [HttpGet]
+        public async Task<IActionResult> DeletedProjects(string message)
+        {
+            var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var projects = await _project.Entity.GetAll()
+            .Include(a => a.ProjectsUsers)
+            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == userID) && p.IsDeleted == true)
+            .ToListAsync();
+
+            //تعريف موديل لكي يتم بعته للفي اللي اسمها بورجكتس كقائمة
+            var model = new List<DelArchProjectViewModel> { };
+            //بنلف على كل بروجكت باش انضيفه للفيو موديل لست
+            foreach (var item in projects)
+            {
+
+
+
+                var deletedProjectViewModel = new DelArchProjectViewModel
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    CreatedDate = item.CreatedDate,
+                    ModifiedDate = item.ModifiedDate,
+                    Percent = 0
+                };
+                model.Add(deletedProjectViewModel);
+            }
+
+            //بعتنا الموديل 
+            return View(model);
+        }
+
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> RestroreDeleted(Guid id)
+        {
+            try
+            {
+                var projectTasks = await _projectTask.Entity.GetAll().Where(a => a.projectId == id).ToListAsync();
+
+
+                foreach (var item in projectTasks)
+                {
+                    var task = await _projectTask.Entity.GetByIdAsync(item.Id);
+                    task.isDeleted = false;
+                    task.ModifiedDate = DateTime.Now;
+                    _projectTask.Entity.Update(task);
+                    await _projectTask.SaveAsync();
+                }
+                var model = await _project.Entity.GetByIdAsync(id);
+                model.IsDeleted = false;
+                model.ModifiedDate = DateTime.Now;
+
+                _project.Entity.Update(model);
+                await _project.SaveAsync();
+
+
+                _toastNotification.AddSuccessToastMessage("تم الاستعادة بنجاح", new ToastrOptions() { Title = "" });
+
+                return RedirectToAction("DeletedProjects");
+
+
+
+            }
+            catch
+            {
+                return View("DeletedProjects");
+
+
+                throw;
+            }
+
+        }
+
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> DeleteForEver(Guid id)
+        {
+            try
+            {
+                var projectTasks = await _projectTask.Entity.GetAll().Where(a => a.projectId == id).ToListAsync();
+                foreach (var item in projectTasks)
+                {
+                    var task = await _projectTask.Entity.GetByIdAsync(item.Id);
+
+                    _projectTask.Entity.Delete(task.Id);
+                    await _projectTask.SaveAsync();
+                }
+                var projectUsers = await _projectsUser.Entity.GetAll().Where(a => a.projectId == id).ToListAsync();
+
+                foreach (var item in projectUsers)
+                {
+                    var task = await _projectsUser.Entity.GetByIdAsync(item.Id);
+
+                    _projectsUser.Entity.Delete(task.Id);
+                    await _projectsUser.SaveAsync();
+                }
+                var model = await _project.Entity.GetByIdAsync(id);
+                _project.Entity.Delete(model.Id);
+                await _project.SaveAsync();
+
+
+                _toastNotification.AddSuccessToastMessage("تم الحذف النهائي بنجاح", new ToastrOptions() { Title = "" });
+
+                return RedirectToAction("DeletedProjects");
+
+
+
+            }
+            catch
+            {
+                return View("DeletedProjects");
+                throw;
+            }
+
+        }
 
     }
 }

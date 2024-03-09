@@ -2,7 +2,7 @@
 {
     public class Comment:BaseEntity 
     {
-        public Guid userId { get; set; }
+        public string userId { get; set; }
         public ApplicationUser user { get; set; }
 
         public Guid projectTaskId { get; set; }
