@@ -50,9 +50,6 @@
 
                 </li>
                 <li>
-                    <a asp-controller="ProjectTasks" asp-action="Tasks"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهام المشاريع</span></a>
-                </li>
-                <li>
                     <a asp-action="EditTask" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهامي</span></a>
                 </li>
 
@@ -63,7 +60,7 @@
                     <a asp-action="Manage" asp-controller="Team" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="users" class="align-self-center menu-icon"></i><span>أعضاء الفريق</span></a>
                 </li>
                 <li>
-                    <a asp-action="archives" asp-controller="Pages"><i data-feather="archive" class="align-self-center menu-icon"></i><span>الأرشيف</span></a>
+                    <a asp-action="ArchivedProjects" asp-controller="Project"><i data-feather="archive" class="align-self-center menu-icon"></i><span>الأرشيف</span></a>
                 </li>
  
 

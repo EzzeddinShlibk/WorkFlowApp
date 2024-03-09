@@ -1,0 +1,110 @@
+﻿@model List<DelArchProjectViewModel>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="row">
+                <div class="col">
+                    <h4 class="page-title"> الارشيف</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">قائمة بالمشاريع التي تم ارشفتها</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @{
+        int i = 0;
+        foreach (var item in Model)
+        {
+            i++;
+
+
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media  mb-3">
+                            <img src="~/images/widgets/project2.png" alt="" class="thumb-md ">
+                            <div class="media-body align-self-center text-truncate ms-3">
+                                <h4 class="m-0 fw-semibold text-dark font-15">@item.Name </h4>
+                                <p class="text-muted  mb-2 font-13"><span>@item.Description</span></p>
+                                <hr class="hr-dashed">
+
+                                <h6 class="fw-semibold m-0">
+                                    أخر تحديث :
+                                    <i class="dripicons-clockwise"></i>
+                                    @if (item.ModifiedDate.HasValue)
+                                    {
+                                        <span class="text-muted fw-normal">  @item.ModifiedDate.Value.Date.ToString("yyyy-MM-dd")</span>
+
+
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted fw-normal"> @item.CreatedDate.Date.ToString("yyyy-MM-dd")</span>
+
+                                    }
+
+                                </h6>
+                                <p class="text-muted text-end mb-1">@item.Percent % مكتمل</p>
+                                <div class="progress mb-1" style="height: 4px;">
+                                    <div class="progress-bar bg-purple" role="progressbar" style="width: @item.Percent%;" aria-valuenow="@item.Percent" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                </div>
+                            </div><!--end media-body-->
+                        </div>
+                        <hr class="hr-dashed">
+                        <div>
+                            <button class=" btn btn-outline-purple  me-1" data-bs-toggle="modal" data-bs-target="#Arch_@item.Id">الغاء الارشفة</button>
+         
+                        </div><!--end task-box-->
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div>
+
+
+
+
+            <div class="modal" id="Arch_@item.Id">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="font-family:Cairo">حذف المشروع</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            هل أنت متأكد من استرجاع المشروع المؤرشف؟
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إلغاء</button>
+
+                            <a asp-controller="Project" asp-action="RestroreArchived" asp-route-Id="@item.Id" class="btn btn-success">موافق</a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            
+        }
+    }
+</div>
+
+
+
+
+<!-------------the model------------------------------->
+@section Scripts {
+    <script src="~/lib/apex-charts/apexcharts.min.js"></script>
+    <script src="~/js/pages/jquery.widgets.init.js"></script>
+}

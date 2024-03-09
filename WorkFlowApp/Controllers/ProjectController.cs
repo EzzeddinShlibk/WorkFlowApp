@@ -489,7 +489,8 @@ namespace WorkFlowApp.Controllers
             }
             catch
             {
-                return View("DeletedProjects");
+                return RedirectToAction("DeletedProjects");
+
 
 
                 throw;
@@ -533,7 +534,88 @@ namespace WorkFlowApp.Controllers
             }
             catch
             {
-                return View("DeletedProjects");
+                return RedirectToAction("DeletedProjects");
+
+                throw;
+            }
+
+        }
+
+
+
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> ArchivedProjects(string message)
+        {
+            var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var projects = await _project.Entity.GetAll()
+            .Include(a => a.ProjectsUsers)
+            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == userID) && p.IsArchived == true)
+            .ToListAsync();
+
+            //تعريف موديل لكي يتم بعته للفي اللي اسمها بورجكتس كقائمة
+            var model = new List<DelArchProjectViewModel> { };
+            //بنلف على كل بروجكت باش انضيفه للفيو موديل لست
+            foreach (var item in projects)
+            {
+
+                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.projectId == item.Id).ToListAsync();
+                int all = tasks.Count;
+                int completed = tasks.Where(k => k.statues.Num == 5).Count();
+
+                double percent = (double)completed / all * 100;
+
+                var deletedProjectViewModel = new DelArchProjectViewModel
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    CreatedDate = item.CreatedDate,
+                    ModifiedDate = item.ModifiedDate,
+                    Percent = percent
+                };
+                model.Add(deletedProjectViewModel);
+            }
+
+            //بعتنا الموديل 
+            return View(model);
+        }
+
+
+
+
+
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> RestroreArchived(Guid id)
+        {
+            try
+            {
+        
+                var model = await _project.Entity.GetByIdAsync(id);
+                model.IsArchived = false;
+                model.ModifiedDate = DateTime.Now;
+
+                _project.Entity.Update(model);
+                await _project.SaveAsync();
+
+
+                _toastNotification.AddSuccessToastMessage("تم الاستعادة بنجاح", new ToastrOptions() { Title = "" });
+
+                return RedirectToAction("ArchivedProjects");
+
+
+
+            }
+            catch
+            {
+                return RedirectToAction("ArchivedProjects");
+
+
+
                 throw;
             }
 
