@@ -44,7 +44,6 @@
 
                                     </li>
                                     <li class="list-item d-inline-block">
-                                        <button class=" btn btn-outline-purple  me-1" data-bs-toggle="modal" data-bs-target="#Arch_@item.Id">الغاء الارشفة</button>
                                         <a asp-action="Delete" asp-controller="Project" asp-route-id="@item.Id" class="mdi mdi-trash-can-outline text-muted font-18" onsubmit="return jQueryAjaxDelete(this)">
                                         </a>
                                     </li>

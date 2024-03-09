@@ -91,6 +91,68 @@
     <script src='~/lib/fullcalendar/packages/list/main.js'></script>
     <script src="~/lib/lightpick/lightpick.js"></script>
     <script src='~/js/pages/jquery.calendar.js'></script>
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                // ... other FullCalendar options
+
+                selectable: true,
+                select: function (arg) {
+                    var title = prompt('Event Title:');
+                    if (title) {
+                        var eventData = {
+                            title: title,
+                            start: arg.start,
+                            end: arg.end,
+                            allDay: arg.allDay
+                        };
+
+                        // Save the event on the server
+                        saveEvent(eventData);
+
+                        // Add the event to the calendar
+                        calendar.addEvent(eventData);
+                    }
+                    calendar.unselect();
+                },
+
+                // Fetch events from the server
+                events: {
+                    url: '/Calendar/GetEvents', // Adjust the URL based on your controller and action method
+                    method: 'GET',
+                    failure: function () {
+                        alert('There was an error fetching events!');
+                    },
+                },
+
+                // ... other FullCalendar options
+            });
+
+            function saveEvent(eventData) {
+                // Send event data to the server using AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: '/Calendar/SaveEvent', // Adjust the URL based on your controller and action method
+                    contentType: 'application/json',
+                    data: JSON.stringify(eventData),
+                    success: function (response) {
+                        // Handle the response if needed
+                        console.log(response);
+                        // Reload events after saving
+                        calendar.refetchEvents();
+                    },
+                    error: function (error) {
+                        // Handle the error if needed
+                        console.error(error);
+                    }
+                });
+            }
+
+            calendar.render();
+        });
+
+    </script>
 }
 
