@@ -1,0 +1,134 @@
+﻿@model TaskViewModel
+@{
+    Layout = null;
+}
+<form asp-action="CreateOrEditTask" asp-controller="ProjectTasks" enctype="multipart/form-data" asp-route-ProjectId="@Model.ProjectId" onsubmit="return jQueryAjaxPost(this);">
+
+    <div class="container">
+        <input type="hidden" asp-for="ProjectId" />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row m-3">
+            <div class="col-lg-6 border border-2 ">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">المهمة</label>
+                        <input asp-for=" Name" type="text" class="form-control" placeholder="أدخل المهمة">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
+                        <input value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for="StartDate">
+                        <span asp-validation-for=" StartDate" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label asp-for="EndDate" class="form-label">تاريخ الانتهاء</label>
+                        <input value="@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for=" EndDate">
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                    <div class="row mb-3  ">
+                        <label class="form-label">المستخدمين</label>
+                        <select asp-for=" userId" class="form-control  " asp-items="ViewBag.UsersList">
+                        </select>
+                        <span asp-validation-for=" userId" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <label asp-for=" Description" for="projectDescription" class="form-label">وصف المهمة</label>
+                        <textarea class="form-control" asp-for=" Description" placeholder="وصف المهمة" rows="3"></textarea>
+                        <span asp-validation-for=" Description" class="text-danger"></span>
+
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="form-label me-5">الحالة</label>
+                        <div class="d-inline">
+                            @foreach (var item in Model.statues)
+                            {
+                                <input type="radio" class="btn-check" asp-for="StatuesId" value="@item.Id" id="@($"State{item.Id}")" autocomplete="off">
+                                <label class="btn btn-sm me-2 @($"btn-outline-{item.Color}")" title="@item.Name" for="@($"State{item.Id}")">
+                                    <i class="@item.Icon"></i>
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div class=" row mb-3">
+                        <label class="form-label me-5">الاولوية</label>
+                        <div class="d-inline">
+
+
+                            @foreach (var item in Model.Priorities)
+                            {
+                                <input type="radio" class="btn-check" asp-for="ProirityId" value="@item.Id" id="@($"pro{@item.Id}")" autocomplete="off">
+                                <label class="btn btn-sm me-2 @($"btn-outline-{@item.Color}")" title="@item.Name" for="@($"pro{@item.Id}")">
+                                    <i class="far fa-flag"></i>
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+
+                    <button name="submit" type="submit" class="btn btn-outline-purple">إضافة</button>
+
+                        <div class="row mb-3">
+                            <label for="addFile" class="form-label">اضافة ملفات</label>
+                            <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control" id="addFile" asp-for="File">
+                        </div>
+
+
+           
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 border border-2 ">
+                <div class="card-body">
+                    <h5>التعليقات</h5>
+                    <div class="col-12">
+                        <div class="card team-card">
+                            <div class="card-body">
+                                <div class="media align-items-center">
+                                    <img src="~/images/users/1.jpg" alt="" class="rounded-circle user-img">
+                                    <div class="online-circle">
+                                        <i class="fa fa-circle text-success"></i>
+                                    </div>
+                                    <div class="media-body ms-3 align-self-center">
+                                        <h4 class="team-leader m-0">عزالدين شليبك</h4>
+                                    </div>
+                                </div>
+                                <p class="text-muted mb-0">السلام عليكم ورحمة الله وبركاته معاكم احمد محسن من قناة مكملين السلام عليكم ورحمة الله وبركاته معاكم احمد محسن من قناة مكملين</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-3">
+                        <textarea class="form-control" id="projectDescription" placeholder="اضافة تعليق" rows="3"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-outline-purple" data-bs-dismiss="modal">
+                        تعليق
+                        <i class="mdi mdi-send"></i>
+                    </button>
+                </div>
+
+                <button name="submit" type="submit" class="btn btn-outline-purple">إضافة</button>
+
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+@section styles {
+
+}
+
+@section scripts {
+    <script src="~/lib/apex-charts/apexcharts.min.js"></script>
+    <script src="~/js/pages/jquery.task.init.js"></script>
+}
