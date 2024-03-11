@@ -8,9 +8,19 @@ using Microsoft.CodeAnalysis;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace WorkFlowApp.ViewModels
 {
+    public class commentList
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Pic { get; set; } = string.Empty;
+        public string Comment { get; set; } = string.Empty;
+
+
+    }
 
     public class TaskViewModel
     {
+        public Guid Id { get; set; }
+
         public Guid ProjectId { get; set; }
         public Guid StatuesId { get; set; }
         public Guid ProirityId { get; set; }
@@ -22,7 +32,7 @@ namespace WorkFlowApp.ViewModels
         public DateTime EndDate { get; set; }
 
 
-        public Guid userId { get; set; }
+        public string userId { get; set; }
 
         public string FilePath { get; set; } = string.Empty;
 
@@ -32,6 +42,7 @@ namespace WorkFlowApp.ViewModels
         public List<Statues> statues;
 
         public List<Priority> Priorities;
+        public List<commentList> Comments;
 
 
     }

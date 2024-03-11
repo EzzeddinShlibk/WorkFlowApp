@@ -1,0 +1,79 @@
+USE [TrainingDatabase]
+GO
+/****** Object:  StoredProcedure [dbo].[InsertCashing]    Script Date: 11/11/2023 8:31:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER proc [dbo].[InsertCashing]
+@Date date ,
+@Value float  ,
+@NoteFor nvarchar(MAX),
+@EmployeeID int,
+@FinanceTypeID int,
+@RowTableID1 int,
+@RowTableID2 int,
+@ReceiptName nvarchar(100),
+@CheckNum bigint,
+@BankID int,
+@UserID int,
+
+@SaveState int output
+AS
+BEGIN
+Begin Try
+   set @SaveState=0 
+       Begin Transaction
+
+	   
+
+		   begin
+
+		   		   if NOT EXISTS(select * from  CashingTable where   Date =@Date and Value =@Value  and EmployeeID=@EmployeeID and ReceiptName=@ReceiptName and FinanceTypeID=@FinanceTypeID and NoteFor=@NoteFor )
+		   begin
+
+	   declare @CashNum bigint
+    SELECT @CashNum=MAX(Num)+1 FROM CashingTable 
+			IF @CashNum IS NULL 
+				begin
+			   SELECT @CashNum=MAX(CashNum)+1 FROM GeneralInfoTable 
+				End
+
+
+		      Insert Into CashingTable(Num ,[Date],Value, NoteFor,EmployeeID,ReceiptName,FinanceTypeID,RowTableID1,RowTableID2,CheckNum,BankID,UserID)
+		      values (@CashNum ,@Date,@Value, @NoteFor,@EmployeeID,@ReceiptName,@FinanceTypeID,@RowTableID1,@RowTableID2,@CheckNum,@BankID,@UserID)
+			  	
+				
+				DECLARE @CashID INT 
+	   	 	   select  @CashID = MAX(ID)  from CashingTable 
+
+		
+		      set @SaveState=1
+		  end 
+		  else
+		  begin
+		      set @SaveState=2
+		  end
+    
+	select ROW_NUMBER() OVER (ORDER BY (SELECT 1)) ت ,CashingTable.*,Name from CashingTable,EmployeeTable where CashingTable.EmployeeID=EmployeeTable.ID and  CashingTable.ID=@CashID
+      
+
+
+
+
+		   end
+
+
+
+
+	
+  commit Transaction
+  End Try
+
+ Begin Catch
+ 
+     Rollback Transaction
+ 
+ end Catch
+ END

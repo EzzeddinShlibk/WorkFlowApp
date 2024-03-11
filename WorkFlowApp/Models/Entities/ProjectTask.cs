@@ -23,11 +23,12 @@ namespace WorkFlowApp.Models.Entities
         public string userId { get; set; }
 
         public string FilePath { get; set; } = string.Empty;
-        public bool isDeleted { get; set; } 
+        public bool isDeleted { get; set; }
 
 
-   
 
-   
+        public List<Comment> Comments { get; set; } = new List<Comment>();
+
+
     }
 }
