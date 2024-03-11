@@ -13,121 +13,124 @@
         </div>
     </div>
 </div>
-
-<div class="row">
-    @{
-        int i = 0;
-        foreach (var item in Model)
-        {
-            i++;
-
-
-
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="media  mb-3">
-                            <img src="~/images/widgets/project2.png" alt="" class="thumb-md ">
-                            <div class="media-body align-self-center text-truncate ms-3">
-                                <h4 class="m-0 fw-semibold text-dark font-15">@item.Name </h4>
-                                <p class="text-muted  mb-2 font-13"><span>@item.Description</span></p>
-                                <hr class="hr-dashed">
-
-                                <h6 class="fw-semibold m-0">
-                                    أخر تحديث :
-                                    <i class="dripicons-clockwise"></i>
-                                    @if (item.ModifiedDate.HasValue)
-                                    {
-                                        <span class="text-muted fw-normal">  @item.ModifiedDate.Value.Date.ToString("yyyy-MM-dd")</span>
+@if (Model.Any())
+{
+    <div class="row">
+        @{
+            int i = 0;
+            foreach (var item in Model)
+            {
+                i++;
 
 
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted fw-normal"> @item.CreatedDate.Date.ToString("yyyy-MM-dd")</span>
 
-                                    }
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media  mb-3">
+                                <img src="~/images/widgets/project2.png" alt="" class="thumb-md ">
+                                <div class="media-body align-self-center text-truncate ms-3">
+                                    <h4 class="m-0 fw-semibold text-dark font-15">@item.Name </h4>
+                                    <p class="text-muted  mb-2 font-13"><span>@item.Description</span></p>
+                                    <hr class="hr-dashed">
 
-                                </h6>
-                                <p class="text-muted text-end mb-1">@item.Percent % مكتمل</p>
-                                <div class="progress mb-1" style="height: 4px;">
-                                    <div class="progress-bar bg-purple" role="progressbar" style="width: @item.Percent%;" aria-valuenow="@item.Percent" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <h6 class="fw-semibold m-0">
+                                        أخر تحديث :
+                                        <i class="dripicons-clockwise"></i>
+                                        @if (item.ModifiedDate.HasValue)
+                                        {
+                                            <span class="text-muted fw-normal">  @item.ModifiedDate.Value.Date.ToString("yyyy-MM-dd")</span>
 
-                                </div>
-                            </div><!--end media-body-->
+
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fw-normal"> @item.CreatedDate.Date.ToString("yyyy-MM-dd")</span>
+
+                                        }
+
+                                    </h6>
+                                    <p class="text-muted text-end mb-1">@item.Percent % مكتمل</p>
+                                    <div class="progress mb-1" style="height: 4px;">
+                                        <div class="progress-bar bg-purple" role="progressbar" style="width: @item.Percent%;" aria-valuenow="@item.Percent" aria-valuemin="0" aria-valuemax="100"></div>
+
+                                    </div>
+                                </div> 
+                            </div>
+                            <hr class="hr-dashed">
+                            <div>
+                                <button class=" btn btn-outline-purple  me-1" data-bs-toggle="modal" data-bs-target="#Rest_@item.Id">استعادة</button>
+                                <button class="btn me-1 btn-outline-pink" data-bs-toggle="modal" data-bs-target="#Del_@item.Id">حذف</button>
+                            </div> 
+                        </div> 
+                    </div> 
+                </div>
+
+
+
+
+                <div class="modal" id="Del_@item.Id">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="font-family:Cairo">حذف المشروع</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                هل أنت متأكد من إزالة هذا العنصر بشكل دائم
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إلغاء</button>
+
+                                <a asp-controller="Project" asp-action="DeleteForEver" asp-route-Id="@item.Id" class="btn btn-success">موافق</a>
+
+                            </div>
+
                         </div>
-                        <hr class="hr-dashed">
-                        <div>
-                            <button class=" btn btn-outline-purple  me-1" data-bs-toggle="modal" data-bs-target="#Rest_@item.Id">استعادة</button>
-                            <button class="btn me-1 btn-outline-pink" data-bs-toggle="modal" data-bs-target="#Del_@item.Id">حذف</button>
-                        </div><!--end task-box-->
-                    </div><!--end card-body-->
-                </div><!--end card-->
-            </div>
-
-
-
-
-            <div class="modal" id="Del_@item.Id">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-
-
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="font-family:Cairo">حذف المشروع</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            هل أنت متأكد من إزالة هذا العنصر بشكل دائم
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إلغاء</button>
-
-                            <a asp-controller="Project" asp-action="DeleteForEver" asp-route-Id="@item.Id" class="btn btn-success" >موافق</a>
-
-                        </div>
-
                     </div>
                 </div>
-            </div>
 
 
 
-            <div class="modal" id="Rest_@item.Id">
-                <div class="modal-dialog">
-                    <div class="modal-content">
+                <div class="modal" id="Rest_@item.Id">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
 
 
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="font-family:Cairo">استعادة المشروع</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="font-family:Cairo">استعادة المشروع</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                هل أنت متأكد من استعادة  هذا العنصر
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إلغاء</button>
+
+                                <a asp-controller="Project" asp-action="RestroreDeleted" asp-route-id="@item.Id" class="btn btn-success">موافق</a>
+
+                            </div>
+
                         </div>
-
-                        <div class="modal-body">
-                            هل أنت متأكد من استعادة  هذا العنصر
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إلغاء</button>
-
-                            <a asp-controller="Project" asp-action="RestroreDeleted" asp-route-id="@item.Id" class="btn btn-success" >موافق</a>
-
-                        </div>
-
                     </div>
                 </div>
-            </div>
 
+            }
         }
-    }
-</div>
+    </div>
+}
+else
+{
+    <h4 class="text-muted text-center"> لايوجد مشاريع محذوفة</h4>
+}
 
-
-
-
-<!-------------the model------------------------------->
+ 
 @section Scripts {
     <script src="~/lib/apex-charts/apexcharts.min.js"></script>
     <script src="~/js/pages/jquery.widgets.init.js"></script>
