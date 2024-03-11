@@ -131,8 +131,6 @@ namespace WorkFlowApp.Controllers
                 model = new ProfileViewModel
                 {
                     Profile = new Profile(),
-                    UserId = UserId
-
                 };
 
             }
@@ -162,8 +160,6 @@ namespace WorkFlowApp.Controllers
 
             try
             {
-           
-                
                     var existprofile = _Profile.Entity.GetAll().Where(a => a.UserId == model.UserId).FirstOrDefault();
                     if (existprofile != null)
                     {
@@ -251,8 +247,8 @@ namespace WorkFlowApp.Controllers
                 var team = _team.Entity.GetAll().Where(a => a.Code == model.Code).FirstOrDefault();
                 if (team == null)
                 {
-                    ViewBag.Result = "The team code is not correct ";
-                    _toastNotification.AddAlertToastMessage("The team code is not correct");
+                    ViewBag.Result = "رقم الفريق غير موجود ";
+                    //_toastNotification.AddErrorToastMessage("رقم الفريق غير موجود");
                     //_toastNotification.AddSuccessToastMessage("تم حفظ البيانات بنجاح", new ToastrOptions() { Title = "" });
 
                     return View(model);
@@ -288,8 +284,6 @@ namespace WorkFlowApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, Guid OldTeamID)
         {
-
-
             if (ModelState.IsValid)
             {
 

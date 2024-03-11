@@ -44,19 +44,60 @@
 
                                     </li>
                                     <li class="list-item d-inline-block">
-                                        <a asp-action="Delete" asp-controller="Project" asp-route-id="@item.Id" class="mdi mdi-trash-can-outline text-muted font-18" onsubmit="return jQueryAjaxDelete(this)">
+                                        <a  data-bs-toggle="modal" data-bs-target="#Del_@item.Id" class="mdi mdi-trash-can-outline text-muted font-18" onsubmit="return jQueryAjaxDelete(this)">
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                </div><!--end card-->
+                </div> 
             </div>
 
-            <!--end col-->
-        }
 
+            <div class="modal" id="Del_@item.Id">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="font-family:Cairo">حذف المشروع</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            هل أنت متأكد من أنك تريد حذف هذا المشروع؟
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إلغاء</button>
+
+                            <a  data-bs-toggle="modal" data-bs-target="#Msg_@item.Id" data-bs-dismiss="modal" class="btn btn-success">موافق</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="Msg_@item.Id">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="font-family:Cairo">ملاحظة</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                          يمكنك استعادة المشروع المحذوف من سلة المهملات
+                        </div>
+
+                        <div class="modal-footer">
+                            <a asp-action="Delete" asp-controller="Project" asp-route-id="@item.Id" class="btn btn-info">موافق</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+        }
 
 
 

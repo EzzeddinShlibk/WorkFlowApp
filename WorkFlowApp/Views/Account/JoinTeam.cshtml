@@ -14,10 +14,10 @@
     <meta content="" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!-- App favicon -->
+ 
     <link rel="shortcut icon" href="~/images/favicon.ico">
 
-    <!-- App css -->
+ 
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="~/css/app.min.css" rel="stylesheet" type="text/css" />
@@ -26,7 +26,7 @@
 
 <body class="account-body accountbg">
 
-    <!-- Eror-404 page -->
+ 
     <div class="container">
         <div class="row vh-100 d-flex justify-content-center">
             <div class="col-12 align-self-center">
@@ -53,11 +53,8 @@
                                     @{
                                         if (ViewBag.Result != null)
                                         {
-                                            <div class="form-group mb-2">
-                                                <label class="form-label" for="CodeNumber">@ViewBag.Result </label>
-                                            </div>
-                                            <div class="alert alert-outline-primary" role="alert">
-                                                <strong>sorry  !</strong> @ViewBag.Result
+                                            <div class="alert alert-outline-danger" role="alert">
+                                                <strong>عذراً!   </strong> @ViewBag.Result
                                             </div>
                                         }
                                     }
@@ -70,14 +67,14 @@
                                         </div>
                                         <span asp-validation-for="Code" class="text-danger"></span>
 
-                                    </div><!--end form-group-->
+                                    </div> 
 
                                     <div class="form-group mb-0 row">
                                         <div class="col-12 mt-2">
                                             <button class="btn btn-outline-purple w-100 waves-effect waves-light" type="submit">الانضمام <i class="fas fa-users ms-3"></i></button>
-                                        </div><!--end col-->
-                                    </div> <!--end form-group-->
-                                </form><!--end form-->
+                                        </div> 
+                                    </div>  
+                                </form> 
                             </div>
                             <div class="card-body bg-light-alt text-center">
                                 <span class="text-muted d-none d-sm-inline-block">
@@ -86,14 +83,13 @@
                                     </script>
                                 </span>
                             </div>
-                        </div><!--end card-->
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end col-->
-        </div><!--end row-->
-    </div><!--end container-->
-    <!-- End Eror-404 page -->
-    <!-- jQuery  -->
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+   
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/waves.js"></script>

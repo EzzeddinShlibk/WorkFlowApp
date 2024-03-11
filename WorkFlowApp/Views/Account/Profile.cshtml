@@ -7,7 +7,7 @@
 
 
 <div class="container-fluid">
-    <!-- Page-Title -->
+ 
     <div class="row">
         <div class="col-sm-12">
             <div class="page-title-box">
@@ -61,13 +61,13 @@
                     </label>
 
                     @Html.RadioButtonFor(m => m.Profile.Gender, "false", new { @class = "btn-check", @id = "male", @autocomplete = "off", @checked = "checked", @name = "gender" })
-                    <label class="btn btn-lg btn-outline-primary m-3" for="male">
+                    <label class="btn  btn-outline-primary m-3" for="male">
                         ذكر
                         <i class="fas fa-male" style="font-size:25px"></i>
                     </label>
 
                     @Html.RadioButtonFor(m => m.Profile.Gender, "True", new { @class = "btn-check", @id = "female", @autocomplete = "off", @name = "gender" })
-                    <label class="btn btn-lg btn-outline-pink m-3" for="female">
+                    <label class="btn   btn-outline-pink m-3" for="female">
                         أنثى
                         <i class="fas fa-female" style="font-size:25px"></i>
                     </label>
@@ -95,32 +95,32 @@
                     else
                     {
 
-                        <!-- Image 1 -->
+                 
                         <input type="radio" class="btn-check" name="btnradio" id="pic1" checked>
                         <label class="btn rounded-3 mx-2 bg-transparent" for="pic1">
                             <img class="rounded-5" src="~/images/users/1.jpg" style="width:32px ;height:32px ;"
                                  onclick="updateProfileImage('1')" />
                         </label>
 
-                        <!-- Image 2 -->
+                
                         <input type="radio" class="btn-check" name="btnradio" id="pic2">
                         <label class="btn rounded-3 mx-2 bg-transparent" for="pic2">
                             <img class="rounded-5" src="~/images/users/2.jpg" style="width:32px ;height:32px ;"
                                  onclick="updateProfileImage('2')" />
                         </label>
-                        <!-- Image 3 -->
+                     
                         <input type="radio" class="btn-check" name="btnradio" id="pic3">
                         <label class="btn rounded-3 mx-2 bg-transparent" for="pic3">
                             <img class="rounded-5" src="~/images/users/3.jpg" style="width:32px ;height:32px ;"
                                  onclick="updateProfileImage('3')" />
                         </label>
-                        <!-- Image 4 -->
+                       
                         <input type="radio" class="btn-check" name="btnradio" id="pic4">
                         <label class="btn rounded-3 mx-2 bg-transparent" for="pic4">
                             <img class="rounded-5" src="~/images/users/4.jpg" style="width:32px ;height:32px ;"
                                  onclick="updateProfileImage('4')" />
                         </label>
-                        <!-- Image 5 -->
+                       
                         <input type="radio" class="btn-check" name="btnradio" id="pic5">
                         <label class="btn rounded-3 mx-2 bg-transparent" for="pic5">
                             <img class="rounded-5" src="~/images/users/5.jpg" style="width:32px ;height:32px ;"
@@ -145,10 +145,10 @@
 
     </div>
     </div>
-    <!-- container -->
+ 
     <script>
         function updateProfileImage(imageSrc) {
-            // Update the src attribute of the img tag
+          
             document.getElementById('selectedImage').value = imageSrc;
         }
 
