@@ -22,7 +22,7 @@
                 <li>
                     <a asp-action="SiteStatus" asp-controller="apps"><i data-feather="file" class="align-self-center menu-icon"></i><span>حالة الموقع</span></a>
                 </li>
-             
+
                 <li>
                     <a asp-action="UserMangment" asp-controller="apps"><i data-feather="file" class="align-self-center menu-icon"></i><span>إدارة المستخدمين</span></a>
                 </li>
@@ -54,7 +54,7 @@
                 </li>
 
                 <li>
-                    <a asp-action="TeamPerformance" asp-controller="apps"><i data-feather="pie-chart" class="align-self-center menu-icon"></i><span> أداء الفريق</span></a>
+                    <a asp-action="TeamPerformance" asp-controller="ProjectTasks"><i data-feather="bar-chart-2" class="align-self-center menu-icon"></i><span> أداء الفريق</span></a>
                 </li>
                 <li>
                     <a asp-action="Manage" asp-controller="Team" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="users" class="align-self-center menu-icon"></i><span>أعضاء الفريق</span></a>
@@ -62,26 +62,35 @@
                 <li>
                     <a asp-action="ArchivedProjects" asp-controller="Project"><i data-feather="archive" class="align-self-center menu-icon"></i><span>الأرشيف</span></a>
                 </li>
- 
+
 
                 <li>
                     <a asp-action="DeletedProjects" asp-controller="Project"><i data-feather="trash" class="align-self-center menu-icon"></i><span>سلة المهملات</span></a>
                 </li>
 
-              
-
-              
                 <li>
                     <a asp-action="Index" asp-controller="Home"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>الخروج</span></a>
                 </li>
-              
+
             </ul>
         }
         else if (User.IsInRole("User"))
         {
-            <a asp-action="Tasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهامي</span></a>
-        }
+            <ul class="metismenu left-sidenav-menu">
+                <li>
+                    <a asp-action="Projects" asp-controller="Project" asp-route-UserId="@_userManager.GetUserId(User)"><i data-feather="file" class="align-self-center menu-icon"></i><span>المشاريع</span></a>
+                </li>
 
+                <li>
+                    <a asp-action="Tasks" asp-controller="apps"><i data-feather="menu" class="align-self-center menu-icon"></i><span>مهامي</span></a>
+                </li>
+
+                <li>
+                    <a asp-action="Index" asp-controller="Home"><i data-feather="log-out" class="align-self-center menu-icon"></i><span>الخروج</span></a>
+                </li>
+
+            </ul>
+        }
 
 
 

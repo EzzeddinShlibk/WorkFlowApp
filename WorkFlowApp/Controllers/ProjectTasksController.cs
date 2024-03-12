@@ -60,11 +60,11 @@ namespace WorkFlowApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddComment(string comment, Guid Id)
-        { 
+        {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             Comment newcommet = new Comment();
-            newcommet.Id=Guid.NewGuid();
+            newcommet.Id = Guid.NewGuid();
             newcommet.userId = userId;
             newcommet.comment = comment;
             newcommet.DateTime = DateTime.Now;
@@ -104,14 +104,26 @@ namespace WorkFlowApp.Controllers
 
         public async Task<List<TaskListViewModel>> getDataAsync(Guid projectId)
         {
-            await PopulateUsersDropDownList(projectId);
 
-            var data = await _projectTask.Entity.GetAll()
-                .Where(k => k.projectId == projectId && k.isDeleted == false)
-                .Include(s => s.project)
-                .Include(k => k.statues)
-                .Include(s => s.priority).Include(k => k.User)
-                .ToListAsync();
+
+            var query = _projectTask.Entity.GetAll()
+            .Where(k => k.projectId == projectId && k.isDeleted == false)
+        .Include(s => s.project)
+        .Include(k => k.statues)
+        .Include(s => s.priority).Include(k => k.User);
+
+            var data = query.ToList();
+
+
+            if (User.IsInRole("User"))
+            {
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+
+                data = query.Where(a => a.userId == userId).ToList();
+
+            }
+        
 
 
             var model = new List<TaskListViewModel> { };

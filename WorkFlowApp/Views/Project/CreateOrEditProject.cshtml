@@ -4,7 +4,7 @@
 }
 <form asp-controller="Project" asp-action="CreateOrEditProject" enctype="multipart/form-data" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this); ">
     <input type="hidden" asp-for="Id" />
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
 

@@ -1,16 +1,3 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NToastNotify;
-using System.Security.Claims;
-using WorkFlowApp.Classes;
-using WorkFlowApp.Models.Entities;
-using WorkFlowApp.Models.Interfaces;
-using WorkFlowApp.ViewModels;
-using static System.Collections.Specialized.BitVector32;
-using static WorkFlowApp.Classes.Helper;
-
 namespace WorkFlowApp.Controllers
 {
     [ViewLayout("_Layout")]
@@ -71,7 +58,6 @@ namespace WorkFlowApp.Controllers
                 .Where(a => a.teamId == teamID && a.isDeleted == false && a.isApproved == true)
                 .Include(a => a.user)
                 .ToListAsync();
-
             var usersList = teamUsers.Select(a =>
             {
                 var profile = _profile.Entity.GetAll().FirstOrDefault(k => k.UserId == a.userId);
@@ -112,7 +98,7 @@ namespace WorkFlowApp.Controllers
                 //باش يعد كم فيه تاسك في المشروع 
 
 
-                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.projectId == item.Id && a.isDeleted==false).ToListAsync();
+                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.projectId == item.Id).ToListAsync();
                 int all = tasks.Count;
                 int completed = tasks.Where(k => k.statues.Num == 5).Count();
 
@@ -137,15 +123,22 @@ namespace WorkFlowApp.Controllers
         //لجلب قائمة من المشاريع في لست
         public async Task<IActionResult> Projects(string message)
         {
+            ViewBag.Message = message;
+
+            //جلب المستخدم الحالي
             var UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            //جلب قائمة المستخدمين 
+            await PopulateUsersDropDownList(UserId);
+
+
+
             var model = await getDataAsync(UserId.ToString());
+
+
+            //بعتنا الموديل 
             return View(model);
         }
-
-
-
-
-
         //لانه حيجيه من دالة الجافا سكبرت
         [NoDirectAccess]
         public async Task<IActionResult> CreateOrEditProject(Guid id)
@@ -193,7 +186,7 @@ namespace WorkFlowApp.Controllers
             var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             Guid teamID = getTeamID(userID.ToString());
             //لجلب كافة مدراء المشورع لكي تتم اضافتهم
-            var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true  && a.isDeleted == false).ToListAsync();
+            var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true && a.isApproved == true && a.isDeleted == false).ToListAsync();
 
             if (ModelState.IsValid)
             {
