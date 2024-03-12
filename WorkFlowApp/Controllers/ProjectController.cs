@@ -137,13 +137,13 @@ namespace WorkFlowApp.Controllers
         //لجلب قائمة من المشاريع في لست
         public async Task<IActionResult> Projects(string message)
         {
-            ViewBag.Message = message;
+          
 
             //جلب المستخدم الحالي
             var UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             //جلب قائمة المستخدمين 
-            await PopulateUsersDropDownList(UserId);
+         
 
 
 
