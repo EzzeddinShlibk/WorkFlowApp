@@ -1,0 +1,48 @@
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var today = new Date();  // Get today's date
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['interaction', 'dayGrid', 'timeGrid'],
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        defaultDate: today,  // Set default date to today's date
+        navLinks: true,
+        selectable: true,
+        selectMirror: true,
+        select: function (arg) {
+            var title = prompt('Event Title:');
+            if (title) {
+                calendar.addEvent({
+                    title: title,
+                    start: arg.start,
+                    end: arg.end,
+                    allDay: arg.allDay
+                });
+            }
+            calendar.unselect();
+        },
+        editable: true,
+        eventLimit: true,
+        events: [
+            // Your existing events
+        ],
+        eventClick: function (arg) {
+            if (confirm('Delete event?')) {
+                arg.event.remove();
+            }
+        }
+    });
+
+    calendar.render();
+});
+
+
+// light_datepick
+new Lightpick({
+    field: document.getElementById('light_datepick'),
+    inline: true
+});

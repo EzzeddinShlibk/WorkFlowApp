@@ -1,15 +1,21 @@
 ﻿@model TaskViewModel
 @{
-    Layout = null;
+    ViewData["Title"] = "المشاريع";
 }
-<form asp-action="CreateOrEditTask" asp-controller="ProjectTasks" enctype="multipart/form-data" asp-route-ProjectId="@Model.ProjectId" onsubmit="return jQueryAjaxPost(this);">
 
-    <div class="container">
-        <input type="hidden" asp-for="ProjectId" />
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="row m-3">
-            <div class="col-lg-6 border border-2 ">
+<div class="container">
+
+    <div class="row m-3">
+
+
+
+        <div class="col-lg-6 border border-2 ">
+            <form asp-action="EditTask" asp-controller="ProjectTasks" enctype="multipart/form-data" asp-route-Id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
+
                 <div class="card-body">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ProjectId" />
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="mb-3">
                         <label asp-for="Name" class="form-label">المهمة</label>
                         <input asp-for=" Name" type="text" class="form-control" placeholder="أدخل المهمة">
@@ -73,55 +79,104 @@
                     </div>
 
 
-                    <button name="submit" type="submit" class="btn btn-outline-purple">إضافة</button>
 
-                        <div class="row mb-3">
-                            <label for="addFile" class="form-label">اضافة ملفات</label>
-                            <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control" id="addFile" asp-for="File">
-                        </div>
+                    <div class="row mb-3">
+                        <label for="addFile" class="form-label">اضافة ملفات</label>
+                        <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control" id="addFile" asp-for="File">
 
 
-           
+
+                        @* <a href="/uploads/@Model.FileName" target="_blank">View File</a> *@
 
                     </div>
+
+                    <button name="submit" type="submit" class="btn btn-outline-purple">حفظ</button>
+
+
+
                 </div>
-            </div>
-            <div class="col-lg-6 border border-2 ">
-                <div class="card-body">
-                    <h5>التعليقات</h5>
-                    <div class="col-12">
+            </form>
+
+        </div>
+
+        <div class="col-lg-6 border border-2 ">
+            <div class="card-body">
+                <h5>التعليقات</h5>
+                <div class="col-12">
+             @*        @if (Model.Comments.Any())
+                    { *@
+                        @foreach (var item in Model.Comments)
+                        {
+                            <div class="card team-card">
+                                <div class="card-body">
+                                    <div class="media align-items-center">
+                                        @if (item.Pic == "-")
+                                        {
+                                            <img src="~/images/users/1.jpg" alt="" class="rounded-circle user-img">
+
+
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/users/@(item.Pic).jpg" alt="" class="rounded-circle user-img" />
+
+                                        }
+                                        <div class="online-circle">
+                                            <i class="fa fa-circle text-success"></i>
+                                        </div>
+                                        <div class="media-body ms-3 align-self-center">
+                                            <h4 class="team-leader m-0">@item.Name</h4>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted mb-0">@item.Comment</p>
+                                </div>
+                            </div>
+
+                        }
+                    @* }
+                    else
+                    {
+
+
                         <div class="card team-card">
                             <div class="card-body">
                                 <div class="media align-items-center">
-                                    <img src="~/images/users/1.jpg" alt="" class="rounded-circle user-img">
-                                    <div class="online-circle">
-                                        <i class="fa fa-circle text-success"></i>
-                                    </div>
-                                    <div class="media-body ms-3 align-self-center">
-                                        <h4 class="team-leader m-0">عزالدين شليبك</h4>
-                                    </div>
+                                    <p>لايوجد تعليقات</p>
                                 </div>
-                                <p class="text-muted mb-0">السلام عليكم ورحمة الله وبركاته معاكم احمد محسن من قناة مكملين السلام عليكم ورحمة الله وبركاته معاكم احمد محسن من قناة مكملين</p>
                             </div>
                         </div>
-                    </div>
+                      
+
+
+                    } *@
+                </div>
+
+
+
+                <form asp-action="AddComment" asp-controller="ProjectTasks" asp-route-Id="@Model.Id">
+                    <input type="hidden" asp-for="Id" />
 
                     <div class="my-3">
-                        <textarea class="form-control" id="projectDescription" placeholder="اضافة تعليق" rows="3"></textarea>
+                        <textarea name="comment" class="form-control" id="projectDescription" placeholder="اضافة تعليق" rows="3"></textarea>
                     </div>
-                    <button type="button" class="btn btn-outline-purple" data-bs-dismiss="modal">
+                    <button name="submit" type="submit" class="btn btn-outline-purple">
                         تعليق
                         <i class="mdi mdi-send"></i>
                     </button>
-                </div>
 
-                <button name="submit" type="submit" class="btn btn-outline-purple">إضافة</button>
+                </form>
+
+
+
 
             </div>
 
+
         </div>
     </div>
-</form>
+
+
+</div>
 
 
 @section styles {
@@ -131,4 +186,24 @@
 @section scripts {
     <script src="~/lib/apex-charts/apexcharts.min.js"></script>
     <script src="~/js/pages/jquery.task.init.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script>
+        function clickFile1() {
+            var objfile = document.getElementById("fileAttach1");
+            objfile.click();
+            return false;
+        }
+        function UploadAttach1(input) {
+            var file = input.files[0];
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("imgAttach1").src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+
+            }
+        }
+    </script>
 }

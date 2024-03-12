@@ -21,6 +21,7 @@ namespace WorkFlowApp.Controllers
     {
         private readonly IUnitOfWork<Project> _project;
         private readonly IUnitOfWork<Profile> _profile;
+        private readonly IUnitOfWork<Comment> _Comment;
         private readonly IUnitOfWork<Priority> _priority;
         private readonly IUnitOfWork<Statues> _statues;
         private readonly IUnitOfWork<ProjectTask> _projectTask;
@@ -33,6 +34,7 @@ namespace WorkFlowApp.Controllers
         public ProjectTasksController(
                      IUnitOfWork<Project> project,
                      IUnitOfWork<Priority> priority,
+                     IUnitOfWork<Comment> comment,
                      IUnitOfWork<Statues> statues,
                      IUnitOfWork<Profile> profile,
                      IUnitOfWork<ProjectTask> projectTask,
@@ -46,6 +48,7 @@ namespace WorkFlowApp.Controllers
             _project = project;
             _priority = priority;
             _profile = profile;
+            _Comment = comment;
             _statues = statues;
             _teamuser = teamUser;
             _projectsUser = projectsUser;
@@ -54,7 +57,27 @@ namespace WorkFlowApp.Controllers
             _toastNotification = toastNotification;
             _projectTask = projectTask;
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddComment(string comment, Guid Id)
+        { 
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+            Comment newcommet = new Comment();
+            newcommet.Id=Guid.NewGuid();
+            newcommet.userId = userId;
+            newcommet.comment = comment;
+            newcommet.DateTime = DateTime.Now;
+            newcommet.CreatedDate = DateTime.Now;
+            newcommet.projectTaskId = Id;
+
+            _Comment.Entity.Insert(newcommet);
+            _Comment.SaveAsync();
+            return RedirectToAction("EditTask", new { id = Id.ToString() });
+
+            //return View("EditTask", new { id = Id });
+
+        }
 
         private async Task PopulateUsersDropDownList(Guid ProjectId, object selected = null)
         {
@@ -127,6 +150,70 @@ namespace WorkFlowApp.Controllers
             return model;
 
         }
+
+        public Guid getTeamID(string UserID)
+        {
+            var data = _teamuser.Entity.GetAll().Where(a => a.userId == UserID).FirstOrDefault();
+
+            Guid teamID = Guid.Empty;
+            if (data != null)
+            {
+                teamID = data.teamId;
+            }
+
+            return teamID;
+
+
+        }
+        public async Task<IActionResult> TeamPerformance(Guid projectId, string message)
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            Guid teamID = getTeamID(userId);
+
+            var teamUsers = await _teamuser.Entity.GetAll()
+                .Where(a => a.teamId == teamID && a.isDeleted == false && a.isApproved == true)
+                .Include(a => a.user)
+                .ToListAsync();
+
+            var model = new List<UsersTasksViewModel> { };
+
+            foreach (var item in teamUsers)
+            {
+                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.userId == item.userId).ToListAsync();
+                int Notcompleted = tasks.Where(k => k.statues.Num != 5).Count();
+                int completed = tasks.Where(k => k.statues.Num == 5).Count();
+
+
+                var prof = _profile.Entity.GetAll().FirstOrDefault(k => k.UserId == item.userId);
+
+                string name;
+                string pic;
+                if (prof != null)
+                {
+                    name = prof.DisplayName;
+                    pic = prof.Pic;
+                }
+                else
+                {
+                    name = item.user.UserName;
+                    pic = "-";
+                }
+
+                var usersTasksViewModel = new UsersTasksViewModel
+                {
+
+                    Name = name,
+                    Pic = pic,
+                    CompletedTask = completed,
+                    UnCompletedTask = Notcompleted,
+
+                };
+                model.Add(usersTasksViewModel);
+
+            }
+            return View(model);
+        }
         public async Task<IActionResult> Tasks(Guid projectId, string message)
         {
             ViewBag.Message = message;
@@ -134,6 +221,168 @@ namespace WorkFlowApp.Controllers
             ViewBag.projectId = projectId;
             var model = await getDataAsync(projectId);
             return View(model);
+        }
+
+
+        [HttpGet]
+
+        public async Task<IActionResult> EditTask(Guid id)
+        {
+            var OldTask = await _projectTask.Entity.GetAll().Where(a => a.Id == id).Include(p => p.Comments).ThenInclude(a => a.user).FirstOrDefaultAsync();
+
+
+
+
+            var comments = new List<commentList> { };
+
+
+            foreach (var item in OldTask.Comments)
+            {
+                var prof = _profile.Entity.GetAll().FirstOrDefault(k => k.UserId == item.userId);
+
+                string name;
+                string pic;
+                if (prof != null)
+                {
+                    name = prof.DisplayName;
+                    pic = prof.Pic;
+                }
+                else
+                {
+                    name = item.user.UserName;
+                    pic = "-";
+                }
+
+
+                var commentList = new commentList
+                {
+
+                    Name = name,
+                    Pic = pic,
+                    Comment = item.comment
+
+                };
+                comments.Add(commentList);
+            }
+
+
+
+            await PopulateUsersDropDownList(OldTask.projectId);
+
+
+            var model = new TaskViewModel
+            {
+                Id = id,
+                ProjectId = OldTask.projectId,
+                StatuesId = OldTask.statuesId,
+                ProirityId = OldTask.priorityId,
+                Name = OldTask.Name,
+                Description = OldTask.Name,
+                StartDate = OldTask.StartDate,
+                EndDate = OldTask.EndDate,
+                userId = OldTask.userId,
+                FilePath = OldTask.FilePath,
+                Comments = comments,
+                statues = await _statues.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
+                Priorities = await _priority.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
+
+
+
+            };
+            //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files", "TaskAttach");
+            //var filepath = "wwwroot/Files/TaskAttach/";
+            //var filePath = Path.Combine("wwwroot/Files/TaskAttach/", model.FilePath);
+            //var path= "wwwroot/Files/TaskAttach/"+model.FilePath;
+            //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files", "TaskAttach" , model.FilePath);
+            //var ww = _webHostEnvironment.WebRootPath;
+            //var filePath =ww+ "/Files" + "TaskAttach/" + model.FilePath;
+            //using (var stream = new FileStream(filePath, FileMode.Create))
+            //{
+            //    model.File.CopyTo(stream);
+            //}
+            //string ff = "C:\\Users\\nusai\\source\\repos\\WorkFlowApp1\\WorkFlowApp\\wwwroot\\Files\\TaskAttach\\e2620494-_test.docx";
+            //using (var stream = new FileStream(ff, FileMode.Create))
+            //{
+            //    model.File.CopyTo(stream);
+            //}
+            return View(model);
+
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditTask(TaskViewModel model, Guid TaskId)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (Guid.Empty == model.StatuesId)
+                    {
+                        ViewBag.Message = "الرجاء إختيار الحالة";
+                        return View(model);
+                    }
+                    if (Guid.Empty == model.ProirityId)
+                    {
+                        ViewBag.Message = "الرجاء إختيار الأولوية";
+                        return View(model);
+                    }
+                    var statues = await _statues.Entity.GetByIdAsync(model.StatuesId);
+                    if (statues == null)
+                    {
+                        return View("NotFound");
+                    }
+                    var priority = await _priority.Entity.GetByIdAsync(model.ProirityId);
+                    if (priority == null)
+                    {
+                        return View("NotFound");
+                    }
+                    string FileName;
+                    if (model.File != null)
+                    {
+                        DeleteFile(model.FilePath);
+                        FileName = UploadedFile(model.File);
+                    }
+                    else
+                    {
+                        FileName = model.FilePath;
+                    }
+                    var ExistTask = _projectTask.Entity.GetAll().Where(a => a.Id == model.Id).FirstOrDefault();
+
+
+
+                    ExistTask.ModifiedDate = DateTime.Now;
+                    ExistTask.FilePath = FileName;
+                    ExistTask.Name = model.Name;
+                    ExistTask.Description = model.Description;
+                    ExistTask.priorityId = model.ProirityId;
+                    ExistTask.statuesId = model.StatuesId;
+                    ExistTask.userId = model.userId.ToString();
+                    ExistTask.StartDate = model.StartDate;
+                    ExistTask.EndDate = model.EndDate;
+                    ExistTask.projectId = model.ProjectId;
+                    ExistTask.isDeleted = false;
+
+
+                    _projectTask.Entity.Update(ExistTask);
+                    await _projectTask.SaveAsync();
+                    _toastNotification.AddSuccessToastMessage("تم حفظ المهمة بنجاح", new ToastrOptions() { Title = "" });
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+
+            }
+            //return RedirectToAction("EditTask", new { id = model.Id.ToString() });
+            return View("EditTask", new { id = model.Id.ToString() });
+
+
         }
 
         [NoDirectAccess]
@@ -152,6 +401,7 @@ namespace WorkFlowApp.Controllers
             return View(model);
 
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -211,7 +461,7 @@ namespace WorkFlowApp.Controllers
 
                     throw;
                 }
-                var returnmodel =await getDataAsync(model.ProjectId);
+                var returnmodel = await getDataAsync(model.ProjectId);
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllTasks", returnmodel) });
 
             }
@@ -230,7 +480,7 @@ namespace WorkFlowApp.Controllers
                 string uploadsFolder;
 
                 uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Files", "TaskAttach");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + Img.FileName;
+                uniqueFileName = Guid.NewGuid() + "_" + Img.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -273,12 +523,7 @@ namespace WorkFlowApp.Controllers
             return RedirectToAction("Tasks", new { projectId = model.projectId.ToString() });
         }
 
-        public async Task<IActionResult> EditTask(Guid id)
-        {
 
-
-            return View();
-        }
 
 
 

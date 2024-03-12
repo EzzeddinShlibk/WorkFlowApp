@@ -24,6 +24,7 @@ namespace WorkFlowApp.Models.Entities
 
 
         public List<ProjectsUser> ProjectsUsers { get; set; } = new List<ProjectsUser>();
+        public List<ProjectTask> ProjectTask { get; set; } = new List<ProjectTask>();
 
 
         [NotMapped]

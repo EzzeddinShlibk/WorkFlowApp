@@ -1,0 +1,114 @@
+﻿@model List<UsersTasksViewModel>
+<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">جدول  زمني لاداء الفريق</h4>
+
+                    </div><!--end col-->
+
+                </div><!--end row-->
+            </div><!--end page-title-box-->
+        </div><!--end col-->
+    </div><!--end row-->
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6>إجمالي المهام </h6>
+
+                </div>
+                <!--end card-header-->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table mb-0 table-centered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">المستخدم</th>
+                                    <th class="text-center">المهام المكتملة</th>
+                                    <th class="text-center">المهام غير المكتملة </th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">
+
+                                            @if (item.Pic == "-")
+                                            {
+                                                <img src="~/images/users/profile.png" alt=""
+                                                     class="rounded-circle thumb-xs me-1">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/users/@(item.Pic).jpg" class="rounded-circle thumb-xs me-1" />
+
+                                            }
+
+                                          @item.Name
+                                        </td>
+                                        <td class="text-center">@item.CompletedTask</td>
+                                        <td class="text-center">@item.UnCompletedTask</td>
+
+                                    </tr>
+
+                                }
+
+
+
+
+
+                            </tbody>
+                        </table>
+                        <!--end /table-->
+                    </div>
+                    <!--end /tableresponsive-->
+                </div>
+                <!--end card-body-->
+            </div>
+        </div><!--end col-->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <div id='calendar'></div>
+                    <div style='clear:both'></div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!-- End row -->
+
+</div><!-- container -->
+@section styles {
+    <!--calendar css-->
+    <link href="~/lib/fullcalendar/packages/core/main.css" rel="stylesheet" />
+    <link href="~/lib/fullcalendar/packages/daygrid/main.css" rel="stylesheet" />
+    <link href="~/lib/fullcalendar/packages/bootstrap/main.css" rel="stylesheet" />
+    <link href="~/lib/fullcalendar/packages/timegrid/main.css" rel="stylesheet" />
+    <link href="~/lib/fullcalendar/packages/list/main.css" rel="stylesheet" />
+    <link href="~/lib/lightpick/lightpick.css" rel="stylesheet" />
+    @*     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" /> *@
+
+}
+
+
+@section scripts {
+    @*     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script> *@
+    <script src='~/lib/fullcalendar/packages/core/main.js'></script>
+    <script src='~/lib/fullcalendar/packages/daygrid/main.js'></script>
+    <script src='~/lib/fullcalendar/packages/timegrid/main.js'></script>
+    <script src='~/lib/fullcalendar/packages/interaction/main.js'></script>
+    <script src='~/lib/fullcalendar/packages/list/main.js'></script>
+    <script src="~/lib/lightpick/lightpick.js"></script>
+    <script src='~/js/pages/jquery.calendar.js'></script>
+
+}
+
