@@ -1,0 +1,213 @@
+﻿<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">لوحة المراقبة  </h4>
+
+                    </div><!--end col-->
+
+                </div><!--end row-->
+            </div><!--end page-title-box-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <!-- end page title end breadcrumb -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">المهام حسب الحالة</h4>
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div class="chart-demo">
+
+                        <canvas id="projectsPerStatusChart" width="400" height="200"></canvas>
+                    </div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">   المهمة حسب الاولوية </h4>
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div class="chart-demo">
+                        <canvas id="projectsPerPriorityChart" width="400" height="200"></canvas>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"> عدد التاسكات في كل مشروع </h4>
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div class="chart-demo">
+                        <canvas id="tasksPerProjectDonutChart" width="400" height="200"></canvas>
+                    </div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"> عدد المهام لكل  مستخدم </h4>
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div class="chart-demo">
+                        <canvas id="tasksPerUserBarChart" width="400" height="400"></canvas>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+@section scripts {
+    @*     <script src="~/lib/apex-charts/apexcharts.min.js"></script>
+    <script src="~/lib/apex-charts/irregular-data-series.js"></script>
+    <script src="~/lib/apex-charts/ohlc.js"></script>
+    <script src="~/js/pages/jquery.apexcharts.init.js"></script> *@
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Fetch data using AJAX and render the chart
+            $.ajax({
+                url: '@Url.Action("ProjectsPerStatusChart", "Charts")',
+                type: 'GET',
+                success: function (data) {
+                    var ctx = document.getElementById('projectsPerStatusChart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(data),
+                            datasets: [{
+                                label: 'Tasks',
+                                data: Object.values(data),
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        }
+                    });
+                }
+            });
+        });
+
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        $(document).ready(function () {
+            // Fetch data using AJAX and render the pie chart
+            $.ajax({
+                url: '@Url.Action("ProjectsPerPriorityCharts", "Charts")',
+                type: 'GET',
+                success: function (data) {
+                    var ctx = document.getElementById('projectsPerPriorityChart').getContext('2d');
+                    var labels = Object.keys(data);
+                    var values = Object.values(data);
+
+                    var backgroundColors = labels.map(function () {
+                        return getRandomColor();
+                    });
+
+                    var chart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: values,
+                                backgroundColor: backgroundColors
+                            }]
+                        }
+                    });
+                }
+            });
+        });
+
+
+            $(document).ready(function () {
+                // Fetch data using AJAX and render the donut chart
+                $.ajax({
+                    url: '@Url.Action("TasksPerProjectDonutChart", "charts")',
+                    type: 'GET',
+                    success: function (data) {
+                        var ctx = document.getElementById('tasksPerProjectDonutChart').getContext('2d');
+
+                        var projectNames = Object.keys(data);
+                        var taskCounts = Object.values(data);
+
+                        var backgroundColors = Array.from({ length: projectNames.length }, getRandomColor);
+
+                        var chart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: projectNames,
+                                datasets: [{
+                                    data: taskCounts,
+                                    backgroundColor: backgroundColors
+                                }]
+                            }
+                        });
+                    }
+                });
+            });
+
+
+            $(document).ready(function () {
+                // Fetch data using AJAX and render the bar chart
+                $.ajax({
+                    url: '@Url.Action("TasksPerUserBarChart", "charts")',
+                    type: 'GET',
+                    success: function (data) {
+                        var ctx = document.getElementById('tasksPerUserBarChart').getContext('2d');
+
+                        var userNames = Object.keys(data);
+                        var taskCounts = Object.values(data);
+
+                        var chart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: userNames,
+                                datasets: [{
+                                    label: 'Tasks',
+                                    data: taskCounts,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+    </script>
+}
