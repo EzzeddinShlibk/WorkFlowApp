@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 using System.Linq;
+using System.Security.Claims;
 using WorkFlowApp.Models.Entities;
 using WorkFlowApp.Models.Interfaces;
 
@@ -49,35 +50,71 @@ namespace WorkFlowApp.Controllers
             _projectTask = projectTask;
         }
 
+        public Guid getTeamID(string UserID)
+        {
+            var data = _teamuser.Entity.GetAll().Where(a => a.userId == UserID).FirstOrDefault();
+
+            Guid teamID = Guid.Empty;
+            if (data != null)
+            {
+                teamID = data.teamId;
+            }
+
+            return teamID;
+
+
+        }
+        public async Task<IActionResult> IndexAsync()
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Guid teamID = getTeamID(userId);
+
+            int teamUserscount = _teamuser.Entity.GetAll()
+          .Where(a => a.teamId == teamID && a.isDeleted == false && a.isApproved == true).Count();
+
+
+
+            int projectscount = _project.Entity.GetAll()
+          .Include(a => a.ProjectsUsers)
+          .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.IsDeleted == false && p.IsArchived == false)
+          .Count();
+
+
+
+            int taskscount = _projectTask.Entity.GetAll().Include(k => k.project).ThenInclude(a => a.ProjectsUsers)
+          .Where(p => p.project.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.project.IsDeleted == false && p.project.IsArchived == false).Count();
+
+
+
+
+            ViewBag.TeamUserscount = teamUserscount;
+            ViewBag.Projectscount = projectscount;
+            ViewBag.Taskscount = taskscount;
+
+            return View();
+        }
         public Dictionary<string, int> GetProjectsPerStatus()
         {
-            var projectsPerStatus = _projectTask.Entity.GetAll()
-                .GroupBy(p => p.statues.Name)
-                .ToDictionary(g => g.Key, g => g.Count());
-
-            return projectsPerStatus;
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var tasks = _projectTask.Entity.GetAll().Include(k => k.project).ThenInclude(a => a.ProjectsUsers)
+                        .Where(p => p.project.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.project.IsDeleted == false && p.project.IsArchived == false) 
+                        .GroupBy(p => p.statues.Name)
+                        .ToDictionary(g => g.Key, g => g.Count());
+            return tasks;
         }
         public Dictionary<string, int> GetProjectsPerPrioritys()
         {
-            var projectsPerPriority = _projectTask.Entity.GetAll()
-                .GroupBy(p => p.priority.Name)
-                .ToDictionary(g => g.Key, g => g.Count());
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            return projectsPerPriority;
-        }
-        public Dictionary<Guid, int> GetProjectsPerPriority()
-        {
-            var projectsPerPriority = _projectTask.Entity.GetAll()
-                .GroupBy(p => p.priority.Id)
-                .ToDictionary(g => g.Key, g => g.Count());
-
-            return projectsPerPriority;
+            var tasks = _projectTask.Entity.GetAll().Include(k => k.project).ThenInclude(a => a.ProjectsUsers)
+                     .Where(p => p.project.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.project.IsDeleted == false && p.project.IsArchived == false)
+                     .GroupBy(p => p.priority.Name)
+                     .ToDictionary(g => g.Key, g => g.Count());
+            return tasks;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+
+
 
         public JsonResult ProjectsPerStatusChart()
         {
