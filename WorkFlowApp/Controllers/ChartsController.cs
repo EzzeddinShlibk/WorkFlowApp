@@ -141,7 +141,10 @@ namespace WorkFlowApp.Controllers
 
         public Dictionary<string, int> GetTasksPerProject()
         {
-            var tasksPerProject = _projectTask.Entity.GetAll()
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var tasksPerProject = _projectTask.Entity.GetAll().Include(k => k.project).ThenInclude(a => a.ProjectsUsers)
+                     .Where(p => p.project.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.project.IsDeleted == false && p.project.IsArchived == false)
                 .GroupBy(p => p.project.Name)
                 .ToDictionary(g => g.Key, g => g.Count());
 
@@ -156,7 +159,10 @@ namespace WorkFlowApp.Controllers
 
         public Dictionary<string, int> GetTasksPerUser()
         {
-            var tasksPerUser = _projectTask.Entity.GetAll()
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var tasksPerUser = _projectTask.Entity.GetAll().Include(k => k.project).ThenInclude(a => a.ProjectsUsers)
+                     .Where(p => p.project.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.project.IsDeleted == false && p.project.IsArchived == false)
                 .GroupBy(p => p.User.UserName)
                 .ToDictionary(g => g.Key, g => g.Count());
 
