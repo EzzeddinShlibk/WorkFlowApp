@@ -57,6 +57,30 @@ namespace WorkFlowApp.Controllers
             _toastNotification = toastNotification;
             _projectTask = projectTask;
         }
+
+
+
+
+        [HttpGet]
+
+        public async Task<IActionResult> MyTasks(Guid id)
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var query = await  _projectTask.Entity.GetAll()
+            .Where(k => k.userId == userId && k.isDeleted == false)
+            .Include(k => k.statues)
+            .Include(s => s.priority).
+            Include(k => k.User).
+            Include(k => k.Comments).
+            ToListAsync();
+
+
+
+
+
+            return View(query);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddComment(string comment, Guid Id)
@@ -123,7 +147,7 @@ namespace WorkFlowApp.Controllers
                 data = query.Where(a => a.userId == userId).ToList();
 
             }
-        
+
 
 
             var model = new List<TaskListViewModel> { };
