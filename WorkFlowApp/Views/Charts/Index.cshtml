@@ -1,9 +1,5 @@
-﻿<div class="container-fluid">
-
-    
-
-    <!-- Page-Title -->
-    <div class="row">
+﻿
+<div class="container-fluid cairo">
         <div class="col-sm-12">
             <div class="page-title-box">
                 <div class="row">
@@ -26,9 +22,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><!--end card-body-->
-                                </div><!--end card-->
-                            </div> <!--end col-->
+                                    </div> 
+                                </div>
+                            </div>  
                             <div class="col-md-4 col-lg-4">
                                 <div class="card report-card">
                                     <div class="card-body">
@@ -43,9 +39,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><!--end card-body-->
-                                </div><!--end card-->
-                            </div> <!--end col-->
+                                    </div> 
+                                </div> 
+                            </div>  
                             <div class="col-md-4 col-lg-4">
                                 <div class="card report-card">
                                     <div class="card-body">
@@ -60,39 +56,39 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><!--end card-body-->
-                                </div><!--end card-->
-                            </div> <!--end col-->
+                                    </div> 
+                                </div> 
+                            </div>  
 
 
                         </div>
 
-                    </div><!--end col-->
+                    </div >
 
-                </div><!--end row-->
-            </div><!--end page-title-box-->
-        </div><!--end col-->
-    </div><!--end row-->
-    <!-- end page title end breadcrumb -->
-    <div class="row">
-        <div class="col-lg-6">
+                </div> 
+            </div> 
+        </div> 
+
+    
+    <div class="row  cairo">
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">المهام حسب الحالة</h4>
-                </div><!--end card-header-->
+                    <h4 class="card-title text-center ">المهام حسب الحالة</h4>
+                </div> 
                 <div class="card-body">
                     <div class="chart-demo">
 
                         <canvas id="projectsPerStatusChart" width="400" height="200"></canvas>
                     </div>
-                </div><!--end card-body-->
-            </div><!--end card-->
-        </div><!--end col-->
-        <div class="col-lg-6">
+                </div> 
+            </div> 
+        </div>
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">   المهمة حسب الاولوية </h4>
-                </div><!--end card-header-->
+                    <h4 class="card-title text-center">   المهمة حسب الاولوية </h4>
+                </div>
                 <div class="card-body">
                     <div class="chart-demo">
                         <canvas id="projectsPerPriorityChart" width="400" height="200"></canvas>
@@ -101,26 +97,26 @@
                 </div>
             </div>
         </div>
-    </div>
+  
 
-    <div class="row">
-        <div class="col-lg-6">
+
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"> عدد التاسكات في كل مشروع </h4>
-                </div><!--end card-header-->
+                    <h4 class="card-title text-center"> عدد التاسكات في كل مشروع </h4>
+                </div>
                 <div class="card-body">
                     <div class="chart-demo">
                         <canvas id="tasksPerProjectDonutChart" width="400" height="200"></canvas>
                     </div>
-                </div><!--end card-body-->
-            </div><!--end card-->
-        </div><!--end col-->
-        <div class="col-lg-6">
+                </div>
+            </div>
+        </div> 
+        <div class="col-lg-3">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"> عدد المهام لكل  مستخدم </h4>
-                </div><!--end card-header-->
+                    <h4 class="card-title text-center"> عدد المهام لكل  مستخدم </h4>
+                </div> 
                 <div class="card-body">
                     <div class="chart-demo">
                         <canvas id="tasksPerUserBarChart" width="400" height="400"></canvas>
@@ -133,18 +129,19 @@
     </div>
 
 </div>
+@section styles {
+
+    <link href="~/css2/cairo.css" rel="stylesheet" />
+
+}
 
 @section scripts {
-    @*     <script src="~/lib/apex-charts/apexcharts.min.js"></script>
-    <script src="~/lib/apex-charts/irregular-data-series.js"></script>
-    <script src="~/lib/apex-charts/ohlc.js"></script>
-    <script src="~/js/pages/jquery.apexcharts.init.js"></script> *@
-
+ 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         $(document).ready(function () {
-            // Fetch data using AJAX and render the chart
+ 
             $.ajax({
                 url: '@Url.Action("ProjectsPerStatusChart", "Charts")',
                 type: 'GET',
@@ -178,7 +175,7 @@
         }
 
         $(document).ready(function () {
-            // Fetch data using AJAX and render the pie chart
+          
             $.ajax({
                 url: '@Url.Action("ProjectsPerPriorityCharts", "Charts")',
                 type: 'GET',
@@ -207,7 +204,7 @@
 
 
         $(document).ready(function () {
-            // Fetch data using AJAX and render the donut chart
+ 
             $.ajax({
                 url: '@Url.Action("TasksPerProjectDonutChart", "charts")',
                 type: 'GET',
@@ -301,3 +298,4 @@
         }
     </script>
 }
+ 

@@ -13,6 +13,7 @@ namespace WorkFlowApp.Controllers
     {
         private readonly IUnitOfWork<Project> _project;
         private readonly IUnitOfWork<Profile> _profile;
+        private readonly IUnitOfWork<Comment> _Comment;
         private readonly IUnitOfWork<Priority> _priority;
         private readonly IUnitOfWork<Statues> _statues;
         private readonly IUnitOfWork<ProjectTask> _projectTask;
@@ -25,6 +26,7 @@ namespace WorkFlowApp.Controllers
         public ChartsController(
                      IUnitOfWork<Project> project,
                      IUnitOfWork<Priority> priority,
+                     IUnitOfWork<Comment> comment,
                      IUnitOfWork<Statues> statues,
                      IUnitOfWork<Profile> profile,
                      IUnitOfWork<ProjectTask> projectTask,
@@ -38,6 +40,7 @@ namespace WorkFlowApp.Controllers
             _project = project;
             _priority = priority;
             _profile = profile;
+            _Comment = comment;
             _statues = statues;
             _teamuser = teamUser;
             _projectsUser = projectsUser;
@@ -150,6 +153,11 @@ namespace WorkFlowApp.Controllers
             return Json(data);
         }
 
+        public Dictionary<string, int> GetTasksPerProject()
+        {
+            var tasksPerProject = _projectTask.Entity.GetAll()
+                .GroupBy(p => p.project.Name)
+                .ToDictionary(g => g.Key, g => g.Count());
 
         public JsonResult TasksPerUserBarChart()
         {
@@ -158,6 +166,11 @@ namespace WorkFlowApp.Controllers
             return Json(data);
         }
 
+        public Dictionary<string, int> GetTasksPerUser()
+        {
+            var tasksPerUser = _projectTask.Entity.GetAll()
+                .GroupBy(p => p.User.UserName)
+                .ToDictionary(g => g.Key, g => g.Count());
 
     }
 }
