@@ -12,11 +12,35 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using System.Security.Claims;
 using NToastNotify;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 
 
 namespace WorkFlowApp.Controllers
 {
+//    _userManager: يستخدم لإدارة المستخدمين، مثل إنشاء حساب جديد وتعديل المستخدمين الحاليين.
+
+//_signInManager: يستخدم لإدارة عمليات تسجيل الدخول وتسجيل الخروج للمستخدمين.
+
+//_Profile: يستخدم للتعامل مع بيانات الملف الشخصي للمستخدمين، مثل استرجاع الملف الشخصي وتحديثه.
+
+//_environment: يستخدم للوصول إلى معلومات حول بيئة التطبيق، مثل مسارات الملفات والإعدادات المحيطة.
+
+//_urlEncoder: يستخدم لترميز وفك ترميز عناصر URL في التطبيق.
+
+//_roleManager: يستخدم لإدارة أدوار المستخدمين، مثل إنشاء وتعديل وحذف الأدوار.
+
+//_userStore: يمثل مخزن المستخدمين ويتيح الوصول إلى بيانات المستخدمين في قاعدة البيانات.
+
+//_emailStore: يمثل مخزن عناوين البريد الإلكتروني للمستخدمين ويسمح بالوصول إلى بيانات البريد الإلكتروني للمستخدمين.
+
+//_logger: يستخدم لتسجيل الأحداث والأخطاء في التطبيق.
+
+//_emailSender: يستخدم لإرسال رسائل البريد الإلكتروني، مثل إرسال رسائل تأكيد البريد الإلكتروني أو استعادة كلمة المرور.
+
+//_team: يستخدم للتعامل مع بيانات الفرق في التطبيق، مثل إنشاء وتعديل وحذف الفرق.
+
+//_teamuser: يستخدم لتعيين المستخدمين إلى الفرق وإدارة الاشتراكات في الفرق.
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -74,39 +98,7 @@ namespace WorkFlowApp.Controllers
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
-        private string UploadedFile(IFormFile Img)
-        {
-            string uniqueFileName = null;
-
-            if (Img != null)
-            {
-                string uploadsFolder;
-
-                uploadsFolder = Path.Combine(_environment.WebRootPath, "images", "Profiles");
-
-
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + Img.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    Img.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }
-        private void DeleteImg(string Img)
-        {
-            if (Img != "" && Img != null)
-            {
-                string DeletedImagePath;
-                DeletedImagePath = Path.Combine(_environment.WebRootPath, "images", "Profiles", Img);
-                if (System.IO.File.Exists(DeletedImagePath))
-                {
-                    System.IO.File.Delete(DeletedImagePath);
-                }
-            }
-
-        }
+   
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
@@ -127,12 +119,10 @@ namespace WorkFlowApp.Controllers
             var model = new ProfileViewModel();
             if (profile == null)
             {
-
                 model = new ProfileViewModel
                 {
                     Profile = new Profile(),
                 };
-
             }
             else
             {
@@ -140,7 +130,6 @@ namespace WorkFlowApp.Controllers
                 {
                     Profile = profile,
                     UserId = UserId
-
                 };
             }
 
