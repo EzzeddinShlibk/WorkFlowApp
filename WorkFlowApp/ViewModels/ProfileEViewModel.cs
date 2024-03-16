@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace WorkFlowApp.ViewModels
 {
-    public class ProfileViewModel
+    public class ProfileEViewModel
     {
         public Profile Profile { get; set; }
         public string UserId { get; set; }
-        public int  Number { get; set; }
          
 
     }

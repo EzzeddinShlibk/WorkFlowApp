@@ -18,29 +18,29 @@ using System.IO;
 
 namespace WorkFlowApp.Controllers
 {
-//    _userManager: يستخدم لإدارة المستخدمين، مثل إنشاء حساب جديد وتعديل المستخدمين الحاليين.
+    //    _userManager: يستخدم لإدارة المستخدمين، مثل إنشاء حساب جديد وتعديل المستخدمين الحاليين.
 
-//_signInManager: يستخدم لإدارة عمليات تسجيل الدخول وتسجيل الخروج للمستخدمين.
+    //_signInManager: يستخدم لإدارة عمليات تسجيل الدخول وتسجيل الخروج للمستخدمين.
 
-//_Profile: يستخدم للتعامل مع بيانات الملف الشخصي للمستخدمين، مثل استرجاع الملف الشخصي وتحديثه.
+    //_Profile: يستخدم للتعامل مع بيانات الملف الشخصي للمستخدمين، مثل استرجاع الملف الشخصي وتحديثه.
 
-//_environment: يستخدم للوصول إلى معلومات حول بيئة التطبيق، مثل مسارات الملفات والإعدادات المحيطة.
+    //_environment: يستخدم للوصول إلى معلومات حول بيئة التطبيق، مثل مسارات الملفات والإعدادات المحيطة.
 
-//_urlEncoder: يستخدم لترميز وفك ترميز عناصر URL في التطبيق.
+    //_urlEncoder: يستخدم لترميز وفك ترميز عناصر URL في التطبيق.
 
-//_roleManager: يستخدم لإدارة أدوار المستخدمين، مثل إنشاء وتعديل وحذف الأدوار.
+    //_roleManager: يستخدم لإدارة أدوار المستخدمين، مثل إنشاء وتعديل وحذف الأدوار.
 
-//_userStore: يمثل مخزن المستخدمين ويتيح الوصول إلى بيانات المستخدمين في قاعدة البيانات.
+    //_userStore: يمثل مخزن المستخدمين ويتيح الوصول إلى بيانات المستخدمين في قاعدة البيانات.
 
-//_emailStore: يمثل مخزن عناوين البريد الإلكتروني للمستخدمين ويسمح بالوصول إلى بيانات البريد الإلكتروني للمستخدمين.
+    //_emailStore: يمثل مخزن عناوين البريد الإلكتروني للمستخدمين ويسمح بالوصول إلى بيانات البريد الإلكتروني للمستخدمين.
 
-//_logger: يستخدم لتسجيل الأحداث والأخطاء في التطبيق.
+    //_logger: يستخدم لتسجيل الأحداث والأخطاء في التطبيق.
 
-//_emailSender: يستخدم لإرسال رسائل البريد الإلكتروني، مثل إرسال رسائل تأكيد البريد الإلكتروني أو استعادة كلمة المرور.
+    //_emailSender: يستخدم لإرسال رسائل البريد الإلكتروني، مثل إرسال رسائل تأكيد البريد الإلكتروني أو استعادة كلمة المرور.
 
-//_team: يستخدم للتعامل مع بيانات الفرق في التطبيق، مثل إنشاء وتعديل وحذف الفرق.
+    //_team: يستخدم للتعامل مع بيانات الفرق في التطبيق، مثل إنشاء وتعديل وحذف الفرق.
 
-//_teamuser: يستخدم لتعيين المستخدمين إلى الفرق وإدارة الاشتراكات في الفرق.
+    //_teamuser: يستخدم لتعيين المستخدمين إلى الفرق وإدارة الاشتراكات في الفرق.
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -98,7 +98,7 @@ namespace WorkFlowApp.Controllers
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
-   
+
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
@@ -116,21 +116,21 @@ namespace WorkFlowApp.Controllers
                 return View("NotFound");
             }
             var profile = _Profile.Entity.GetAll().Where(a => a.UserId == UserId).FirstOrDefault();
-            var model = new ProfileViewModel();
+            var model = new Profile();
             if (profile == null)
             {
-                model = new ProfileViewModel
-                {
-                    Profile = new Profile(),
-                };
+
+                model = new Profile();
+                model.Pic = "1";    
+
             }
             else
             {
-                model = new ProfileViewModel
-                {
-                    Profile = profile,
-                    UserId = UserId
-                };
+
+                model = profile;
+                model.UserId = UserId;
+
+
             }
 
 
@@ -140,7 +140,7 @@ namespace WorkFlowApp.Controllers
         [ViewLayout("_Layout")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ProfilePost(ProfileViewModel model)
+        public async Task<IActionResult> ProfilePost(Profile model)
         {
             if (await _userManager.FindByIdAsync(model.UserId) == null)
             {
@@ -149,44 +149,44 @@ namespace WorkFlowApp.Controllers
 
             try
             {
-                    var existprofile = _Profile.Entity.GetAll().Where(a => a.UserId == model.UserId).FirstOrDefault();
-                    if (existprofile != null)
+                var existprofile = _Profile.Entity.GetAll().Where(a => a.UserId == model.UserId).FirstOrDefault();
+                if (existprofile != null)
+                {
+                    existprofile.Id = model.Id;
+                    existprofile.DisplayName = model.DisplayName;
+                    existprofile.bio = model.bio;
+                    existprofile.PhoneNum = model.PhoneNum;
+                    existprofile.Gender = model.Gender;
+                    existprofile.UserId = model.UserId;
+                    existprofile.CreatedDate = model.CreatedDate;
+                    existprofile.ModifiedDate = DateTime.Now;
+                    existprofile.Pic = model.Pic;
+
+                    _Profile.Entity.Update(existprofile);
+                    await _Profile.SaveAsync();
+
+                }
+                else
+                {
+                    Profile profile = new Profile
                     {
-                        existprofile.Id = model.Profile.Id;
-                        existprofile.DisplayName = model.Profile.DisplayName;
-                        existprofile.bio = model.Profile.bio;
-                        existprofile.PhoneNum = model.Profile.PhoneNum;
-                        existprofile.Gender = model.Profile.Gender;
-                        existprofile.UserId = model.UserId;
-                        existprofile.CreatedDate = model.Profile.CreatedDate;
-                        existprofile.ModifiedDate = DateTime.Now;
-                        existprofile.Pic = model.Profile.Pic;
+                        DisplayName = model.DisplayName,
+                        bio = model.bio,
+                        PhoneNum = model.PhoneNum,
+                        Gender = model.Gender,
+                        UserId = model.UserId,
+                        CreatedDate = DateTime.Now,
+                        Pic = model.Pic,
+                    };
+                    _Profile.Entity.Insert(profile);
+                    await _Profile.SaveAsync();
 
-                        _Profile.Entity.Update(existprofile);
-                        await _Profile.SaveAsync();
-
-                    }
-                    else
-                    {
-                        Profile profile = new Profile
-                        {
-                            DisplayName = model.Profile.DisplayName,
-                            bio = model.Profile.bio,
-                            PhoneNum = model.Profile.PhoneNum,
-                            Gender = model.Profile.Gender,
-                            UserId = model.UserId,
-                            CreatedDate = DateTime.Now,
-                            Pic = model.Profile.Pic,
-                        };
-                        _Profile.Entity.Insert(profile);
-                        await _Profile.SaveAsync();
-
-                    }
+                }
 
                 _toastNotification.AddSuccessToastMessage("تم حفظ البيانات بنجاح", new ToastrOptions() { Title = "" });
                 return RedirectToAction("Profile", new { UserId = model.UserId });
 
-       
+
 
             }
             catch

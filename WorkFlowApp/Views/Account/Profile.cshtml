@@ -1,4 +1,4 @@
-﻿@model ProfileViewModel
+﻿@model Profile
 <style>
     .btn-check:checked + .btn {
         border-color: #007bff;
@@ -36,37 +36,37 @@
             }
             <div class="col-md-4 ">
                 <div class="mb-3">
-                    <label asp-for="Profile.DisplayName" class="form-label">إسم المستخدم</label>
-                    <input asp-for="Profile.DisplayName" type="text" class="form-control" placeholder=" إسم المستخدم">
-                    <span asp-validation-for="Profile.DisplayName" class="text-danger"></span>
+                    <label asp-for="DisplayName" class="form-label">إسم المستخدم</label>
+                    <input asp-for="DisplayName" type="text" class="form-control" placeholder=" إسم المستخدم">
+                    <span asp-validation-for="DisplayName" class="text-danger"></span>
 
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Profile.bio" for="projectName" class="form-label">نبذة شخصية</label>
-                    <input asp-for="Profile.bio" type="text" class="form-control" placeholder=" نبذة شخصية">
-                    <span asp-validation-for="Profile.bio" class="text-danger"></span>
+                    <label asp-for="bio" for="projectName" class="form-label">نبذة شخصية</label>
+                    <input asp-for="bio" type="text" class="form-control" placeholder=" نبذة شخصية">
+                    <span asp-validation-for="bio" class="text-danger"></span>
 
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Profile.PhoneNum" class="form-label">رقم الهاتف</label>
-                    <input asp-for="Profile.PhoneNum" type="text" class="form-control" id="projectName" placeholder="رقم الهاتف">
-                    <span asp-validation-for="Profile.PhoneNum" class="text-danger"></span>
+                    <label asp-for="PhoneNum" class="form-label">رقم الهاتف</label>
+                    <input asp-for="PhoneNum" type="text" class="form-control" id="projectName" placeholder="رقم الهاتف">
+                    <span asp-validation-for="PhoneNum" class="text-danger"></span>
 
                 </div>
                 <div class="mb-3">
-                    @* @Html.LabelFor(m => m.Profile.Gender, new { @class = "form-label" }) *@
+                    @* @Html.LabelFor(m => m.Gender, new { @class = "form-label" }) *@
                     <label class="form-label">
                         الجنس
                     </label>
 
-                    @Html.RadioButtonFor(m => m.Profile.Gender, "false", new { @class = "btn-check", @id = "male", @autocomplete = "off", @checked = "checked", @name = "gender" })
+                    @Html.RadioButtonFor(m => m.Gender, "false", new { @class = "btn-check", @id = "male", @autocomplete = "off", @checked = "checked", @name = "gender" })
                     <label class="btn  btn-outline-primary m-3" for="male">
                         ذكر
                         <i class="fas fa-male" style="font-size:25px"></i>
                     </label>
 
-                    @Html.RadioButtonFor(m => m.Profile.Gender, "True", new { @class = "btn-check", @id = "female", @autocomplete = "off", @name = "gender" })
+                    @Html.RadioButtonFor(m => m.Gender, "True", new { @class = "btn-check", @id = "female", @autocomplete = "off", @name = "gender" })
                     <label class="btn   btn-outline-pink m-3" for="female">
                         أنثى
                         <i class="fas fa-female" style="font-size:25px"></i>
@@ -76,13 +76,13 @@
                 <div class="mb-3">
                     <label class="form-label">الصورة الشخصية</label>
                     <br />
-                    @if (Model.Profile.Pic != string.Empty)
+                    @if (Model.Pic != string.Empty)
                     {
                         @for (int i = 1; i <= 5; i++)
                         {
                             string imageId = "pic" + i;
                             string imageName = i.ToString();
-                            bool isChecked = (Model.Profile.Pic == imageName);
+                            bool isChecked = (Model.Pic == imageName);
 
                             <input type="radio" class="btn-check" name="imageRadio" id="@imageId" autocomplete="off" @(isChecked ? "checked" : "")>
 
@@ -127,14 +127,14 @@
                         </label>
                     }
 
-                    <input type="hidden" asp-for="Profile.Pic" id="selectedImage" />
+                    <input type="hidden" asp-for="Pic" id="selectedImage" />
 
                 </div>
 
-                <input type="hidden" asp-for="@Model.Profile.Pic" />
-                <input type="hidden" asp-for="@Model.Profile.Id" />
+                <input type="hidden" asp-for="@Model.Pic" />
+                <input type="hidden" asp-for="@Model.Id" />
                 <input type="hidden" asp-for="@Model.UserId" />
-                <input type="hidden" asp-for="@Model.Profile.CreatedDate" />
+                <input type="hidden" asp-for="@Model.CreatedDate" />
                 <div class="mb-3">
                     <button type="submit" class="btn btn-outline-blue w-100 mt-2"> حفظ التعديلات</button>
                 </div>
@@ -145,10 +145,14 @@
     </div>
     </div>
  
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script>
         function updateProfileImage(imageSrc) {
-          
+
             document.getElementById('selectedImage').value = imageSrc;
         }
 
     </script>
+}
