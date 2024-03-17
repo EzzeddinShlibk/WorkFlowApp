@@ -1,0 +1,106 @@
+﻿@model EditUserViewModel
+@{
+    ViewData["Title"] = "تعديل المستخدم"; 
+}
+
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <form asp-controller="Account" asp-action="EditUser">
+                    <div class="portlet">
+                        <div class="portlet-header portlet-header-bordered">
+                            <h3 class="portlet-title">تعديل المستخدم</h3>
+                            @if ((await authorizationService.AuthorizeAsync(User, "ProfilePolicy")).Succeeded)
+                            {
+                                <a asp-action="Profile" asp-controller="Account" asp-route-UserId="@Model.Id" class="btn btn-success">الملف  الشخصي</a>
+                            }
+                        </div>
+                        <div class="portlet-body">
+                            <div class="portlet-body">
+                                <div class="form-group row">
+                                    <label asp-for="UserName" class="col-sm-2 col-form-label">إسم المستخدم</label>
+                                    <div class="col-sm-10">
+                                        <div class="input-group">
+                                            <input type="text" asp-for="UserName" readonly class="form-control" >
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="form-group row">
+                                    <label asp-for="Email" class="col-sm-2 col-form-label">البريد الإلكتروني</label>
+                                    <div class="col-sm-10">
+                                        <div class="input-group">
+                                            <input type="text" asp-for="Email" readonly class="form-control" >
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label asp-for="CreatedDate">تاريخ الإنشاء</label>
+                                        <label asp-for="CreatedDate">@Model.CreatedDate  </label>
+                    
+                                        <br />
+                                        @if (Model.ModifiedDate != null)
+                                        {<label asp-for="CreatedDate">تاريخ التعديل</label>
+                                        @Html.DisplayFor(model => model.ModifiedDate)
+                                    }
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="portlet-footer">
+                            <input type="submit" class="btn btn-primary btn-widest" value="تعديل"> |
+                            <input type="submit" asp-action="DeleteUser" asp-route-id="@Model.Id"
+                                   value="حذف" class="btn btn-danger"
+                                   onclick="return confirm('هل انت متامد من امك تريد حذف  @Model.Email ?')" /> |
+                            @if (Model.LockoutEnd != null)
+                            {
+                                <input type="submit" asp-action="LockoutUser" asp-route-id="@Model.Id" value="الغائ القفل" class="btn btn-success" />
+                            }
+                            else
+                            {
+                                <input type="submit" asp-action="LockoutUser" asp-route-id="@Model.Id" value="قفل " class="btn btn-warning" />
+                            }
+                            <a asp-action="Users">العودة للقائمة</a>
+                        </div>
+                    </div>
+
+                </form>
+
+
+
+
+                @await Component.InvokeAsync("UserRoles", new { userId = Model.Id })
+                @await Component.InvokeAsync("UserClaims", new { userId = Model.Id })
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

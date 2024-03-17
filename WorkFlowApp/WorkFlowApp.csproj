@@ -27,6 +27,13 @@
 		<None Include="Views\Shared\_Layout.cshtml" />
 		<None Include="Views\Shared\_Sidebar.cshtml" />
 		<None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+		<None Include="Views\UsersRoles\Components\UserClaims\Default.cshtml" />
+		<None Include="Views\UsersRoles\Components\UserRoles\Default.cshtml" />
+		<None Include="Views\UsersRoles\CreateOrEditRole.cshtml" />
+		<None Include="Views\UsersRoles\EditUser.cshtml" />
+		<None Include="Views\UsersRoles\Roles.cshtml" />
+		<None Include="Views\UsersRoles\Users.cshtml" />
+		<None Include="Views\UsersRoles\_ViewAllRoles.cshtml" />
 		<None Include="wwwroot\fontawesome\webfonts\fa-brands-400.woff2" />
 		<None Include="wwwroot\fontawesome\webfonts\fa-regular-400.woff2" />
 		<None Include="wwwroot\fontawesome\webfonts\fa-solid-900.woff2" />

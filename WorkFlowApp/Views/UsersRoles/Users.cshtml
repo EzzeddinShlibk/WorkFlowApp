@@ -1,0 +1,146 @@
+﻿@model IEnumerable<ApplicationUser>
+
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="portlet">
+                    <div class="portlet-header portlet-header-bordered">
+                        <h3 class="portlet-title">المستخدمين</h3>
+                    </div>
+                    <div class="portlet-body">
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg">
+                            <i class="fa fa-plus ml-2"></i> إضافة مستخدم
+                        </a>
+                        <hr>
+                        <div id="view-all">
+                            @if (Model.Any())
+                            {
+                                <div class="col-sm-12">
+                                    <table id="datatable-1" class="table table-bordered  table-hover dataTable no-footer dtr-inline" aria-describedby="datatable-1_info" style="width: 1191px;">
+                                        <thead>
+                                            <tr>
+                                                <th>ت</th>
+                                                <th>تاكيد التسجيل</th>
+                                                <th>البريد الالكتروني</th>
+                                                <th>تاريخ الانشاء</th>
+                                                <th>قفل المستخدم</th>
+                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @{ int i = 0;
+                                                foreach (var item in Model.ToList())
+                                                {
+                                                    if (!User.IsInRole("Prog") && await _userManager.IsInRoleAsync(item, "Prog"))
+                                                    {
+                                                        continue;
+                                                    }
+                                                    i++;
+                                                    <tr>
+                                                        <td>
+                                                            @i
+                                                        </td>
+                                                        @if (item.EmailConfirmed)
+                                                        {
+                                                            <td style="background-color:#c1f63e">
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                            </td>
+                                                        }
+                                                        <td>
+                                                
+                                                                @Html.DisplayFor(modelItem => item.UserName)
+                                                
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                                                        </td>
+                                                        @if (item.LockoutEnd != null && item.LockoutEnd.Value.Year > DateTime.Now.Year)
+                                                        {
+                                                            <td style="background-color:#fe5151;color:white">
+                                                                <span>@item.LockoutEnd.Value.ToLocalTime().ToString("dd-MM-yyyy hh:MM:ss tt")</span>
+                                                            </td>
+                                                        }
+                                                        else if (item.LockoutEnd != null && item.LockoutEnd.Value > DateTime.Now)
+                                                        {
+                                                            <td style="background-color:#fff986;">
+                                                                <span>@item.LockoutEnd.Value.ToLocalTime().ToString("dd-MM-yyyy hh:MM:ss tt")</span>
+                                                            </td>
+                                                        }
+                                                        else if (item.LockoutEnd != null)
+                                                        {
+                                                            <td>
+                                                                <span>@item.LockoutEnd.Value.ToLocalTime().ToString("dd-MM-yyyy hh:MM:ss tt")</span>
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                    </tr>
+
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+                            }
+                            else
+                            {
+                                <div class="card">
+                                    <div class="card-header" style="font-size:18px;">
+                                     لايوجد مستخدمين
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+﻿@model EditRoleViewModel  
+@{ Layout = null; }
+<form asp-action="CreateOrEditRole" asp-controller="UsersRoles"  asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this); ">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label class=" col-form-label input__label">الاسم  </label>
+        <input class="form-control mr-sm-2" asp-for="Name" type="text">
+        <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+    <hr />
+    <button name="submit" value="Add" type="submit" class="btn btn-primary">حفظ</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal">إلغاء</button>
+
+
+
+</form>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+}
