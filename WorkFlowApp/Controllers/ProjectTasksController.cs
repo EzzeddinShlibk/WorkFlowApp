@@ -74,11 +74,6 @@ namespace WorkFlowApp.Controllers
             Include(k => k.User).
             Include(k => k.Comments).
             ToListAsync();
-
-
-
-
-
             return View(query);
         }
         [HttpPost]

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +45,7 @@ namespace WorkFlowApp.Controllers
             _toastNotification = toastNotification;
             _projectTask = projectTask;
         }
-    
+        //تجيب الفريق اللي مسجل فيه المستخدم
         public Guid getTeamID(string UserID)
         {
             var data = _teamuser.Entity.GetAll().Where(a => a.userId == UserID).FirstOrDefault();
@@ -61,7 +61,7 @@ namespace WorkFlowApp.Controllers
 
         }
 
-    
+        //لتعبئة اسماء المستخدمين في اللست
         private async Task PopulateUsersDropDownList(string UserId, object selected = null)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -71,7 +71,6 @@ namespace WorkFlowApp.Controllers
                 .Where(a => a.teamId == teamID && a.isDeleted == false && a.isApproved == true)
                 .Include(a => a.user)
                 .ToListAsync();
-
             var usersList = teamUsers.Select(a =>
             {
                 var profile = _profile.Entity.GetAll().FirstOrDefault(k => k.UserId == a.userId);
@@ -91,27 +90,28 @@ namespace WorkFlowApp.Controllers
         }
 
 
-      
+        //
         public async Task<List<ProjectViewModel>> getDataAsync(string UserId)
         {
+            //جلب قائمة المشاريع الخاصة بالمستخدم فيي حال كان المستخدم مدير فعند اضافة اي مشروع يتم اضافة المدير بشكل تلقائي واذا كان مستخدم عادي سيتم جلب مشاريعه اي انه سا تتم جلب قائمة المشاريع بناء على المستخدم الحالي
             var projects = await _project.Entity.GetAll()
            .Include(a => a.ProjectsUsers)
            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId) && p.IsDeleted == false && p.IsArchived == false)
            .ToListAsync();
 
-      
+            //تعريف موديل لكي يتم بعته للفي اللي اسمها بورجكتس كقائمة
             var model = new List<ProjectViewModel> { };
- 
+            //بنلف على كل بروجكت باش انضيفه للفيو موديل لست
             foreach (var item in projects)
             {
-           
+                //لجلب الفرق بين تاريخ اليوم وتاريخ نهاية المشروع
                 TimeSpan difference = DateTime.Now - item.EndDate;
                 int daysDifference = Math.Abs(difference.Days);
 
-          
+                //باش يعد كم فيه تاسك في المشروع 
 
 
-                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.projectId == item.Id && a.isDeleted==false).ToListAsync();
+                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.projectId == item.Id).ToListAsync();
                 int all = tasks.Count;
                 int completed = tasks.Where(k => k.statues.Num == 5).Count();
 
@@ -133,34 +133,41 @@ namespace WorkFlowApp.Controllers
             return model;
         }
 
-    
+        //لجلب قائمة من المشاريع في لست
         public async Task<IActionResult> Projects(string message)
         {
+            ViewBag.Message = message;
+
+            //جلب المستخدم الحالي
             var UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            //جلب قائمة المستخدمين 
+            await PopulateUsersDropDownList(UserId);
+
+
+
             var model = await getDataAsync(UserId.ToString());
+
+
+            //بعتنا الموديل 
             return View(model);
         }
-
-
-
-
-
- 
+        //لانه حيجيه من دالة الجافا سكبرت
         [NoDirectAccess]
         public async Task<IActionResult> CreateOrEditProject(Guid id)
         {
- 
+            //Guid id هذا لو كان فاضي معناها اضافة ولو كان فيه قيمة معناها تعديل
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await PopulateUsersDropDownList(userId.ToString());
- 
+            //في حال كان جاي ويبي يدير اضافة 
             if (id == Guid.Empty)
             {
- 
+                //بنعرف متغير جديد وفاضي من المشروع واندير تاريخ ووقت اليوم فيه 
                 var model = new Project();
                 model.StartDate = DateTime.Now;
                 model.EndDate = DateTime.Now;
 
-  
+                //هذه باش يخفي ولا يعرض زر الارشفة 
                 ViewBag.edit = false;
 
                 return View(model);
@@ -168,9 +175,9 @@ namespace WorkFlowApp.Controllers
 
             else
             {
-   
+                //في حال التعديل لاظهار زر الارشفة
                 ViewBag.edit = true;
-      
+                //بنجيب بيانات السطر اللي نبي نعدله
                 var model = await _project.Entity.GetAll().Where(a => a.Id == id).Include(a => a.ProjectsUsers).FirstOrDefaultAsync();
 
                 model.SelectedUserIds = model.ProjectsUsers.Select(pu => pu.userId.ToString()).ToList();
@@ -191,8 +198,8 @@ namespace WorkFlowApp.Controllers
         {
             var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             Guid teamID = getTeamID(userID.ToString());
- 
-            var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true  && a.isDeleted == false).ToListAsync();
+            //لجلب كافة مدراء المشورع لكي تتم اضافتهم
+            var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true && a.isApproved == true && a.isDeleted == false).ToListAsync();
 
             if (ModelState.IsValid)
             {
@@ -224,10 +231,10 @@ namespace WorkFlowApp.Controllers
                             await _projectsUser.SaveAsync();
                         }
 
-            
+                        //هنا لاضافة مدراء المشروع نقوم بالتحقق ان مدير المشروع لم يتم اضافته مسبقا 
                         foreach (var item in adminteamusers)
                         {
-                 
+                            //تحقق من ان المستخدم المدير لم تتم اضافته  مسبقا في قائمة المستخدمين 
                             if (!model.SelectedUserIds.Contains(item.userId))
                             {
                                 ProjectsUser projectuser = new ProjectsUser();
@@ -369,6 +376,9 @@ namespace WorkFlowApp.Controllers
             catch
             {
                 return View("projects");
+
+
+                throw;
             }
 
         }
@@ -416,9 +426,10 @@ namespace WorkFlowApp.Controllers
             .Include(a => a.ProjectsUsers)
             .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == userID) && p.IsDeleted == true)
             .ToListAsync();
- 
+
+            //تعريف موديل لكي يتم بعته للفي اللي اسمها بورجكتس كقائمة
             var model = new List<DelArchProjectViewModel> { };
- 
+            //بنلف على كل بروجكت باش انضيفه للفيو موديل لست
             foreach (var item in projects)
             {
 
@@ -440,7 +451,7 @@ namespace WorkFlowApp.Controllers
                 model.Add(deletedProjectViewModel);
             }
 
-       
+            //بعتنا الموديل 
             return View(model);
         }
 
@@ -545,9 +556,9 @@ namespace WorkFlowApp.Controllers
             .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == userID) && p.IsArchived == true)
             .ToListAsync();
 
-   
+            //تعريف موديل لكي يتم بعته للفي اللي اسمها بورجكتس كقائمة
             var model = new List<DelArchProjectViewModel> { };
- 
+            //بنلف على كل بروجكت باش انضيفه للفيو موديل لست
             foreach (var item in projects)
             {
 
@@ -569,7 +580,7 @@ namespace WorkFlowApp.Controllers
                 model.Add(deletedProjectViewModel);
             }
 
-  
+            //بعتنا الموديل 
             return View(model);
         }
 
