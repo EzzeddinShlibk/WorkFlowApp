@@ -17,7 +17,7 @@
                             @if (Model.Any())
                             {
                                 <div class="col-sm-12">
-                                    <table id="datatable-1" class="table table-bordered  table-hover dataTable no-footer dtr-inline" aria-describedby="datatable-1_info" style="width: 1191px;">
+                                    <table id="datatable-1" class="table table-bordered text-center  table-hover dataTable no-footer dtr-inline" aria-describedby="datatable-1_info" style="width: 1191px;">
                                         <thead>
                                             <tr>
                                                 <th>ت</th>
@@ -44,7 +44,8 @@
                                                         </td>
                                                         @if (item.EmailConfirmed)
                                                         {
-                                                            <td style="background-color:#c1f63e">
+                                                            <td class="text-center" >
+                                                                <img src="~/images/check-mark (1).png" />
                                                             </td>
                                                         }
                                                         else
