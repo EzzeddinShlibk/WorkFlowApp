@@ -20,7 +20,6 @@
 
 	<ItemGroup>
 		<None Include="Views\Shared\Components\Nav\Default.cshtml" />
-		<None Include="Views\Shared\Error.cshtml" />
 		<None Include="Views\Shared\_Footer.cshtml" />
 		<None Include="Views\Shared\_MainLayout.cshtml" />
 		<None Include="Views\Shared\_IdentityLayout.cshtml" />

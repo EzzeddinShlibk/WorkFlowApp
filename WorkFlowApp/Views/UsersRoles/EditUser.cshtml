@@ -11,10 +11,8 @@
                     <div class="portlet">
                         <div class="portlet-header portlet-header-bordered">
                             <h3 class="portlet-title">تعديل المستخدم</h3>
-                            @if ((await authorizationService.AuthorizeAsync(User, "ProfilePolicy")).Succeeded)
-                            {
+                         
                                 <a asp-action="Profile" asp-controller="Account" asp-route-UserId="@Model.Id" class="btn btn-success">الملف  الشخصي</a>
-                            }
                         </div>
                         <div class="portlet-body">
                             <div class="portlet-body">
@@ -75,9 +73,9 @@
 
 
 
-
+@* 
                 @await Component.InvokeAsync("UserRoles", new { userId = Model.Id })
-                @await Component.InvokeAsync("UserClaims", new { userId = Model.Id })
+                @await Component.InvokeAsync("UserClaims", new { userId = Model.Id }) *@
 
 
 

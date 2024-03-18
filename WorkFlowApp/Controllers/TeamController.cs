@@ -142,22 +142,8 @@ namespace WorkFlowApp.Controllers
         }
 
 
-        public async Task<ActionResult> EditUser(string UserId, TeamViewModel model)
+        public async Task<ActionResult> EditUser(string UserId, TeamViewModel model,int role)
         {
-
-
-
-            var team = await _teamuser.Entity.GetAll().Where(a => a.userId == model.UserId).Include(k => k.team).FirstOrDefaultAsync();
-
-            Guid teamID = new Guid();
-            if (team != null)
-            {
-                teamID = team.teamId;
-            }
-
-            var teamUsers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true).ToListAsync();
-            var count = teamUsers.Count();
-
 
 
 
@@ -170,36 +156,9 @@ namespace WorkFlowApp.Controllers
                 return NotFound();
             }
 
-            var member = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.userId == model.UserId).FirstOrDefaultAsync();
+            var member = await _teamuser.Entity.GetAll().Where(a => a.userId == model.UserId).FirstOrDefaultAsync();
 
-            if (model.isAdmin == false)
-            {
-                if (await _userManager.IsInRoleAsync(user, "User"))
-                {
-                    return RedirectToAction("Manage", "Team", new { UserId });
-
-                }
-                else
-                {
-                    if (count > 1)
-                    {
-                        var userRoles = await _userManager.GetRolesAsync(user);
-                        await _userManager.RemoveFromRolesAsync(user, userRoles);
-                        await _userManager.AddToRoleAsync(user, "User");
-
-                        member.isAdmin = false;
-                        member.ModifiedDate = DateTime.Now;
-                        _teamuser.Entity.Update(member);
-                        _teamuser.SaveAsync();
-                    }
-                    else
-                    {
-                        _toastNotification.AddAlertToastMessage("لايمكن حذف كافة المدراء من المشروع", new ToastrOptions() { Title = "" });
-                        return RedirectToAction("Manage", "Team", new { UserId });
-                    }
-                }
-            }
-            else
+            if (role == 2)
             {
                 if (await _userManager.IsInRoleAsync(user, "Admin"))
                 {
@@ -208,16 +167,41 @@ namespace WorkFlowApp.Controllers
                 }
                 else
                 {
+                
+                        var userRoles = await _userManager.GetRolesAsync(user);
+                        await _userManager.RemoveFromRolesAsync(user, userRoles);
+                        await _userManager.AddToRoleAsync(user, "Admin");
+
+                        member.isAdmin = 2;
+                        member.ModifiedDate = DateTime.Now;
+                        _teamuser.Entity.Update(member);
+                        _teamuser.SaveAsync();
+            
+                        _toastNotification.AddAlertToastMessage("تم تغيير الصلاحية بنجاح", new ToastrOptions() { Title = "" });
+                        return RedirectToAction("Manage", "Team", new { UserId });
+                
+                }
+            }
+            else if (role == 3)
+            {
+                if (await _userManager.IsInRoleAsync(user, "User"))
+                {
+                    return RedirectToAction("Manage", "Team", new { UserId });
+
+                }
+                else
+                {
                     var userRoles = await _userManager.GetRolesAsync(user);
-
                     await _userManager.RemoveFromRolesAsync(user, userRoles);
-                    await _userManager.AddToRoleAsync(user, "Admin");
+                    await _userManager.AddToRoleAsync(user, "User");
 
-                    member.isAdmin = true;
+                    member.isAdmin = 3;
                     member.ModifiedDate = DateTime.Now;
                     _teamuser.Entity.Update(member);
                     _teamuser.SaveAsync();
-                    // Add the user to the new role
+                    _toastNotification.AddAlertToastMessage("تم تغيير الصلاحية بنجاح", new ToastrOptions() { Title = "" });
+                    return RedirectToAction("Manage", "Team", new { UserId });
+
                 }
 
             }

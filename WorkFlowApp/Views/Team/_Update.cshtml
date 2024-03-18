@@ -20,19 +20,50 @@
                         <input asp-for="Email" type="email" readonly class="form-control" value="@Model.Email">
                     </div>
                     <div class="mb-3">
+
+
                         <label class="form-label">
                             الصلاحية
                         </label>
-                        @Html.RadioButtonFor(m => m.isAdmin, "false", new { @class = "btn-check", @id = "admin_" + Model.UserId, @autocomplete = "off", @checked = "checked", @name = "role" })
+
+                        @if(Model.isAdmin==2){
+                            <input value="2" onclick="updateval('3')" id="admin_@Model.UserId" type="radio" class="btn-check" name="role" checked>
+                            <label class="btn  btn-outline-primary m-3" for="admin_@Model.UserId">
+                                مدير
+                            </label>
+
+                            <input value="3" onclick="updateval('2')" id="user_@Model.UserId" type="radio" class="btn-check" name="role" >
+                            <label class="btn  btn-outline-primary m-3" for="user_@Model.UserId">
+                                عضو
+                            </label>
+                        }
+                        else
+                        {
+                            <input value="2" onclick="updateval('3')" id="admin_@Model.UserId" type="radio" class="btn-check" name="role" >
+                            <label class="btn  btn-outline-primary m-3" for="admin_@Model.UserId">
+                                مدير
+                            </label>
+
+                            <input value="3" onclick="updateval('2')" id="user_@Model.UserId" type="radio" class="btn-check" name="role" checked>
+                            <label class="btn  btn-outline-primary m-3" for="user_@Model.UserId">
+                                عضو
+                            </label>
+                        }
+               
+
+              
+
+                   
+        @*                 @Html.RadioButtonFor(m => m.isAdmin, "3", new { @class = "btn-check", @id = "admin_" + Model.UserId, @autocomplete = "off", @checked = "checked", @name = "role" })
                         <label class="btn  btn-outline-primary m-3" for="admin_@Model.UserId">
                             عضو
                         </label>
 
-                        @Html.RadioButtonFor(m => m.isAdmin, "True", new { @class = "btn-check", @id = "user_" + Model.UserId, @autocomplete = "off", @name = "role" })
+                        @Html.RadioButtonFor(m => m.isAdmin, "2", new { @class = "btn-check", @id = "user_" + Model.UserId, @autocomplete = "off", @name = "role" })
                         <label class="btn  btn-outline-primary m-3" for="user_@Model.UserId">
                             مدير
                         </label>
-
+ *@
                     </div>
                     <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">إغلاق</button>
                     <button type="submit" class="btn btn-outline-success">تعديل</button>
@@ -110,3 +141,10 @@
 
     </div>
 </div>
+<script>
+    function updateval(srcc) {
+
+        document.getElementsByName('role').value = srcc;
+    }
+
+</script>
