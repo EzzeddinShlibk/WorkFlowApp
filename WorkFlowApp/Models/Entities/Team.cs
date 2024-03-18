@@ -6,5 +6,7 @@ namespace WorkFlowApp.Models.Entities
     {
         [Required(ErrorMessage = "الرجاء إدخال الكود")]
         public string Code { get; set; } = string.Empty;
+        public List<TeamUser> TeamUsers { get; set; } = new List<TeamUser>();
+
     }
 }
