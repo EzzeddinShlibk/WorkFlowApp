@@ -30,6 +30,7 @@
 
             <div class="col-lg-6 text-end">
                 <div class="text-end">
+                    @if (User.IsInRole("Admin")){
                     <ul class="list-inline">
                         <li class="list-inline-item">
                             <button type="button" onclick="showInPopup('@Url.Action("CreateOrEditTask","ProjectTasks",new {projectId=ViewBag.projectId},Context.Request.Scheme)','إضافة مهمة جديده')" class="btn btn-soft-primary btn-sm">
@@ -37,6 +38,7 @@
                             </button>
                         </li>
                     </ul>
+                    }
                 </div>
             </div>
         </div>

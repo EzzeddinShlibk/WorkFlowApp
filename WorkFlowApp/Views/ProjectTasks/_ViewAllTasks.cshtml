@@ -13,7 +13,10 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
                                     <a asp-controller="ProjectTasks" asp-action="EditTask" asp-route-id="@item.TaskId" class="dropdown-item" >تعديل المهمة</a>
-                                    <a asp-controller="ProjectTasks" asp-action="DeleteTask" asp-route-id="@item.TaskId" class="dropdown-item" >حذف المهمة</a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a asp-controller="ProjectTasks" asp-action="DeleteTask" asp-route-id="@item.TaskId" class="dropdown-item" >حذف المهمة</a>
+                                    }
                                 </div>
                             </div>
                         </div>
