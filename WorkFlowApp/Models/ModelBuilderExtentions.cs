@@ -110,6 +110,7 @@ namespace WorkFlowApp.Models
                     DisplayName = "Programmer",
                     PhoneNum = "09233333333",
                     UserId = ProgUserId,
+                    Pic = "1",
                     CreatedDate = DateTime.Now
                 });
 
@@ -145,7 +146,9 @@ namespace WorkFlowApp.Models
                     DisplayName = "Manager",
                     PhoneNum = "093435345",
                     UserId = AdminUserId,
+                    Pic = "1",
                     CreatedDate = DateTime.Now
+
                 });
 
         }
