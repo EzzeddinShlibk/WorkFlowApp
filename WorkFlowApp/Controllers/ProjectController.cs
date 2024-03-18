@@ -192,7 +192,7 @@ namespace WorkFlowApp.Controllers
             var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             Guid teamID = getTeamID(userID.ToString());
  
-            var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == true  && a.isDeleted == false).ToListAsync();
+            var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == 1 || a.isAdmin == 2 && a.isDeleted == false).ToListAsync();
 
             if (ModelState.IsValid)
             {

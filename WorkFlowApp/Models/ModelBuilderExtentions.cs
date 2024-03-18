@@ -13,6 +13,17 @@ namespace WorkFlowApp.Models
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<SiteState>().HasData(
+         new SiteState()
+         {
+             Id = Guid.NewGuid(),
+             State = true,
+             ClosingMessage = "The site is temporarily closed for development",
+             CreatedDate = DateTime.Now
+
+         });
+
+
             modelBuilder.Entity<Statues>().HasData(
                 new Statues { Id = Guid.NewGuid(), Name = "بانتظار البدء", Num = 1, Color = "purple", Icon = "fas fa-clock", CreatedDate = DateTime.Now },
                 new Statues { Id = Guid.NewGuid(), Name = "توقف حرج", Num = 2, Color = "danger", Icon = "fas fa-stop-circle", CreatedDate = DateTime.Now },

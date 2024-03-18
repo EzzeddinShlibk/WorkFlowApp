@@ -7,7 +7,7 @@
         public Guid teamId { get; set; }
         public Team team { get; set; }
 
-        public bool isAdmin { get; set; }
+        public int isAdmin { get; set; }
         public bool isApproved { get; set; }
         public bool isDeleted { get; set; }
 

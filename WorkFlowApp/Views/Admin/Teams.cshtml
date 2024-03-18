@@ -1,0 +1,110 @@
+﻿@model List<Team>
+<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">
+                            بيانات الفرق
+                            <i class="fas fa-users"></i>
+                        </h4>
+                    </div><!--end col-->
+                    <div class="col-lg-6 text-end">
+                        <div class="text-end">
+                        </div>
+
+                    </div>
+                </div>
+                <hr class="hr-dashed">
+                <div class="col-lg-12">
+
+
+
+              
+
+
+
+
+
+                        <h5>الفرق المسجلة</h5>
+                        <hr class="hr-dashed">
+                        <div class="table-responsive">
+                            <table class="table mb-0  ">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>ت</th>
+
+                                        <th>رمز الفريق</th>
+                                        <th>مدير الفريق</th>
+                                        <th>عدد المستخدمين </th>
+                                        <th>عدد المشاريع</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr class="text-center">
+                                        <td class="center">
+
+                                        <td>
+
+
+
+
+
+
+
+
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+@section scripts {
+    <script>
+        function copyText() {
+
+            // // الحصول على عنصر span
+            var spanElement = document.getElementById("spanId"); // استبدل "spanId" بمعرف العنصر الفعلي
+
+            // إنشاء نطاق اختيار جديد
+            var range = document.createRange();
+
+            // تحديد المحتوى داخل النطاق
+            range.selectNodeContents(spanElement);
+
+            // نسخ المحتوى المحدد إلى الحافظة
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            document.execCommand("copy");
+            alert("تم النسخ بنجاح");
+        }
+    </script>
+}

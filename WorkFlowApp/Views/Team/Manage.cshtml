@@ -84,15 +84,20 @@
                                                         </td>
                                                         <td>@user.Email</td>
                                                         <td>@user.phone</td>
-                                                            @if (user.isAdmin == true)
+                                                            @if (user.isAdmin == 1)
                                                             {
-                                                            <td>مدير</td>
+                                                                <td>مدير رئيسي</td>
+                                                            }
+                                                            else if (user.isAdmin == 2)
+                                                            {
+                                                                <td>مدير</td>
                                                             }
                                                             else
                                                             {
                                                             <td>عضو</td>
+
                                                             }
-                                                        <td>
+                                                            <td>
                                                             <a class="btn btn-outline-success mx-2" asp-action="AcceptUser" asp-controller="Team" asp-route-UserId="@user.UserId">
                                                                 قبول <i class="fas fa-check"></i>
                                                             </a>
@@ -162,24 +167,41 @@
                                                     </td>
                                                     <td>@User.Email</td>
                                                     <td>@User.phone</td>
-                                                        @if (User.isAdmin == true)
+                                                        @if (User.isAdmin == 1)
+                                                        {
+                                                        <td>مدير رئيسي</td>
+                                                        <td></td>
+                                                        }
+                                                        else if (User.isAdmin == 2)
                                                         {
                                                         <td>مدير</td>
+                                                        <td>
+                                                            <a data-bs-toggle="modal" data-bs-target="#EditUser_@User.UserId" class="btn btn-outline-primary mx-2">
+                                                                تعديل
+                                                                <i class="far fa-edit"></i>
+                                                            </a>
+                                                            <a class="btn btn-outline-pink" data-bs-toggle="modal" data-bs-target="#DelteUser_@User.UserId">
+                                                                حذف
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </a>
+                                                        </td>
                                                         }
                                                         else
                                                         {
                                                         <td>عضو</td>
+                                                        <td>
+                                                            <a data-bs-toggle="modal" data-bs-target="#EditUser_@User.UserId" class="btn btn-outline-primary mx-2">
+                                                                تعديل
+                                                                <i class="far fa-edit"></i>
+                                                            </a>
+                                                            <a class="btn btn-outline-pink" data-bs-toggle="modal" data-bs-target="#DelteUser_@User.UserId">
+                                                                حذف
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </a>
+                                                        </td>
+
                                                         }
-                                                    <td>
-                                                        <a data-bs-toggle="modal" data-bs-target="#EditUser_@User.UserId" class="btn btn-outline-primary mx-2">
-                                                            تعديل
-                                                            <i class="far fa-edit"></i>
-                                                        </a>
-                                                        <a class="btn btn-outline-pink" data-bs-toggle="modal" data-bs-target="#DelteUser_@User.UserId">
-                                                            حذف
-                                                            <i class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </td>
+                                    
                                                 </tr>
 
 

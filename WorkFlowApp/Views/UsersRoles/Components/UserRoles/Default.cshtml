@@ -1,0 +1,37 @@
+﻿@*UsersRoles-Components-UserRoles-Defaut *@
+@model List<UserRolesViewModel>
+
+
+
+<form method="post">
+    <div class="portlet">
+        <div class="portlet-header portlet-header-bordered">
+            <h3 class="portlet-title">صلاحيات المستخدم </h3>
+        </div>
+        <div class="portlet-body">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="form-group">
+                    <div class="radio">
+                        <input type="hidden" asp-for="@Model[i].RoleName" />
+                        <label>
+                            <input asp-for="@Model[i].IsSelected" />
+                            @Model[i].RoleName
+                        </label>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="portlet-footer">
+            <input type="submit"value="تعديل" asp-controller="UsersRoles" asp-action="EditUserRoles"
+                   asp-route-userId="@ViewBag.userId" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+

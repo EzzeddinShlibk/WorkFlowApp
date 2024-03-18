@@ -42,6 +42,7 @@ namespace WorkFlowApp.Models
             modelBuilder.Entity<Team>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<Profile>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<CalendarEvent>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<MainContent>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
 
 
             modelBuilder.Entity<ProjectsUser>().HasKey(x => new {  x.Id });

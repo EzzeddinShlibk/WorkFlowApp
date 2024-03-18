@@ -13,7 +13,7 @@ namespace WorkFlowApp.ViewModels
         public string Email { get; set; }
         public string Pic { get; set; }
         public string phone { get; set; }
-        public bool isAdmin { get; set; }
+        public int isAdmin { get; set; }
         public bool isApproved { get; set; }
 
 

@@ -19,11 +19,11 @@ using static WorkFlowApp.Classes.Helper;
 
 namespace WorkFlowApp.Controllers
 {
-    [Authorize(Roles = "Prog,Admin")] // يسمح لإحدى الصلاحيات المكتوبة
+    [Authorize(Roles = "Prog")] // يسمح لإحدى الصلاحيات المكتوبة
 
 
 
-    [ViewLayout("_LayoutAdmin")]
+    [ViewLayout("_Layout")]
     public class UsersRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -31,19 +31,16 @@ namespace WorkFlowApp.Controllers
         private readonly IUnitOfWork<Profile> _profile;
         private readonly IToastNotification _toastNotification;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IHtmlLocalizer<UsersRolesController> _localizer;
 
         public UsersRolesController(RoleManager<IdentityRole> roleManager,
                                UserManager<ApplicationUser> userManager,
                                    IWebHostEnvironment hostEnvironment,
-                         IHtmlLocalizer<UsersRolesController> localizer,
                        IToastNotification toastNotification,
                                IUnitOfWork<Profile> profile)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _profile = profile;
-            _localizer = localizer;
             _webHostEnvironment = hostEnvironment;
             _toastNotification = toastNotification;
         }
@@ -101,8 +98,7 @@ namespace WorkFlowApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateOrEditRole(string id, EditRoleViewModel model)
         {
-            if (ModelState.IsValid)
-            {
+          
 
                 if (id == null)
                 {
@@ -116,13 +112,13 @@ namespace WorkFlowApp.Controllers
                         };
                         IdentityResult result = await _roleManager.CreateAsync(identityRole);
 
-                        _toastNotification.AddSuccessToastMessage(_localizer["SaveMsg"].Value, new ToastrOptions() { Title = "" });
+                        _toastNotification.AddSuccessToastMessage("تم الحفظ بنجاح", new ToastrOptions() { Title = "" });
 
 
                     }
                     else
                     {
-                        _toastNotification.AddErrorToastMessage(_localizer["Alreadyexists"].Value, new ToastrOptions() { Title = "" });
+                        _toastNotification.AddErrorToastMessage("موجود مسبقا", new ToastrOptions() { Title = "" });
 
 
                     }
@@ -141,19 +137,19 @@ namespace WorkFlowApp.Controllers
                     {
                         role.Name = model.Name;
                         var result = await _roleManager.UpdateAsync(role);
-                        _toastNotification.AddSuccessToastMessage(_localizer["SaveMsg"].Value, new ToastrOptions() { Title = "" });
+                        _toastNotification.AddSuccessToastMessage("تم الحفظ بنجاح", new ToastrOptions() { Title = "" });
                         id = string.Empty;
                     }
                     else
                     {
-                        _toastNotification.AddErrorToastMessage(_localizer["Alreadyexists"].Value, new ToastrOptions() { Title = "" });
+                        _toastNotification.AddErrorToastMessage("موجود مسبقا", new ToastrOptions() { Title = "" });
 
 
                     }
                 }
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllRoles", await GetRoles()) });
-            }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditRole", model) });
+            //}
+            //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditRole", model) });
         }
         [HttpPost]
         [AutoValidateAntiforgeryToken]
@@ -172,7 +168,7 @@ namespace WorkFlowApp.Controllers
                 var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
                 if (usersInRole.Count != 0)
                 {
-                    _toastNotification.AddErrorToastMessage(_localizer["CantDelete"].Value, new ToastrOptions() { Title = "" });
+                    _toastNotification.AddErrorToastMessage("لايمكن الحذف", new ToastrOptions() { Title = "" });
                     return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllRoles", await GetRoles()) });
 
                 }
@@ -208,13 +204,13 @@ namespace WorkFlowApp.Controllers
 
         }
         [HttpGet]
-        [Authorize(Policy = "EditUserPolicy")]
+        //[Authorize(Policy = "EditUserPolicy")]
         public async Task<IActionResult> EditUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                ViewBag.ErrorMessage = _localizer["CantFind"];
+                ViewBag.ErrorMessage = "غير موجود";
                 return View("NotFound");
             }
             var model = new EditUserViewModel
@@ -237,7 +233,7 @@ namespace WorkFlowApp.Controllers
             var user = await _userManager.FindByIdAsync(model.Id);
             if (user == null)
             {
-                ViewBag.ErrorMessage = _localizer["CantFind"].Value;
+                ViewBag.ErrorMessage = "غير موجود";
                 return View("NotFound");
             }
 
@@ -267,14 +263,14 @@ namespace WorkFlowApp.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                ViewBag.ErrorMessage = _localizer["CantFind"].Value;
+                ViewBag.ErrorMessage = "غير موجود";
                 return View("NotFound");
             }
 
             var CurrentUser = await _userManager.GetUserAsync(HttpContext.User);
             if (CurrentUser.Id == id)
             {
-                return RedirectToAction("AccessDenied", "Account", new { Message = _localizer["cant'delte"].Value });
+                return RedirectToAction("AccessDenied", "Account", new { Message = "لايمكن الحذف"});
             }
 
             var UserId = user.Id;
@@ -303,7 +299,7 @@ namespace WorkFlowApp.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                ViewBag.ErrorMessage = _localizer["CantFind"].Value;
+                ViewBag.ErrorMessage ="غير موجود";
 
                 return View("NotFound");
             }
@@ -335,7 +331,7 @@ namespace WorkFlowApp.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                ViewBag.ErrorMessage = _localizer["CantFind"].Value;
+                ViewBag.ErrorMessage = "غير موجود";
                 return View("NotFound");
             }
 
@@ -344,7 +340,7 @@ namespace WorkFlowApp.Controllers
             {
                 if ((await _userManager.AddToRolesAsync(user, model.Where(s => s.IsSelected == true).Select(r => r.RoleName))).Succeeded)
                 {
-                    _toastNotification.AddSuccessToastMessage(_localizer["SaveMsg"].Value, new ToastrOptions() { Title = "" });
+                    _toastNotification.AddSuccessToastMessage("تم الحفظ بنجاح", new ToastrOptions() { Title = "" });
                     return RedirectToAction("EditUser", new { Id = userId});
                 }
             }
@@ -360,7 +356,7 @@ namespace WorkFlowApp.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                ViewBag.ErrorMessage = _localizer["CantFind"].Value;
+                ViewBag.ErrorMessage = "غير موجود";
 
                 return View("NotFound");
             }
@@ -372,7 +368,7 @@ namespace WorkFlowApp.Controllers
                 result = await _userManager.AddClaimsAsync(user, model.Claims.Select(c => new Claim(c.ClaimType, c.IsSelected ? "true" : "false")));
                 if (result.Succeeded)
                 {
-                    _toastNotification.AddSuccessToastMessage(_localizer["SaveMsg"].Value, new ToastrOptions() { Title = "" });
+                    _toastNotification.AddSuccessToastMessage("تم الحفظ بنجاح", new ToastrOptions() { Title = "" });
 
                     return RedirectToAction("EditUser", new { Id = userId });
                 }

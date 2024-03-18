@@ -99,7 +99,7 @@ namespace WorkFlowApp.Controllers
             {
 
                 model = new Profile();
-                model.Pic = "1";    
+                model.Pic = "1";
 
             }
             else
@@ -306,7 +306,7 @@ namespace WorkFlowApp.Controllers
                             teamUser.CreatedDate = DateTime.Now;
                             teamUser.userId = user.Id;
                             teamUser.teamId = TeamID;
-                            teamUser.isAdmin = true;
+                            teamUser.isAdmin = 1;
                             teamUser.isApproved = true;
                             teamUser.isDeleted = false;
                             _teamuser.Entity.Insert(teamUser);
@@ -324,7 +324,7 @@ namespace WorkFlowApp.Controllers
                         teamUser.CreatedDate = DateTime.Now;
                         teamUser.userId = user.Id;
                         teamUser.teamId = OldTeamID;
-                        teamUser.isAdmin = false;
+                        teamUser.isAdmin = 3;
                         teamUser.isApproved = false;
                         teamUser.isDeleted = false;
 
@@ -428,9 +428,9 @@ namespace WorkFlowApp.Controllers
                 if (result.Succeeded)
                 {
 
-                    if (await _userManager.IsInRoleAsync(user, "Admin") || await _userManager.IsInRoleAsync(user, "User"))
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Charts");
                     }
                     else if (await _userManager.IsInRoleAsync(user, "Prog"))
                     {
@@ -441,10 +441,21 @@ namespace WorkFlowApp.Controllers
                     }
                     else
                     {
+                        var team = _teamuser.Entity.GetAll().Where(a => a.userId == user.Id).FirstOrDefault();
+
+                        if (team != null)
+                        {
+                            if (team.isApproved == false)
+                            {
+                                ViewBag.ErrorTitle = "فشل في تسجيل الدخول";
+                                ViewBag.errorMessage = "الرجاء انتظار قبول طلب الانضمام  ";
+                                await _signInManager.SignOutAsync();
+                                return View("Errorlog");
+                            }
+                        }
                         return RedirectToAction("Index", "Main");
                     }
                 }
-                //}
                 if (result.IsLockedOut)
                 {
                     if (user.LockoutEnd.Value.Year > DateTime.Now.Year)

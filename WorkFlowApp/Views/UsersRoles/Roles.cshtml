@@ -1,0 +1,55 @@
+﻿@model IEnumerable<IdentityRole>
+
+@{
+    ViewData["Title"] = "الصلاحيات"; 
+}
+
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="portlet">
+                    <div class="portlet-header portlet-header-bordered">
+                        <h3 class="portlet-title">الصلاحيات</h3>
+                        @if (User.IsInRole("Prog"))
+                        {
+                            <button type="button" onclick="showInPopup('@Url.Action("CreateOrEditRole", "UsersRoles", null, Context.Request.Scheme)','إضافة صلاحية')" class="btn btn-primary btn-lg">
+                                <i class="fa fa-plus ml-2"></i> إضافة صلاحية
+                            </button>
+                        }
+                    </div>
+                    <div class="portlet-body">
+                            <hr>
+                            <div id="view-all">
+                                @await Html.PartialAsync("_ViewAllRoles", Model)
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade modal-container" tabindex="-1" role="dialog" aria-hidden="true" id="form-modal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn btn-label-danger btn-icon" data-dismiss="modal">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body ">
+
+            </div>
+        </div>
+    </div>
+</div>
+
