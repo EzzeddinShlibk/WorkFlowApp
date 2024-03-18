@@ -122,12 +122,6 @@ namespace WorkFlowApp.Controllers
 
             return tasksPerProject;
         }
-        public JsonResult TasksPerProjectDonutChart()
-        {
-            var data = GetTasksPerProject();
-
-            return Json(data);
-        }
         public Dictionary<string, int> GetTasksPerUser()
         {
             var tasksPerUser = _projectTask.Entity.GetAll()
@@ -136,25 +130,22 @@ namespace WorkFlowApp.Controllers
 
             return tasksPerUser;
         }
+        public JsonResult TasksPerProjectDonutChart()
+        {
+            var data = GetTasksPerProject();
+
+            return Json(data);
+        }
         public JsonResult ProjectsPerStatusChart()
         {
             var data = GetProjectsPerStatus();
             return Json(data);
-
-            //return Json(chartData);
         }
-
         public JsonResult ProjectsPerPriorityCharts()
         {
             var data = GetProjectsPerPrioritys();
-
             return Json(data);
-
-
         }
-  
-
-
         public JsonResult TasksPerUserBarChart()
         {
             var data = GetTasksPerUser();
