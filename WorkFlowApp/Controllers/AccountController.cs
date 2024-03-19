@@ -264,7 +264,7 @@ namespace WorkFlowApp.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    EmailConfirmed = true,
+                    EmailConfirmed = false,
                     CreatedDate = DateTime.Now
                 };
 
