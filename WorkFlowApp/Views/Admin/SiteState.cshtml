@@ -12,7 +12,7 @@
                     <div class="portlet-header portlet-header-bordered">
                         <h3 class="portlet-title">حالة الموقع</h3>
                     </div>
-                    <div class="portlet-body">
+                    <div class="portlet-body ">
                         <div class="col-md-6">
                             @if (@Model.State == true)
                             {
@@ -29,8 +29,8 @@
                         <form asp-action="SiteState">
 
                                 <div class="form-group   d-flex justify-content-center">
-                                <input type="submit" name="Save" value="تفعيل الموقع" class="btn btn-success mx-1" /> 
-                                <input type="submit" name="Save" value="إلغاء تفعيل الموقع" class="btn btn-danger mx-1" />
+                                <input type="submit" name="Save" value="تفعيل الموقع" class="btn btn-outline-success mx-1" /> 
+                                <input type="submit" name="Save" value="إلغاء تفعيل الموقع" class="btn btn-outline-danger mx-1" />
                             </div>
                             <div class="form-group ">
                                 <label asp-for="@Model.ClosingMessage" class="control-label mb-1">رسالة الاغلاق</label>

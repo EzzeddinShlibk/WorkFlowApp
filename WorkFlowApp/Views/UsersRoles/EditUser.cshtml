@@ -10,62 +10,101 @@
                 <form asp-controller="Account" asp-action="EditUser">
                     <div class="portlet">
                         <div class="portlet-header portlet-header-bordered">
-                            <h3 class="portlet-title">تعديل المستخدم</h3>
+                            <div class="row mt-3">
+                                <div class="col-lg-6">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <h5 class="mt-0">تعديل المستخدم <span class="badge badge-pink">6</span></h5>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-6 text-end">
+                                    <div class="text-end">
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <a asp-action="Profile" asp-controller="Account" asp-route-UserId="@Model.Id" class="btn btn-soft-primary btn-sm">الملف  الشخصي</a>
+
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                          
-                                <a asp-action="Profile" asp-controller="Account" asp-route-UserId="@Model.Id" class="btn btn-success">الملف  الشخصي</a>
                         </div>
                         <div class="portlet-body">
                             <div class="portlet-body">
                                 <div class="form-group row">
-                                    <label asp-for="UserName" class="col-sm-2 col-form-label">إسم المستخدم</label>
-                                    <div class="col-sm-10">
+                                    <label asp-for="UserName" class="col-sm-1 col-form-label">إسم المستخدم</label>
+                                    <div class="col-sm-4">
                                         <div class="input-group">
                                             <input type="text" asp-for="UserName" readonly class="form-control" >
                                             <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <hr />
+                          
                                 <div class="form-group row">
-                                    <label asp-for="Email" class="col-sm-2 col-form-label">البريد الإلكتروني</label>
-                                    <div class="col-sm-10">
+                                    <label asp-for="Email" class="col-sm-1 col-form-label">البريد الإلكتروني</label>
+                                    <div class="col-sm-4">
                                         <div class="input-group">
                                             <input type="text" asp-for="Email" readonly class="form-control" >
                                             <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <hr />
                                 <div class="form-group row">
+                                    <label asp-for="CreatedDate" class="col-sm-1 col-form-label">تاريخ الإنشاء</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" asp-for="CreatedDate" readonly class="form-control">
+                                            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model.ModifiedDate != null){
+                                <div class="form-group row">
+                                        <label asp-for="ModifiedDate" class="col-sm-1 col-form-label">تاريخ الإنشاء</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                                <input type="text" asp-for="ModifiedDate" readonly class="form-control">
+                                                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                                <hr />
+                             @*    <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label asp-for="CreatedDate">تاريخ الإنشاء</label>
                                         <label asp-for="CreatedDate">@Model.CreatedDate  </label>
                     
                                         <br />
-                                        @if (Model.ModifiedDate != null)
+                                    
                                         {<label asp-for="CreatedDate">تاريخ التعديل</label>
                                         @Html.DisplayFor(model => model.ModifiedDate)
-                                    }
+                                    
                                     </div>
-                                </div>
+                                </div> *@
                             </div>
 
 
                         </div>
                         <div class="portlet-footer">
-                            <input type="submit" class="btn btn-primary btn-widest" value="تعديل"> |
+                    
                             <input type="submit" asp-action="DeleteUser" asp-route-id="@Model.Id"
-                                   value="حذف" class="btn btn-danger"
-                                   onclick="return confirm('هل انت متامد من امك تريد حذف  @Model.Email ?')" /> |
+                                   value="حذف" class="btn btn-sm  btn-outline-danger"
+                                   onclick="return confirm('هل انت متاكد من انك تريد حذف  @Model.Email ?')" />  
                             @if (Model.LockoutEnd != null)
                             {
-                                <input type="submit" asp-action="LockoutUser" asp-route-id="@Model.Id" value="الغائ القفل" class="btn btn-success" />
+                                <input type="submit" asp-action="LockoutUser" asp-route-id="@Model.Id" value="الغاء القفل" class="btn btn-sm btn-outline-success" />
                             }
                             else
                             {
-                                <input type="submit" asp-action="LockoutUser" asp-route-id="@Model.Id" value="قفل " class="btn btn-warning" />
+                                <input type="submit" asp-action="LockoutUser" asp-route-id="@Model.Id" value="قفل " class="btn btn-sm btn-outline-blue" />
                             }
-                            <a asp-action="Users">العودة للقائمة</a>
+                            <a class="btn btn-sm btn-outline-info" asp-action="Users">العودة للقائمة</a>
                         </div>
                     </div>
 
