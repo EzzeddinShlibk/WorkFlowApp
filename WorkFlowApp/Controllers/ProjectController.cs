@@ -265,8 +265,7 @@ namespace WorkFlowApp.Controllers
                         oldproject.ModifiedDate = DateTime.Now;
                         _project.Entity.Update(oldproject);
                         await _project.SaveAsync();
-
-                        //جلب كافة مستخدمين المشروع الحالي
+                         
                         var oldprojectuser = await _projectsUser.Entity.GetAll().Where(p => p.projectId == model.Id).ToListAsync();
 
                         if (oldprojectuser.Any())
