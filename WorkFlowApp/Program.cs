@@ -7,6 +7,7 @@ using NToastNotify;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
+using WorkFlowApp.Classes;
 
 
 
@@ -18,12 +19,12 @@ var connectionString = builder.Configuration.GetConnectionString("testContextCon
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
 var config = builder.Configuration;
 
-// ===== Identity setting =====
-//builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-//                 .AddEntityFrameworkStores<DataContext>()
-//                 .AddDefaultUI()
-//                 .AddDefaultTokenProviders();
+var emailconfig = config
+        .GetSection("MailSettings")
+        .Get<MailSettings>();
 
+//builder.Services.AddSingleton(emailconfig);
+builder.Services.AddScoped<EmailService>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {

@@ -30,6 +30,8 @@ namespace WorkFlowApp.Models.Repositories
         {
             var emailMessage = new MimeMessage();
             //emailMessage.From.Add(new MailboxAddress(_mailSettings.UserName));
+            emailMessage.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.UserName));
+
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
             //emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content }; // ارسال نص عادي
