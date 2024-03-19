@@ -1,0 +1,312 @@
+﻿@model Features
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <form asp-controller="Admin" asp-action="Features" enctype="multipart/form-data">
+                    <div class="portlet">
+                        <div class="portlet-header portlet-header-bordered">
+                            <h3 class="portlet-title">ميزات النظام</h3>
+                        </div>
+                        <div class="portlet-body">
+                            <p> ميزات النظام <a asp-action="Index" asp-controller="Home">الرئيسية</a></p>
+                            <hr>
+                            <div class="portlet">
+                                <div class="portlet-header portlet-header-bordered">
+                                    <h3 class="portlet-title">الميزة  1</h3>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">العنوان 1</label>
+                                        <div class="col-sm-10">
+
+                                            <div class="input-group">
+                                                <input type="text" asp-for="Title1" class="form-control" placeholder='العنوان 1'>
+                                                <span asp-validation-for="Title1" class="text-danger"></span>
+
+                                            </div>
+                                            <br />
+                              
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">2 المحتوى</label>
+                                        <div class="col-sm-10">
+
+                                            <div class="input-group">
+                                                <textarea asp-for="Content1" class="form-control autosize" id="exampleFormControlTextarea1" rows="3" placeholder='المحتوى'></textarea>
+                                                <span asp-validation-for="Content1" class="text-danger"></span>
+
+                                            </div>
+                                            <br />
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="portlet">
+                                        <div class="portlet-header portlet-header-bordered">
+                                            <h3 class="portlet-title">الصورة 1 </h3>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="custom-file">
+                                                            <input asp-for="Image1" id="fileAttach1" type="file" onchange="UploadAttach1(this);" class="custom-file-input">
+                                                            <label asp-for="Image1" class="custom-file-label" for="Picture">تحميل </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-2 border mb-4">
+                                                        <div class="upload-images d-flex">
+                                                            <div>
+                                                                @if (Model.Pic1 != null)
+                                                                {
+                                                                    <img id="imgAttach1" src="~/images/Features/@Model.Pic1" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img id="imgAttach1" src="~/images/unnamed.png" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="portlet">
+                                <div class="portlet-header portlet-header-bordered">
+                                    <h3 class="portlet-title">الميزة  2</h3>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">العنوان 2</label>
+                                        <div class="col-sm-10">
+
+                                            <div class="input-group">
+                                                <input type="text" asp-for="Title2" class="form-control" placeholder='العنوان 1'>
+                                                <span asp-validation-for="Title2" class="text-danger"></span>
+
+                                            </div>
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">المحتوى 2</label>
+                                        <div class="col-sm-10">
+
+                                            <div class="input-group">
+                                                <textarea asp-for="Content2" class="form-control autosize" id="exampleFormControlTextarea1" rows="3" placeholder='المحتوى'></textarea>
+                                                <span asp-validation-for="Content2" class="text-danger"></span>
+
+                                            </div>
+                                            <br />
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="portlet">
+                                        <div class="portlet-header portlet-header-bordered">
+                                            <h3 class="portlet-title">الصورة 2 </h3>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="custom-file">
+                                                            <input asp-for="Image2" id="fileAttach2" type="file" onchange="UploadAttach2(this);" class="custom-file-input">
+                                                            <label asp-for="Image2" class="custom-file-label" for="Picture">تحميل </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-2 border mb-4">
+                                                        <div class="upload-images d-flex">
+                                                            <div>
+                                                                @if (Model.Pic2 != null)
+                                                                {
+                                                                    <img id="imgAttach1" src="~/images/Features/@Model.Pic2" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img id="imgAttach1" src="~/assets/images/unnamed.png" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="portlet">
+                                <div class="portlet-header portlet-header-bordered">
+                                    <h3 class="portlet-title">الميزة 3</h3>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">العنوان 3</label>
+                                        <div class="col-sm-10">
+
+                                            <div class="input-group">
+                                                <input type="text" asp-for="Title3" class="form-control" placeholder='العنوان 3'>
+                                                <span asp-validation-for="Title3" class="text-danger"></span>
+
+                                            </div>
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">المحتوى 3</label>
+                                        <div class="col-sm-10">
+
+                                            <div class="input-group">
+                                                <textarea asp-for="Content3" class="form-control autosize" id="exampleFormControlTextarea1" rows="3" placeholder='المحتوى'></textarea>
+                                                <span asp-validation-for="Content3" class="text-danger"></span>
+
+                                            </div>
+                                            <br />
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="portlet">
+                                        <div class="portlet-header portlet-header-bordered">
+                                            <h3 class="portlet-title">الصورة 3 </h3>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="custom-file">
+                                                            <input asp-for="Image3" id="fileAttach3" type="file" onchange="UploadAttach3(this);" class="custom-file-input">
+                                                            <label asp-for="Image3" class="custom-file-label" for="Picture">تحميل </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-2 border mb-4">
+                                                        <div class="upload-images d-flex">
+                                                            <div>
+                                                                @if (Model.Pic3 != null)
+                                                                {
+                                                                    <img id="imgAttach1" src="~/images/Features/@Model.Pic3" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img id="imgAttach1" src="~/images/unnamed.png" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="portlet-footer">
+                            <button name="submit" type="submit" class="btn btn-primary btn-widest"><i class="fa fa-save ml-2"></i>حفظ</button>
+                        </div>
+                    </div>
+                    <input type="hidden" asp-for="@Model.Pic1" />
+                    <input type="hidden" asp-for="@Model.Pic2" />
+                    <input type="hidden" asp-for="@Model.Pic3" />
+                    <input type="hidden" asp-for="@Model.Id" />  
+               
+                </form>
+            
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function clickFile1() {
+        var objfile = document.getElementById("fileAttach1");
+        objfile.click();
+        return false;
+    }
+    function UploadAttach1(input) {
+        var file = input.files[0];
+        if (/\.(jpe?g|png|bmp|tiff|gif|ico)$/i.test(file.name.toLowerCase()) === false) {
+            //alert("الملف المرفق ليس ملف صورة");
+            toastr.error("الملف المرفق ليس ملف صورة", toastr.options = { "positionClass": "toast-top-center" });
+            return false;
+        }
+        else {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("imgAttach1").src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+
+
+
+    function clickFile2() {
+        var objfile = document.getElementById("fileAttach2");
+        objfile.click();
+        return false;
+    }
+    function UploadAttach2(input) {
+        var file = input.files[0];
+        if (/\.(jpe?g|png|bmp|tiff|gif|ico)$/i.test(file.name.toLowerCase()) === false) {
+            //alert("الملف المرفق ليس ملف صورة");
+            toastr.error("الملف المرفق ليس ملف صورة", toastr.options = { "positionClass": "toast-top-center" });
+            return false;
+        }
+        else {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("imgAttach2").src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+
+
+    function clickFile3() {
+        var objfile = document.getElementById("fileAttach3");
+        objfile.click();
+        return false;
+    }
+    function UploadAttach3(input) {
+        var file = input.files[0];
+        if (/\.(jpe?g|png|bmp|tiff|gif|ico)$/i.test(file.name.toLowerCase()) === false) {
+            //alert("الملف المرفق ليس ملف صورة");
+            toastr.error("الملف المرفق ليس ملف صورة", toastr.options = { "positionClass": "toast-top-center" });
+            return false;
+        }
+        else {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("imgAttach3").src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+</script>

@@ -24,7 +24,10 @@ namespace WorkFlowApp.Models
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamUser> TeamUsers { get; set; }
         public DbSet<Profile> Profile { get; set; }
-        public DbSet<Profile> CalendarEvent { get; set; }
+        public DbSet<CalendarEvent> CalendarEvents { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Features> Features { get; set; }
+        public DbSet<SiteState> SiteStates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
