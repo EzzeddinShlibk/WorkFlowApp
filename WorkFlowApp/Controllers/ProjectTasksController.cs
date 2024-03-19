@@ -421,12 +421,14 @@ namespace WorkFlowApp.Controllers
         {
 
             await PopulateUsersDropDownList(projectId);
+            var statues = _statues.Entity.GetAll().Where(a => a.Num == 1).FirstOrDefault();
 
             var model = new TaskViewModel
             {
                 statues = await _statues.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
                 Priorities = await _priority.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
                 ProjectId = projectId,
+                StatuesId= statues.Id
             };
 
             return View(model);
