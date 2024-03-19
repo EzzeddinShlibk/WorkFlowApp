@@ -1,0 +1,66 @@
+﻿@model Contact
+<div class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <!-- BEGIN Portlet -->
+                <div class="portlet">
+                    <div class="portlet-header portlet-header-bordered">
+                        <h3 class="portlet-title">بيانات التواصل</h3>
+                    </div>
+                    <div class="portlet-body">
+
+
+                        <form asp-controller="Admin" asp-action="Contact" asp-route-id="@Model.Id">
+                            <input type="hidden" asp-for="@Model.Id" />
+                            <input type="hidden" asp-for="@Model.CreatedDate" />
+                            <div class="form-row">
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="Address">العنوان </label>
+                                    <input asp-for="Address" type="text" class="form-control form-control-lg">
+                                    <span class="text-danger" asp-validation-for="Address"></span>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="Email1">البريد الإلكتروني 1</label>
+                                    <input asp-for="Email1" type="text" class="form-control form-control-lg">
+                                    <span class="text-danger" asp-validation-for="Email1"></span>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="Email2">البريد الإلكتروني 2</label>
+                                    <input asp-for="Email2" type="text" class="form-control form-control-lg">
+                                    <span class="text-danger" asp-validation-for="Email2"></span>
+
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="Phone1">رقم هاتف 1</label>
+                                    <input asp-for="Phone1" type="text" class="form-control form-control-lg">
+                                    <span class="text-danger" asp-validation-for="Phone1"></span>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="Phone2">رقم هاتف 2</label>
+                                    <input asp-for="Phone2" type="text" class="form-control form-control-lg">
+                                    <span class="text-danger" asp-validation-for="Phone2"></span>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label asp-for="Facebook">الفيسبوك</label>
+                                    <input asp-for="Facebook" type="text" class="form-control form-control-lg">
+                                    <span class="text-danger" asp-validation-for="Facebook"></span>
+                                </div>
+                     
+                            </div>
+
+
+                            <button class="btn btn-primary" type="submit">حفظ</button>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+}
