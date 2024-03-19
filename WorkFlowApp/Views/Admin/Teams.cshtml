@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<TeamsListViewModel>
 @section styles {
-    <!-- DataTables -->
+  
     <link href="~/lib/datatables/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <link href="~/lib/datatables/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
-    <!-- Responsive datatable examples -->
+ 
     <link href="~/lib/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="container-fluid">
-    <!-- Page-Title -->
+  
     <div class="row">
         <div class="col-sm-12">
             <div class="page-title-box">
@@ -16,76 +16,55 @@
                     <div class="col">
                         <h4 class="page-title">الفرق المسجلة</h4>
 
-                    </div><!--end col-->
+                    </div> 
          
-                </div><!--end row-->
-            </div><!--end page-title-box-->
-        </div><!--end col-->
-    </div><!--end row-->
+                </div> 
+            </div>
+        </div> 
+    </div> 
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">قائمة بالفرق  </h4>
-          
-                </div><!--end card-header-->
-                <div class="card-body">
-                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
+             
+                <table id="datatable" class="table table-bordered dt-responsive " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ت</th>
+                            <th>رمز الفريق</th>
+                            <th>تاريخ الانشاء</th>
+                            <th>مدير الفريق</th>
+                            <th>عدد المستخدمين</th>
+                            <th>عدد المشاريع</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        @{
+                            int i = 0;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            i++;
                             <tr>
-                                <th>ت</th>
-                                <th>رمز الفريق</th>
-                                <th>تاريخ الانشاء</th>
-                                <th>مدير الفريق</th>
-                                <th>عدد المستخدمين</th>
-                                <th>عدد المشاريع</th>
+                                <td>@i</td>
+                                <td>@item.code</td>
+                                <td>@item.Date.ToShortDateString()</td>
+                                <td>@item.Admin</td>
+                                <td>@item.Users</td>
+                                <td>@item.Projects</td>
                             </tr>
-                        </thead>
+                        }
 
-
-                        <tbody>
-                            @{
-                                int i = 0;
-                            }
-                            @foreach (var item in Model)
-                            {
-                                i++;
-                                <tr>
-                                    <td>@i</td>
-                                    <td>@item.code</td>
-                                    <td>@item.Date.ToShortDateString()</td>
-                                    <td>@item.Admin</td>
-                                    <td>@item.Users</td>
-                                    <td>@item.Projects</td>
-                                </tr>
-                            }
-                  
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div> <!-- end col -->
-    </div> <!-- end row -->
+                    </tbody>
+                </table>
+              
+            
+        </div>  
+    </div>  
 
 
 
-</div><!-- container -->
+</div> 
 @section scripts {
-    <!-- Required datatable js -->
-    <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/lib/datatables/dataTables.bootstrap5.min.js"></script>
-    <!-- Buttons examples -->
-    <script src="~/lib/datatables/dataTables.buttons.min.js"></script>
-    <script src="~/lib/datatables/buttons.bootstrap5.min.js"></script>
-    <script src="~/lib/datatables/jszip.min.js"></script>
-    <script src="~/lib/datatables/pdfmake.min.js"></script>
-    <script src="~/lib/datatables/vfs_fonts.js"></script>
-    <script src="~/lib/datatables/buttons.html5.min.js"></script>
-    <script src="~/lib/datatables/buttons.print.min.js"></script>
-    <script src="~/lib/datatables/buttons.colVis.min.js"></script>
-    <!-- Responsive examples -->
-    <script src="~/lib/datatables/dataTables.responsive.min.js"></script>
-    <script src="~/lib/datatables/responsive.bootstrap4.min.js"></script>
-    <script src="~/js/pages/jquery.datatable.init.js"></script>
+ 
 }

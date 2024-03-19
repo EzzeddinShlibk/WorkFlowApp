@@ -127,7 +127,7 @@ namespace WorkFlowApp.Controllers
 
             var query = _projectTask.Entity.GetAll()
             .Where(k => k.projectId == projectId && k.isDeleted == false)
-        .Include(s => s.project)
+ 
         .Include(k => k.statues)
         .Include(s => s.priority).Include(k => k.User);
 
@@ -247,7 +247,7 @@ namespace WorkFlowApp.Controllers
         }
         public async Task<IActionResult> Tasks(Guid projectId, string message)
         {
-            ViewBag.Message = message;
+           
 
             ViewBag.projectId = projectId;
             var model = await getDataAsync(projectId);
