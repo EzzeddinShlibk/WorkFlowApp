@@ -15,40 +15,89 @@
                 <div class="card-body">
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="ProjectId" />
-                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @if (User.IsInRole("Admin")){
                     <div class="mb-3">
                         <label asp-for="Name" class="form-label">المهمة</label>
                         <input asp-for=" Name" type="text" class="form-control" placeholder="أدخل المهمة">
                         <span asp-validation-for="Name" class="text-danger"></span>
-
                     </div>
+                    }
+                    @if (User.IsInRole("User"))
+                    {
+                        <div class="mb-3 disabled">
+                            <label asp-for="Name" class="form-label">المهمة</label>
+                            <input asp-for=" Name" type="text" class="form-control " readonly placeholder="أدخل المهمة">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    }
+                      @if (User.IsInRole("Admin")){
                     <div class="mb-3">
                         <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
                         <input value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for="StartDate">
                         <span asp-validation-for=" StartDate" class="text-danger"></span>
                     </div>
+                      }
+                    @if (User.IsInRole("User"))
+                    {
+                        <div class="mb-3 ">
+                            <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
+                            <input value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local"readonly  class="form-control disabled" asp-for="StartDate">
+                            <span asp-validation-for=" StartDate" class="text-danger"></span>
+                        </div>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="mb-3">
+                            <label asp-for="EndDate" class="form-label">تاريخ الانتهاء</label>
+                            <input value="@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for=" EndDate">
+                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                        </div>
+                    }
+                    @if (User.IsInRole("User"))
+                    {
+                        <div class="mb-3 disabled">
+                            <label asp-for="EndDate" class="form-label">تاريخ الانتهاء</label>
+                            <input value="@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" readonly class="form-control disabled" asp-for=" EndDate">
+                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                        </div>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="row mb-3  ">
+                            <label class="form-label">المستخدمين</label>
+                            <select asp-for=" userId" class="form-control  " asp-items="ViewBag.UsersList">
+                            </select>
+                            <span asp-validation-for=" userId" class="text-danger"></span>
+                        </div>
+                    }
+                    @if (User.IsInRole("User"))
+                    {
+                        <div class="row mb-3  ">
+                            <label class="form-label">المستخدمين</label>
+                            <select asp-for=" userId" class="form-control  " hidden asp-items="ViewBag.UsersList">
+                            </select>
+                            <span asp-validation-for=" userId" class="text-danger"></span>
+                        </div>
+                    }
+                      @if (User.IsInRole("Admin"))
+                    {
+                        <div class="row mb-3">
+                            <label asp-for=" Description" for="projectDescription" class="form-label">وصف المهمة</label>
+                            <textarea class="form-control" asp-for=" Description" placeholder="وصف المهمة" rows="3"></textarea>
+                            <span asp-validation-for=" Description" class="text-danger"></span>
 
+                        </div>
+                    }
+                    @if (User.IsInRole("User"))
+                    {
+                        <div class="row mb-3 ">
+                            <label asp-for=" Description" for="projectDescription" class="form-label">وصف المهمة</label>
+                            <textarea class="form-control" readonly asp-for=" Description" placeholder="وصف المهمة" rows="3"></textarea>
+                            <span asp-validation-for=" Description" class="text-danger"></span>
 
-                    <div class="mb-3">
-                        <label asp-for="EndDate" class="form-label">تاريخ الانتهاء</label>
-                        <input value="@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for=" EndDate">
-                        <span asp-validation-for="EndDate" class="text-danger"></span>
-                    </div>
-                    <div class="row mb-3  ">
-                        <label class="form-label">المستخدمين</label>
-                        <select asp-for=" userId" class="form-control  " asp-items="ViewBag.UsersList">
-                        </select>
-                        <span asp-validation-for=" userId" class="text-danger"></span>
-                    </div>
-
-
-                    <div class="row mb-3">
-                        <label asp-for=" Description" for="projectDescription" class="form-label">وصف المهمة</label>
-                        <textarea class="form-control" asp-for=" Description" placeholder="وصف المهمة" rows="3"></textarea>
-                        <span asp-validation-for=" Description" class="text-danger"></span>
-
-                    </div>
-
+                        </div>
+                    }
                     <div class="row mb-3">
                         <label class="form-label me-5">الحالة</label>
                         <div class="d-inline">
@@ -62,22 +111,25 @@
                         </div>
                     </div>
 
+                   
+                  @if (User.IsInRole("Admin"))
+                    {
+                        <div class=" row mb-3">
+                            <label class="form-label me-5">الاولوية</label>
+                            <div class="d-inline">
 
-                    <div class=" row mb-3">
-                        <label class="form-label me-5">الاولوية</label>
-                        <div class="d-inline">
 
-
-                            @foreach (var item in Model.Priorities)
-                            {
-                                <input type="radio" class="btn-check" asp-for="ProirityId" value="@item.Id" id="@($"pro{@item.Id}")" autocomplete="off">
-                                <label class="btn btn-sm me-2 @($"btn-outline-{@item.Color}")" title="@item.Name" for="@($"pro{@item.Id}")">
-                                    <i class="far fa-flag"></i>
-                                </label>
-                            }
+                                @foreach (var item in Model.Priorities)
+                                {
+                                    <input type="radio" class="btn-check" asp-for="ProirityId" value="@item.Id" id="@($"pro{@item.Id}")" autocomplete="off">
+                                    <label class="btn btn-sm me-2 @($"btn-outline-{@item.Color}")" title="@item.Name" for="@($"pro{@item.Id}")">
+                                        <i class="far fa-flag"></i>
+                                    </label>
+                                }
+                            </div>
                         </div>
-                    </div>
-
+                    }
+               
 
 
                     <div class="row mb-3">
@@ -90,7 +142,7 @@
 
                     </div>
 
-                    <button name="submit" type="submit" class="btn btn-outline-purple">حفظ</button>
+                    <button name="submit" type="submit" class="btn btn-outline-purple ">حفظ</button>
 
 
 
