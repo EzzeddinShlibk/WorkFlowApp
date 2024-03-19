@@ -5,6 +5,9 @@ using WorkFlowApp.Models.Entities;
 using WorkFlowApp.Models.Interfaces;
 using System.Text.Encodings.Web;
 using WorkFlowApp.ViewModels.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using WorkFlowApp.ViewModels;
 using Microsoft.AspNetCore.Authentication;
@@ -13,6 +16,7 @@ using System.Security.Claims;
 using NToastNotify;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using WorkFlowApp.Classes;
 
 
 
@@ -35,12 +39,13 @@ namespace WorkFlowApp.Controllers
         private readonly IUnitOfWork<TeamUser> _teamuser;
         private readonly IToastNotification _toastNotification;
 
-
+        private readonly EmailService _emailService;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IToastNotification toastNotification,
+            EmailService emailService,
             IWebHostEnvironment environment,
             IUnitOfWork<Profile> profile,
             UrlEncoder urlEncoder,
@@ -66,6 +71,7 @@ namespace WorkFlowApp.Controllers
             _emailSender = emailSender;
             _team = team;
             _teamuser = teamuser;
+            _emailService = emailService;
 
         }
         private IUserEmailStore<ApplicationUser> GetEmailStore()
@@ -277,19 +283,21 @@ namespace WorkFlowApp.Controllers
                     MailText = MailText.Replace("{UserName}", model.Email);
                     MailText = MailText.Replace("{confirmationLink}", confirmationLink);
 
+
                     try
                     {
-                        //await _emailSender.SendEmailAsync(message);
-                        await _emailSender.SendEmailAsync(model.Email, "Confirm your email", MailText);
+                        await _emailService.SendEmailAsync(model.Email, subject, MailText);
+
                     }
-                    catch
+                    catch (Exception)
                     {
-                        ViewBag.ErrorTitle = "Email Confirmation Error";
-                        ViewBag.ErrorMessage = "Failed to send email, please check your internet connection and try again";
-                        return View("Error");
+
+                        throw;
                     }
-                    //-------------------------------------------------------
-                    // User يجلبه من الكوكيز لهذا لا نستطيع استعماله في لوقن لأنه لم يكون الكوكي في نفس الاكشن 
+
+              
+
+
                     if (_signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Prog"))) //  في حال الآدمن هو من قام بتسجيل يوزر معين من ادارة المستخدمين
                     {
                         await _userManager.AddToRoleAsync(user, "prog");
