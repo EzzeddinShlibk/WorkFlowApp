@@ -28,13 +28,13 @@
                             }
                         <form asp-action="SiteState">
 
-                            <div class="form-group">
-                                <input type="submit" name="Save" value="تفعيل الموقع" class="btn btn-success" />|
-                                <input type="submit" name="Save" value="إلغاء تفعيل الموقع" class="btn btn-danger" />
+                                <div class="form-group   d-flex justify-content-center">
+                                <input type="submit" name="Save" value="تفعيل الموقع" class="btn btn-success mx-1" /> 
+                                <input type="submit" name="Save" value="إلغاء تفعيل الموقع" class="btn btn-danger mx-1" />
                             </div>
-                            <div class="form-group">
-                                <label asp-for="@Model.ClosingMessage" class="control-label"></label>
-                                <textarea type="text" asp-for="@Model.ClosingMessage" class="form-control" style="height:150px;"></textarea>
+                            <div class="form-group ">
+                                <label asp-for="@Model.ClosingMessage" class="control-label mb-1">رسالة الاغلاق</label>
+                                    <textarea type="text" asp-for="@Model.ClosingMessage" class="form-control" style="height:150px;"></textarea>
                             </div>
                             <div class="form-group">
                                     <input type="submit" asp-action="SiteStateUpdate" name="Save" value="تحديث رسالة الإغلاق" class="btn btn-primary" />

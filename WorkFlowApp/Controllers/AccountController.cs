@@ -292,6 +292,8 @@ namespace WorkFlowApp.Controllers
                     // User يجلبه من الكوكيز لهذا لا نستطيع استعماله في لوقن لأنه لم يكون الكوكي في نفس الاكشن 
                     if (_signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Prog"))) //  في حال الآدمن هو من قام بتسجيل يوزر معين من ادارة المستخدمين
                     {
+                        await _userManager.AddToRoleAsync(user, "prog");
+
                         return RedirectToAction("Users", "UsersRoles");
                     }
                     TeamUser teamUser = new TeamUser();

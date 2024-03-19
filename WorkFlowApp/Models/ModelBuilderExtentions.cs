@@ -18,7 +18,7 @@ namespace WorkFlowApp.Models
          {
              Id = Guid.NewGuid(),
              State = true,
-             ClosingMessage = "The site is temporarily closed for development",
+             ClosingMessage = "الموقع مغلق مؤقتا للتطوير",
              CreatedDate = DateTime.Now
 
          });
