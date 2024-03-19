@@ -21,6 +21,7 @@ namespace WorkFlowApp.Controllers
         private readonly IUnitOfWork<Team> _team;
         private readonly IUnitOfWork<TeamUser> _teamuser;
         private readonly IUnitOfWork<Project> _project;
+        private readonly IUnitOfWork<ProjectTask> _projecttask;
         private readonly IUnitOfWork<Contact> _contact;
         private readonly IUnitOfWork<Features> _features;
 
@@ -29,6 +30,7 @@ namespace WorkFlowApp.Controllers
                       IUnitOfWork<SiteState> SiteState,
                       IUnitOfWork<Team> team,
                       IUnitOfWork<Contact> contact,
+                      IUnitOfWork<ProjectTask> projecttask,
                       IUnitOfWork<TeamUser> teamuser,
                       IUnitOfWork<Project> project,
                       IUnitOfWork<Features> features,
@@ -37,6 +39,7 @@ namespace WorkFlowApp.Controllers
         {
 
             _SiteState = SiteState;
+            _projecttask=projecttask;
             _webHostEnvironment = hostEnvironment;
             _toastNotification = toastNotification;
             _team = team;
@@ -81,7 +84,7 @@ namespace WorkFlowApp.Controllers
                     await _contact.SaveAsync();
                     _toastNotification.AddSuccessToastMessage("تم حفظ البيانات بنجاح", new ToastrOptions() { Title = "" });
 
-                    return RedirectToAction("Contact");
+                    return RedirectToAction("Contacts");
                 }
                 else
                 {
@@ -105,7 +108,7 @@ namespace WorkFlowApp.Controllers
                     _toastNotification.AddSuccessToastMessage("تم حفظ البيانات بنجاح", new ToastrOptions() { Title = "" });
 
 
-                    return RedirectToAction("Contact");
+                    return RedirectToAction("Contacts");
 
                 }
             }
@@ -437,6 +440,18 @@ namespace WorkFlowApp.Controllers
         }
         public IActionResult Index()
         {
+            var teams=_team.Entity.GetAll().Count();
+            var users=_teamuser.Entity.GetAll().Where(a => a.isDeleted==false).Count();
+            var projects=_project.Entity.GetAll().Where(a => a.IsDeleted==false).Count();
+            var tasks=_projecttask.Entity.GetAll().Where(a => a.isDeleted==false).Count();
+
+
+
+
+            ViewBag.Teams = teams;  
+            ViewBag.Projects = projects;
+            ViewBag.Tasks = tasks;
+            ViewBag.users = users;
             return View();
         }
     }
