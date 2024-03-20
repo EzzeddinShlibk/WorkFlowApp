@@ -447,9 +447,12 @@ namespace WorkFlowApp.Controllers
                 {
                     if (model.EndDate < model.StartDate)
                     {
-                        await PopulateUsersDropDownList(model.ProjectId);
+                   
                         ViewBag.erroredDate = "لايمكن ان يكون تاريخ النتهاء اقدم من تاريخ البدء";
-                        return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditProject", model) });
+                        await PopulateUsersDropDownList(model.ProjectId);
+                        model.statues = await _statues.Entity.GetAll().ToListAsync();
+                        model.Priorities = await _priority.Entity.GetAll().ToListAsync();
+                        return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditTask", model) });
                     }
                     if (Guid.Empty == model.StatuesId)
                     {

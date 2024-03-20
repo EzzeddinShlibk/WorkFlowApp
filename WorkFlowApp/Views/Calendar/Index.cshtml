@@ -120,8 +120,8 @@
 
                 // Fetch events from the server
                 events: {
-                    url: '/Calendar/GetEvents', // Adjust the URL based on your controller and action method
-                    method: 'GET',
+                    url: '@Url.Action("GetEvents", "Calendar")',
+                    type: 'GET',
                     failure: function () {
                         alert('There was an error fetching events!');
                     },
