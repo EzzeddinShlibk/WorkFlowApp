@@ -297,7 +297,7 @@ namespace WorkFlowApp.Controllers
                     {
                         await _userManager.AddToRoleAsync(user, "prog");
 
-                        return RedirectToAction("Users", "UsersRoles");
+                        return RedirectToAction("Users", "Users");
                     }
                     TeamUser teamUser = new TeamUser();
                     if (OldTeamID.Equals(Guid.Empty))
