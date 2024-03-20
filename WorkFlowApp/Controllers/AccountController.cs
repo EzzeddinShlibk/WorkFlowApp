@@ -17,6 +17,7 @@ using NToastNotify;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using WorkFlowApp.Classes;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 
@@ -32,9 +33,7 @@ namespace WorkFlowApp.Controllers
         private readonly UrlEncoder _urlEncoder;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserStore<ApplicationUser> _userStore;
-        private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<AccountController> _logger;
-        private readonly Microsoft.AspNetCore.Identity.UI.Services.IEmailSender _emailSender;
         private readonly IUnitOfWork<Team> _team;
         private readonly IUnitOfWork<TeamUser> _teamuser;
         private readonly IToastNotification _toastNotification;
@@ -52,7 +51,6 @@ namespace WorkFlowApp.Controllers
             RoleManager<IdentityRole> roleManager,
             IUserStore<ApplicationUser> userStore,
             ILogger<AccountController> logger,
-            Microsoft.AspNetCore.Identity.UI.Services.IEmailSender emailSender,
             IUnitOfWork<Team> team,
             IUnitOfWork<TeamUser> teamuser
 
@@ -65,22 +63,19 @@ namespace WorkFlowApp.Controllers
             _roleManager = roleManager;
             _userManager = userManager;
             _userStore = userStore;
-            _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
             _team = team;
             _teamuser = teamuser;
             _emailService = emailService;
 
         }
-        private IUserEmailStore<ApplicationUser> GetEmailStore()
+
+        [HttpGet]
+        public IActionResult AccessDenied(string message)
         {
-            if (!_userManager.SupportsUserEmail)
-            {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
-            }
-            return (IUserEmailStore<ApplicationUser>)_userStore;
+            ViewBag.Message = message;
+            return View();
         }
 
         [HttpGet]
@@ -535,6 +530,143 @@ namespace WorkFlowApp.Controllers
             }
         }
 
+
+
+
+
+
+
+        [ViewLayout("_IdentityLayout")]
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+                RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+        [ViewLayout("_IdentityLayout")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    if (await _userManager.IsEmailConfirmedAsync(user))
+                    {
+
+                        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
+                        //------------------send email-----------------------------------
+                        var subject = "Flow master - Forgot password";
+
+                        var filePath = _environment.WebRootPath + Path.DirectorySeparatorChar + "templates" + Path.DirectorySeparatorChar + "ForgotPassword.html";
+                        StreamReader str = new StreamReader(filePath);
+                        string MailText = str.ReadToEnd();
+                        str.Close();
+                        MailText = MailText.Replace("{UserName}", model.Email);
+                        MailText = MailText.Replace("{passwordResetLink}", passwordResetLink);
+                        try
+                        {
+                            await _emailService.SendEmailAsync(model.Email, subject, MailText);
+
+                        }
+                        catch (Exception)
+                        {
+                            ViewBag.ErrorTitle = "Reset password Error";
+                            ViewBag.ErrorMessage = "Failed to send email";
+                            return View("Error");
+                        }
+              
+                        //-------------------------------------------------------
+                        ViewBag.SaccessTitle = "Reset password";
+                        ViewBag.SaccessMessage = "Please check your email, The link of reset password has been sent to your email";
+                        return View("AccountResult");
+                    }
+                    ViewBag.ErrorTitle = "Failed Reset password";
+                    ViewBag.ErrorMessage = "Your account needs to be Email Confirmation";
+                    return View("AccountResult");
+                }
+                ViewBag.ErrorTitle = "Failed Reset password";
+                ViewBag.ErrorMessage = "We cannot find the email, please check your email spelling ";
+                return View("AccountResult");
+            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        ViewBag.SaccessTitle = "Reset password";
+                        ViewBag.SaccessMessage = "Reset password successfully";
+                        return View("AccountResult");
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View(model);
+                }
+                ViewBag.ErrorTitle = "Failed Reset password";
+                ViewBag.ErrorMessage = "Your account not found";
+                return View("AccountResult");
+            }
+            return View(model);
+        }
+        [ViewLayout("_Layout")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [ViewLayout("_Layout")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    await _signInManager.RefreshSignInAsync(user);
+                    ViewBag.SaccessTitle = "تغيير كلمة المرور";
+                    ViewBag.SaccessMessage = "تم تغيير كلمة المرور بنجاح";
+                    return View("AccountResult");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View();
+                //----------بالإمكان تحويله الى صفحة خاصة لعرض رسالة خاصة
+                //ViewBag.ErrorTitle = "Failed Reset password";
+                //ViewBag.ErrorMessage = "Your account not found";
+                //return View("AccountResult");
+            }
+
+            return View(model);
+        }
 
     }
 }

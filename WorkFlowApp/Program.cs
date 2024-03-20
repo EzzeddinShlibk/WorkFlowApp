@@ -19,11 +19,7 @@ var connectionString = builder.Configuration.GetConnectionString("testContextCon
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
 var config = builder.Configuration;
 
-var emailconfig = config
-        .GetSection("MailSettings")
-        .Get<MailSettings>();
 
-//builder.Services.AddSingleton(emailconfig);
 builder.Services.AddScoped<EmailService>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
