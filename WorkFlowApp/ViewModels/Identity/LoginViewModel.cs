@@ -9,11 +9,11 @@ namespace WorkFlowApp.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "حقل البريد الإلكتروني مطلوب")]
+        [EmailAddress(ErrorMessage = "صيغة البريد الإلكتروني غير صحيحة")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "حقل كلمة المرور مطلوبة")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
