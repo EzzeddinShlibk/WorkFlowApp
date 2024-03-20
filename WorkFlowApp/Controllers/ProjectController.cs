@@ -45,7 +45,7 @@ namespace WorkFlowApp.Controllers
             _toastNotification = toastNotification;
             _projectTask = projectTask;
         }
-    
+
         public Guid getTeamID(string UserID)
         {
             var data = _teamuser.Entity.GetAll().Where(a => a.userId == UserID).FirstOrDefault();
@@ -61,7 +61,7 @@ namespace WorkFlowApp.Controllers
 
         }
 
-    
+
         private async Task PopulateUsersDropDownList(string UserId, object selected = null)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -91,7 +91,7 @@ namespace WorkFlowApp.Controllers
         }
 
 
-      
+
         public async Task<List<ProjectViewModel>> getDataAsync(string UserId)
         {
             var projects = await _project.Entity.GetAll()
@@ -99,19 +99,19 @@ namespace WorkFlowApp.Controllers
            .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == UserId) && p.IsDeleted == false && p.IsArchived == false)
            .ToListAsync();
 
-      
+
             var model = new List<ProjectViewModel> { };
- 
+
             foreach (var item in projects)
             {
-           
+
                 TimeSpan difference = DateTime.Now - item.EndDate;
                 int daysDifference = Math.Abs(difference.Days);
 
-          
 
 
-                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.projectId == item.Id && a.isDeleted==false).ToListAsync();
+
+                var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.projectId == item.Id && a.isDeleted == false).ToListAsync();
                 int all = tasks.Count;
                 int completed = tasks.Where(k => k.statues.Num == 5).Count();
 
@@ -133,7 +133,7 @@ namespace WorkFlowApp.Controllers
             return model;
         }
 
-    
+
         public async Task<IActionResult> Projects(string message)
         {
             var UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -145,22 +145,22 @@ namespace WorkFlowApp.Controllers
 
 
 
- 
+
         [NoDirectAccess]
-        public async Task<IActionResult> CreateOrEditProject(Guid id)
+        public async Task<IActionResult> CreateOrEditProject(Guid id ,string message)
         {
- 
+
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await PopulateUsersDropDownList(userId.ToString());
- 
+
             if (id == Guid.Empty)
             {
- 
+
                 var model = new Project();
                 model.StartDate = DateTime.Now;
                 model.EndDate = DateTime.Now;
 
-  
+
                 ViewBag.edit = false;
 
                 return View(model);
@@ -168,9 +168,9 @@ namespace WorkFlowApp.Controllers
 
             else
             {
-   
+
                 ViewBag.edit = true;
-      
+
                 var model = await _project.Entity.GetAll().Where(a => a.Id == id).Include(a => a.ProjectsUsers).FirstOrDefaultAsync();
 
                 model.SelectedUserIds = model.ProjectsUsers.Select(pu => pu.userId.ToString()).ToList();
@@ -191,11 +191,18 @@ namespace WorkFlowApp.Controllers
         {
             var userID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             Guid teamID = getTeamID(userID.ToString());
- 
+
             var adminteamusers = await _teamuser.Entity.GetAll().Where(a => a.teamId == teamID && a.isAdmin == 1 || a.isAdmin == 2 && a.isDeleted == false).ToListAsync();
 
             if (ModelState.IsValid)
             {
+
+                if (model.EndDate < model.StartDate)
+                {
+                    await PopulateUsersDropDownList(userID.ToString());
+                    ViewBag.erroredDate = "لايمكن ان يكون تاريخ النتهاء اقدم من تاريخ البدء";
+                    return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditProject", model) });
+                }
                 if (id == Guid.Empty)
                 {
                     try
@@ -224,10 +231,10 @@ namespace WorkFlowApp.Controllers
                             await _projectsUser.SaveAsync();
                         }
 
-            
+
                         foreach (var item in adminteamusers)
                         {
-                 
+
                             if (!model.SelectedUserIds.Contains(item.userId))
                             {
                                 ProjectsUser projectuser = new ProjectsUser();
@@ -265,7 +272,7 @@ namespace WorkFlowApp.Controllers
                         oldproject.ModifiedDate = DateTime.Now;
                         _project.Entity.Update(oldproject);
                         await _project.SaveAsync();
-                         
+
                         var oldprojectuser = await _projectsUser.Entity.GetAll().Where(p => p.projectId == model.Id).ToListAsync();
 
                         if (oldprojectuser.Any())
@@ -415,9 +422,9 @@ namespace WorkFlowApp.Controllers
             .Include(a => a.ProjectsUsers)
             .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == userID) && p.IsDeleted == true)
             .ToListAsync();
- 
+
             var model = new List<DelArchProjectViewModel> { };
- 
+
             foreach (var item in projects)
             {
 
@@ -439,7 +446,7 @@ namespace WorkFlowApp.Controllers
                 model.Add(deletedProjectViewModel);
             }
 
-       
+
             return View(model);
         }
 
@@ -544,9 +551,9 @@ namespace WorkFlowApp.Controllers
             .Where(p => p.ProjectsUsers.Any(pu => pu.user.Id == userID) && p.IsArchived == true)
             .ToListAsync();
 
-   
+
             var model = new List<DelArchProjectViewModel> { };
- 
+
             foreach (var item in projects)
             {
 
@@ -568,7 +575,7 @@ namespace WorkFlowApp.Controllers
                 model.Add(deletedProjectViewModel);
             }
 
-  
+
             return View(model);
         }
 
@@ -581,7 +588,7 @@ namespace WorkFlowApp.Controllers
         {
             try
             {
-        
+
                 var model = await _project.Entity.GetByIdAsync(id);
                 model.IsArchived = false;
                 model.ModifiedDate = DateTime.Now;

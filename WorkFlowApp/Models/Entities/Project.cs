@@ -15,8 +15,12 @@ namespace WorkFlowApp.Models.Entities
 
  
         public DateTime StartDate { get; set; }
+
+
         [Required(ErrorMessage = "الرجاء ادخال تاريخ الانتهاء")]
+
         public DateTime EndDate { get; set; }
+
 
         public bool IsDeleted { get; set; }
 

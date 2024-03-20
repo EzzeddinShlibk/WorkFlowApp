@@ -59,6 +59,12 @@
         </div>
     }
 
+    @if (ViewBag.erroredDate != null)
+    {
+        <div class="text-danger">
+            @ViewBag.erroredDate
+        </div>
+    }
 
     <div class="mb-3">
         <label for="userInput" class="form-label">إضافة المستخدمين</label>

@@ -28,7 +28,12 @@
         <input value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for=" EndDate">
         <span asp-validation-for=" EndDate" class="text-danger"></span>
     </div>
-
+    @if (ViewBag.erroredDate != null)
+    {
+        <div class="text-danger">
+            @ViewBag.erroredDate
+        </div>
+    }
     <div class="row mb-3  ">
         <label class="form-label">المستخدمين</label>
         <select asp-for=" userId" class="form-control  " asp-items="ViewBag.UsersList">

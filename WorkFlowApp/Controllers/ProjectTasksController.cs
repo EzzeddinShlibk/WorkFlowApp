@@ -445,6 +445,12 @@ namespace WorkFlowApp.Controllers
             {
                 try
                 {
+                    if (model.EndDate < model.StartDate)
+                    {
+                        await PopulateUsersDropDownList(model.ProjectId);
+                        ViewBag.erroredDate = "لايمكن ان يكون تاريخ النتهاء اقدم من تاريخ البدء";
+                        return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditProject", model) });
+                    }
                     if (Guid.Empty == model.StatuesId)
                     {
                         ViewBag.Message = "الرجاء إختيار الحالة";
@@ -498,6 +504,7 @@ namespace WorkFlowApp.Controllers
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllTasks", returnmodel) });
 
             }
+            await PopulateUsersDropDownList(model.ProjectId);
             model.statues = await _statues.Entity.GetAll().ToListAsync();
             model.Priorities = await _priority.Entity.GetAll().ToListAsync();
             return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditTask", model) });

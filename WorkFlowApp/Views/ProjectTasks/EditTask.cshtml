@@ -62,6 +62,12 @@
                             <span asp-validation-for="EndDate" class="text-danger"></span>
                         </div>
                     }
+                    @if (ViewBag.erroredDate != null)
+                    {
+                        <div class="text-danger">
+                            @ViewBag.erroredDate
+                        </div>
+                    }
                     @if (User.IsInRole("Admin"))
                     {
                         <div class="row mb-3  ">
