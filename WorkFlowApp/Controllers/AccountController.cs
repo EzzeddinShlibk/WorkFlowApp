@@ -293,7 +293,7 @@ namespace WorkFlowApp.Controllers
               
 
 
-                    if (_signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Prog"))) //  في حال الآدمن هو من قام بتسجيل يوزر معين من ادارة المستخدمين
+                    if (_signInManager.IsSignedIn(User) &&  User.IsInRole("Prog")) //  في حال الآدمن هو من قام بتسجيل يوزر معين من ادارة المستخدمين
                     {
                         await _userManager.AddToRoleAsync(user, "prog");
 
@@ -318,8 +318,8 @@ namespace WorkFlowApp.Controllers
                             await _teamuser.SaveAsync();
                         }
                         await _userManager.AddToRoleAsync(user, "Admin");
-                        ViewBag.SaccessTitle = "Registered Successfully";
-                        ViewBag.SaccessMessage = "Please check your email, we sent confirmation link";
+                        ViewBag.SaccessTitle = "تم التسجيل بنجاح";
+                        ViewBag.SaccessMessage = "الرجاء التحقق من البريد الالكتروني لقد قمنا بارسال رابط التأكيد";
                     }
                     else
                     {
@@ -335,8 +335,8 @@ namespace WorkFlowApp.Controllers
 
                         _teamuser.Entity.Insert(teamUser);
                         await _teamuser.SaveAsync();
-                        ViewBag.SaccessTitle = "Registered Successfully";
-                        ViewBag.SaccessMessage = "Please check your email, we sent confirmation link and wait for admin approval";
+                        ViewBag.SaccessTitle = "تم التسجيل بنجاح";
+                        ViewBag.SaccessMessage = "الرجاء التحقق من البريد الالكتروني لقد قمنا بارسال رابط التأكيد";
 
                         await _userManager.AddToRoleAsync(user, "User");
 
@@ -344,8 +344,7 @@ namespace WorkFlowApp.Controllers
 
                     return View("AccountResult");
 
-                    //await _signInManager.SignInAsync(user, isPersistent: false); //isPersistent:false // Session cockie تنتهي عند اغلاق المتصفح مباشرة 
-                    //return RedirectToAction("Index", "Home"); // Password: a123.B456
+                   
                 }
 
                 foreach (var error in result.Errors)// قائمة الأخطاء التي تظهر في summary مثلا شروط الباسوورد وغيرها من الخصائص الإفتراضية
@@ -373,7 +372,7 @@ namespace WorkFlowApp.Controllers
 
             if (user.EmailConfirmed)
             {
-                ViewBag.Message = "You have already verified your email address";
+                ViewBag.Message = "لقد قمت بتأكيد حسابك مسبقاً";
                 return View();
             }
 
@@ -435,7 +434,7 @@ namespace WorkFlowApp.Controllers
 
                     if (await _userManager.IsInRoleAsync(user, "Admin"))
                     {
-                        return RedirectToAction("Index", "Charts");
+                        return RedirectToAction("Projects", "Project");
                     }
                     else if (await _userManager.IsInRoleAsync(user, "Prog"))
                     {
@@ -466,7 +465,7 @@ namespace WorkFlowApp.Controllers
                     if (user.LockoutEnd.Value.Year > DateTime.Now.Year)
                     {
                         ViewBag.ErrorTitle = "فشل في تسجيل الدخول";
-                        ViewBag.errorMessage = "هذا المستخدم ممنوع من الدخول من قبل مديرر النظام";
+                        ViewBag.errorMessage = "هذا المستخدم ممنوع من الدخول من قبل مدير النظام";
                         return View("Errorlog");
                     }
                     else

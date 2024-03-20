@@ -89,11 +89,11 @@ namespace WorkFlowApp.Controllers
                 else
                 {
 
-                    Guid StoreId = Guid.NewGuid();
+                    Guid ContentId = Guid.NewGuid();
 
                     Contact newContact = new Contact
                     {
-                        Id = StoreId,
+                        Id = ContentId,
                         CreatedDate = DateTime.Now,
                         Phone1 = model.Phone1,
                         Phone2 = model.Phone2,
