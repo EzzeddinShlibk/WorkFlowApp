@@ -9,8 +9,8 @@ namespace WorkFlowApp.ViewModels.Identity
 {
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "حقل البريد الإلكتروني مطلوب")]
+        [EmailAddress(ErrorMessage = "صيغة البريد الإلكتروني غير صحيحة")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -18,8 +18,8 @@ namespace WorkFlowApp.ViewModels.Identity
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "حقل كلمة المرور مطلوبة")]
+        [StringLength(100, ErrorMessage = "  كلمة المرور يجب ان تكون على الاقل 6 احرف وكأكثر 100 حرف ", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -30,7 +30,7 @@ namespace WorkFlowApp.ViewModels.Identity
         /// </summary>
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "كلمة المرور وإعادة كلمة المرور غير متطابقين")]
         public string ConfirmPassword { get; set; }
 
 
