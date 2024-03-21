@@ -24,6 +24,7 @@ namespace WorkFlowApp.Models.Entities
 
         public string FilePath { get; set; } = string.Empty;
         public bool isDeleted { get; set; }
+        public bool isRead { get; set; }
 
 
 

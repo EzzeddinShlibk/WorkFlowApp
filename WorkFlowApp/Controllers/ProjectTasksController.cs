@@ -300,13 +300,13 @@ namespace WorkFlowApp.Controllers
 
 
             //Convert events to a format suitable for JavaScript
-           var eventsForJs = taskslist.Select(e => new
-           {
-               title = e.Name,
-               start = e.StartDate.ToString("yyyy-MM-dd"), // Format the start date without time
-               end = e.EndDate.ToString("yyyy-MM-dd"), // Format the end date without time
-               className = $"bg-soft-{e.statues.Color}"
-           });
+            var eventsForJs = taskslist.Select(e => new
+            {
+                title = e.Name,
+                start = e.StartDate.ToString("yyyy-MM-dd"), // Format the start date without time
+                end = e.EndDate.ToString("yyyy-MM-dd"), // Format the end date without time
+                className = $"bg-soft-{e.statues.Color}"
+            });
 
 
 
@@ -314,7 +314,7 @@ namespace WorkFlowApp.Controllers
 
 
 
-           ViewBag.Events = Newtonsoft.Json.JsonConvert.SerializeObject(eventsForJs);
+            ViewBag.Events = Newtonsoft.Json.JsonConvert.SerializeObject(eventsForJs);
             return View(model);
         }
         public async Task<IActionResult> Tasks(Guid projectId, string message)
@@ -332,9 +332,13 @@ namespace WorkFlowApp.Controllers
         public async Task<IActionResult> EditTask(Guid id)
         {
             var OldTask = await _projectTask.Entity.GetAll().Where(a => a.Id == id).Include(p => p.Comments).ThenInclude(a => a.user).FirstOrDefaultAsync();
-
-
-
+            if (OldTask != null)
+            {
+                OldTask.isRead = true;
+                OldTask.ModifiedDate = DateTime.Now;
+                _projectTask.Entity.Update(OldTask);
+                _projectTask.SaveAsync();
+            }
 
             var comments = new List<commentList> { };
 
@@ -386,28 +390,10 @@ namespace WorkFlowApp.Controllers
                 userId = OldTask.userId,
                 FilePath = OldTask.FilePath,
                 Comments = comments,
+                isRead = OldTask.isRead,
                 statues = await _statues.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
                 Priorities = await _priority.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
-
-
-
             };
-            //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files", "TaskAttach");
-            //var filepath = "wwwroot/Files/TaskAttach/";
-            //var filePath = Path.Combine("wwwroot/Files/TaskAttach/", model.FilePath);
-            //var path= "wwwroot/Files/TaskAttach/"+model.FilePath;
-            //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Files", "TaskAttach" , model.FilePath);
-            //var ww = _webHostEnvironment.WebRootPath;
-            //var filePath =ww+ "/Files" + "TaskAttach/" + model.FilePath;
-            //using (var stream = new FileStream(filePath, FileMode.Create))
-            //{
-            //    model.File.CopyTo(stream);
-            //}
-            //string ff = "C:\\Users\\nusai\\source\\repos\\WorkFlowApp1\\WorkFlowApp\\wwwroot\\Files\\TaskAttach\\e2620494-_test.docx";
-            //using (var stream = new FileStream(ff, FileMode.Create))
-            //{
-            //    model.File.CopyTo(stream);
-            //}
             return View(model);
 
         }
@@ -563,6 +549,7 @@ namespace WorkFlowApp.Controllers
                         StartDate = model.StartDate,
                         EndDate = model.EndDate,
                         projectId = model.ProjectId,
+                        isRead = false,
                         isDeleted = false,
 
                     };
