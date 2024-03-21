@@ -288,8 +288,8 @@ namespace WorkFlowApp.Controllers
            var eventsForJs = taskslist.Select(e => new
            {
                title = e.Name,
-               start = e.StartDate.ToString("yyyy-MM-ddTHH:mm:ss"), // Adjust format if needed
-               end = e.EndDate.ToString("yyyy-MM-ddTHH:mm:ss"), // Adjust format if needed
+               start = e.StartDate.ToString("yyyy-MM-dd"), // Format the start date without time
+               end = e.EndDate.ToString("yyyy-MM-dd"), // Format the end date without time
                className = $"bg-soft-{e.statues.Color}"
            });
 
