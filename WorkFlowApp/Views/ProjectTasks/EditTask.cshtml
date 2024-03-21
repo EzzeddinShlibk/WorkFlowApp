@@ -141,7 +141,11 @@
                     <div class="row mb-3">
                         <label for="addFile" class="form-label">اضافة ملفات</label>
                         <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control" id="addFile" asp-for="File">
+                        @if (Model.FilePath!= string.Empty)
+                        {
+                            <a asp-controller="ProjectTasks" asp-action="DownloadFile" asp-route-filePath="Files/TaskAttach/@Model.FilePath" class="btn btn-primary">Download File</a>
 
+                        }
 
 
                         @* <a href="/uploads/@Model.FileName" target="_blank">View File</a> *@

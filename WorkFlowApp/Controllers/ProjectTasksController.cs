@@ -58,7 +58,22 @@ namespace WorkFlowApp.Controllers
             _projectTask = projectTask;
         }
 
+        public IActionResult DownloadFile(string filePath)
+        {
+            // Ensure that the file path is within the wwwroot directory
+            var wwwRootPath = _webHostEnvironment.WebRootPath;
+            var fullPath = Path.Combine(wwwRootPath, filePath);
 
+            if (!System.IO.File.Exists(fullPath))
+            {
+                return NotFound();
+            }
+
+            // Return the file for download
+            var fileBytes = System.IO.File.ReadAllBytes(fullPath);
+            var fileName = Path.GetFileName(fullPath);
+            return File(fileBytes, "application/octet-stream", fileName);
+        }
         public async Task<IActionResult> timeline(Guid id)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
