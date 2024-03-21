@@ -58,8 +58,45 @@ namespace WorkFlowApp.Controllers
             _projectTask = projectTask;
         }
 
+        public IActionResult DownloadFile(string filePath)
+        {
+            // Ensure that the file path is within the wwwroot directory
+            var wwwRootPath = _webHostEnvironment.WebRootPath;
+            var fullPath = Path.Combine(wwwRootPath, filePath);
 
+            if (!System.IO.File.Exists(fullPath))
+            {
+                return NotFound();
+            }
 
+            // Return the file for download
+            var fileBytes = System.IO.File.ReadAllBytes(fullPath);
+            var fileName = Path.GetFileName(fullPath);
+            return File(fileBytes, "application/octet-stream", fileName);
+        }
+        public async Task<IActionResult> timeline(Guid id)
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var query = await _projectTask.Entity.GetAll()
+                .Include(a => a.statues)
+            .Where(k => k.userId == userId && k.isDeleted == false)
+
+            .ToListAsync();
+
+            // Convert events to a format suitable for JavaScript
+            var eventsForJs = query.Select(e => new
+            {
+                title = e.Name,
+                start = e.StartDate.ToString("yyyy-MM-ddTHH:mm:ss"),
+                end = e.EndDate.ToString("yyyy-MM-ddTHH:mm:ss"),
+                className = $"bg-soft-{e.statues.Color}" // Assuming you have a property named Color in your Event model
+            });
+
+            ViewBag.Events = Newtonsoft.Json.JsonConvert.SerializeObject(eventsForJs);
+
+            return View();
+        }
 
         [HttpGet]
 
@@ -67,7 +104,7 @@ namespace WorkFlowApp.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var query = await  _projectTask.Entity.GetAll()
+            var query = await _projectTask.Entity.GetAll()
             .Where(k => k.userId == userId && k.isDeleted == false)
             .Include(k => k.statues)
             .Include(s => s.priority).
@@ -127,7 +164,7 @@ namespace WorkFlowApp.Controllers
 
             var query = _projectTask.Entity.GetAll()
             .Where(k => k.projectId == projectId && k.isDeleted == false)
- 
+
         .Include(k => k.statues)
         .Include(s => s.priority).Include(k => k.User);
 
@@ -208,7 +245,7 @@ namespace WorkFlowApp.Controllers
                 .ToListAsync();
 
             var model = new List<UsersTasksViewModel> { };
-
+            var taskslist = new List<ProjectTask> { };
             foreach (var item in teamUsers)
             {
                 var tasks = await _projectTask.Entity.GetAll().Include(a => a.statues).Where(a => a.userId == item.userId).ToListAsync();
@@ -240,14 +277,49 @@ namespace WorkFlowApp.Controllers
                     UnCompletedTask = Notcompleted,
 
                 };
+
+
+
                 model.Add(usersTasksViewModel);
 
+
+
+
+
+                foreach (var items in tasks)
+                {
+                    taskslist.Add(items);
+
+                }
+
+
             }
+
+
+
+
+
+            //Convert events to a format suitable for JavaScript
+           var eventsForJs = taskslist.Select(e => new
+           {
+               title = e.Name,
+               start = e.StartDate.ToString("yyyy-MM-dd"), // Format the start date without time
+               end = e.EndDate.ToString("yyyy-MM-dd"), // Format the end date without time
+               className = $"bg-soft-{e.statues.Color}"
+           });
+
+
+
+
+
+
+
+           ViewBag.Events = Newtonsoft.Json.JsonConvert.SerializeObject(eventsForJs);
             return View(model);
         }
         public async Task<IActionResult> Tasks(Guid projectId, string message)
         {
-           
+
 
             ViewBag.projectId = projectId;
             var model = await getDataAsync(projectId);
@@ -428,7 +500,7 @@ namespace WorkFlowApp.Controllers
                 statues = await _statues.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
                 Priorities = await _priority.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
                 ProjectId = projectId,
-                StatuesId= statues.Id
+                StatuesId = statues.Id
             };
 
             return View(model);
@@ -447,7 +519,7 @@ namespace WorkFlowApp.Controllers
                 {
                     if (model.EndDate < model.StartDate)
                     {
-                   
+
                         ViewBag.erroredDate = "لايمكن ان يكون تاريخ النتهاء اقدم من تاريخ البدء";
                         await PopulateUsersDropDownList(model.ProjectId);
                         model.statues = await _statues.Entity.GetAll().ToListAsync();
