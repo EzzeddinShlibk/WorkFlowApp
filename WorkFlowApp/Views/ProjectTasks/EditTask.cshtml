@@ -15,6 +15,8 @@
                 <div class="card-body">
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="ProjectId" />
+                    <input  type="hidden"  asp-for="isRead" / >
+
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     @if (User.IsInRole("Admin")){
                     <div class="mb-3">

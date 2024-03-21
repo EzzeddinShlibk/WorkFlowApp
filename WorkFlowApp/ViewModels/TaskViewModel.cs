@@ -35,7 +35,7 @@ namespace WorkFlowApp.ViewModels
         public string userId { get; set; }
 
         public string FilePath { get; set; } = string.Empty;
-
+        public bool isRead { get; set; }
         [NotMapped]
         public IFormFile File { get; set; }
 
