@@ -75,16 +75,15 @@
             </div>
         </div> 
         <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <div id='calendar'></div>
-                    <div style='clear:both'></div>
-                </div> 
-            </div> 
-        </div> 
-    </div> 
-
- 
+        <div class="card">
+            <div class="card-body">
+                <div id='calendar'></div>
+                <div style='clear:both'></div>
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div><!--end col-->
+</div><!-- End row -->
+</div><!-- container -->
 @section styles {
     <!--calendar css-->
     <link href="~/lib/fullcalendar/packages/core/main.css" rel="stylesheet" />
@@ -93,21 +92,65 @@
     <link href="~/lib/fullcalendar/packages/timegrid/main.css" rel="stylesheet" />
     <link href="~/lib/fullcalendar/packages/list/main.css" rel="stylesheet" />
     <link href="~/lib/lightpick/lightpick.css" rel="stylesheet" />
-    @*     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" /> *@
-
 }
 
-
 @section scripts {
-    @*     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script> *@
     <script src='~/lib/fullcalendar/packages/core/main.js'></script>
     <script src='~/lib/fullcalendar/packages/daygrid/main.js'></script>
     <script src='~/lib/fullcalendar/packages/timegrid/main.js'></script>
     <script src='~/lib/fullcalendar/packages/interaction/main.js'></script>
     <script src='~/lib/fullcalendar/packages/list/main.js'></script>
     <script src="~/lib/lightpick/lightpick.js"></script>
-    <script src='~/js/pages/jquery.calendar.js'></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var today = new Date();
+                 var eventsFromCSharp = @Html.Raw(ViewBag.Events);
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid', 'timeGrid'],
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                defaultDate: today,
+                timeZone: 'local', // Adjust timezone as needed
+                timeFormat: 'H:mm', // Use 24-hour time format
+                navLinks: true, // can click day/week names to navigate views
+                selectable: true,
+                selectMirror: true,
+                select: function (arg) {
+
+                },
+                editable: false,
+                eventLimit: true, // allow "more" link when too many events
+                events: eventsFromCSharp,
+                eventClick: function (arg) {
+
+                }
+            });
+
+            calendar.render();
+        });
+
+
+        // light_datepick
+        new Lightpick({
+            field: document.getElementById('light_datepick'),
+            field: document.getElementById('light_datepick'),
+            inline: true,
+        });
+
+
+
+
+
+
+
+
+    </script>
 
 }
 

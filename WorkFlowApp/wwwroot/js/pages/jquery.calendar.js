@@ -1,3 +1,8 @@
+/**
+* Theme: Dastone - Responsive Bootstrap 5 Admin Dashboard
+* Author: Mannatthemes
+* Component: Full-Calendar
+*/
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
@@ -8,70 +13,85 @@ document.addEventListener('DOMContentLoaded', function () {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        defaultDate: new Date(), 
-        navLinks: true,
+        defaultDate: '2020-06-12',
+        navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
         select: function (arg) {
             var title = prompt('Event Title:');
             if (title) {
-                // Save the event on the server
-                saveEvent({
+                calendar.addEvent({
                     title: title,
                     start: arg.start,
                     end: arg.end,
-                });
+                    allDay: arg.allDay
+                })
             }
-            calendar.unselect();
+            calendar.unselect()
         },
         editable: true,
-        eventLimit: true,
-        events: '/Calendar/GetEvents', // Adjust the URL based on your server endpoint
+        eventLimit: true, // allow "more" link when too many events
+        events: [
+            {
+                title: 'Business Lunch',
+                start: '2020-06-03T13:00:00',
+                constraint: 'businessHours',
+                className: 'bg-soft-warning',
+            },
+            {
+                title: 'Meeting',
+                start: '2020-06-13T11:00:00',
+                constraint: 'availableForMeeting', // defined below
+                className: 'bg-soft-purple',
+                textColor: 'white'
+            },
+            {
+                title: 'Conference',
+                start: '2020-06-27',
+                end: '2020-06-29',
+                className: 'bg-soft-primary',
+            },
+
+
+            // areas where "Meeting" must be dropped
+            {
+                groupId: 'availableForMeeting',
+                start: '2020-06-11T10:00:00',
+                end: '2020-06-11T16:00:00',
+                title: 'Repeating Event',
+                className: 'bg-soft-purple',
+            },
+            {
+                groupId: 'availableForMeeting',
+                start: '2020-06-15T10:00:00',
+                end: '2020-06-15T16:00:00',
+                title: 'holiday',
+                className: 'bg-soft-success',
+            },
+
+            // red areas where no events can be dropped
+
+            {
+                start: '2020-06-06',
+                end: '2020-06-08',
+                overlap: false,
+                title: 'New Event',
+                className: 'bg-soft-pink',
+            }
+        ],
         eventClick: function (arg) {
-            if (confirm('Delete event?')) {
-                deleteEvent(arg.event.id); // Pass the event id for deletion
+            if (confirm('delete event?')) {
+                arg.event.remove()
             }
         }
     });
 
-    function saveEvent(eventData) {
-        // Send event data to the server using AJAX
-        $.ajax({
-            type: 'POST',
-            url: '/Calendar/SaveEvent', // Adjust the URL based on your server endpoint
-            contentType: 'application/json',
-            data: JSON.stringify(eventData),
-            success: function (response) {
-                // Handle the response if needed
-                console.log(response);
-                // Reload events after saving
-                calendar.refetchEvents();
-            },
-            error: function (error) {
-                // Handle the error if needed
-                console.error(error);
-            }
-        });
-    }
-
-    function deleteEvent(eventId) {
-        // Send the event id to the server for deletion using AJAX
-        $.ajax({
-            type: 'POST',
-            url: '/Calendar/DeleteEvent', // Adjust the URL based on your server endpoint
-            data: { eventId: eventId },
-            success: function (response) {
-                // Handle the response if needed
-                console.log(response);
-                // Reload events after deletion
-                calendar.refetchEvents();
-            },
-            error: function (error) {
-                // Handle the error if needed
-                console.error(error);
-            }
-        });
-    }
-
     calendar.render();
+});
+
+
+// light_datepick
+new Lightpick({
+    field: document.getElementById('light_datepick'),
+    inline: true,
 });
