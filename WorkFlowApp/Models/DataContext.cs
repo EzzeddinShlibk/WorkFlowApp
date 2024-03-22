@@ -24,7 +24,6 @@ namespace WorkFlowApp.Models
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamUser> TeamUsers { get; set; }
         public DbSet<Profile> Profile { get; set; }
-        public DbSet<CalendarEvent> CalendarEvents { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Features> Features { get; set; }
         public DbSet<SiteState> SiteStates { get; set; }
@@ -44,7 +43,6 @@ namespace WorkFlowApp.Models
             modelBuilder.Entity<Statues>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<Team>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<Profile>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
-            modelBuilder.Entity<CalendarEvent>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<MainContent>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
 
 

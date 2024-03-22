@@ -9,9 +9,13 @@ using WorkFlowApp.ViewModels;
 using System.Net.Mail;
 using System.Drawing.Printing;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WorkFlowApp.Controllers
 {
+
+
+    [Authorize]
     public class TeamController : Controller
     {
         private readonly IUnitOfWork<Team> _team;

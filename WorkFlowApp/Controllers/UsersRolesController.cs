@@ -20,9 +20,6 @@ using static WorkFlowApp.Classes.Helper;
 namespace WorkFlowApp.Controllers
 {
     [Authorize(Roles = "Prog")] // يسمح لإحدى الصلاحيات المكتوبة
-
-
-
     [ViewLayout("_Layout")]
     public class UsersRolesController : Controller
     {
@@ -46,151 +43,6 @@ namespace WorkFlowApp.Controllers
         }
 
 
-        private async Task<IQueryable<IdentityRole>> GetRoles()
-        {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            if (await _userManager.IsInRoleAsync(user, "Prog"))
-            {
-                return (_roleManager.Roles);
-            }
-            else
-            {
-                return (_roleManager.Roles.Where(r => r.Name != "Prog"));
-            }
-
-        }
-        [HttpGet]
-        public async Task<IActionResult> Roles(string role)
-        {
-            ViewBag.NameInUse = role;
-            return View(await GetRoles());
-
-        }
-
-        [NoDirectAccess]
-        [Authorize(Roles = "Prog")]
-        public async Task<IActionResult> CreateOrEditRole(string id)
-        {
-            if (id == null)
-            {
-                var model = new EditRoleViewModel();
-                return View(model);
-            }
-
-            else
-            {
-                var role = await _roleManager.FindByIdAsync(id);
-
-                if (role == null)
-                {
-                    return NotFound();
-                }
-                var model = new EditRoleViewModel()
-                {
-                    Id = role.Id,
-                    Name = role.Name
-                };
-                return View(model);
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateOrEditRole(string id, EditRoleViewModel model)
-        {
-          
-
-                if (id == null)
-                {
-                    var ExistName = await _roleManager.Roles.Where(a => a.Name.ToUpper() == model.Name.ToUpper()).FirstOrDefaultAsync();
-
-                    if (ExistName == null)
-                    {
-                        IdentityRole identityRole = new IdentityRole
-                        {
-                            Name = model.Name
-                        };
-                        IdentityResult result = await _roleManager.CreateAsync(identityRole);
-
-                        _toastNotification.AddSuccessToastMessage("تم الحفظ بنجاح", new ToastrOptions() { Title = "" });
-
-
-                    }
-                    else
-                    {
-                        _toastNotification.AddErrorToastMessage("موجود مسبقا", new ToastrOptions() { Title = "" });
-
-
-                    }
-                }
-                else
-                {
-
-                    var role = await _roleManager.FindByIdAsync(model.Id.ToString());
-                    if (role == null)
-                    {
-                        ViewBag.ErrorMessage = $"Cannot be found Role with Id={model.Id}";
-                        return View("NotFound");
-                    }
-                    var ExistName = await _roleManager.Roles.Where(a => a.Name.ToUpper() == model.Name.ToUpper() && a.Id != model.Id).FirstOrDefaultAsync();
-                    if (ExistName == null)
-                    {
-                        role.Name = model.Name;
-                        var result = await _roleManager.UpdateAsync(role);
-                        _toastNotification.AddSuccessToastMessage("تم الحفظ بنجاح", new ToastrOptions() { Title = "" });
-                        id = string.Empty;
-                    }
-                    else
-                    {
-                        _toastNotification.AddErrorToastMessage("موجود مسبقا", new ToastrOptions() { Title = "" });
-
-
-                    }
-                }
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllRoles", await GetRoles()) });
-            //}
-            //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditRole", model) });
-        }
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        [Authorize(Roles = "Prog")]
-        public async Task<IActionResult> DeleteRole(string id)
-        {
-            try
-            {
-                var role = await _roleManager.FindByIdAsync(id);
-                if (role == null)
-                {
-                    ViewBag.ErrorMessage = $"Cannot be found role with Id={id}";
-                    return View("NotFound");
-                }
-
-                var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
-                if (usersInRole.Count != 0)
-                {
-                    _toastNotification.AddErrorToastMessage("لايمكن الحذف", new ToastrOptions() { Title = "" });
-                    return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllRoles", await GetRoles()) });
-
-                }
-
-                var result = await _roleManager.DeleteAsync(role);
-
-                if (result.Succeeded)
-                {
-                    return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllRoles", await GetRoles() ) });
-
-                }
-                else
-                {
-                    return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllRoles", await GetRoles()) });
-
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
 
 
         [AcceptVerbs("Get", "Post")]
@@ -204,7 +56,6 @@ namespace WorkFlowApp.Controllers
 
         }
         [HttpGet]
-        //[Authorize(Policy = "EditUserPolicy")]
         public async Task<IActionResult> EditUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -324,57 +175,5 @@ namespace WorkFlowApp.Controllers
             return RedirectToAction(nameof(EditUser), new { id = user.Id });
         }
 
-        [HttpPost]
-        [Authorize(Policy = "EditUserPolicy")]
-        public async Task<IActionResult> EditUserRoles(List<UserRolesViewModel> model, string userId) // userIdيأخذها من QieryString
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                ViewBag.ErrorMessage = "غير موجود";
-                return View("NotFound");
-            }
-
-            var roles = await _userManager.GetRolesAsync(user);
-            if ((await _userManager.RemoveFromRolesAsync(user, roles)).Succeeded)
-            {
-                if ((await _userManager.AddToRolesAsync(user, model.Where(s => s.IsSelected == true).Select(r => r.RoleName))).Succeeded)
-                {
-                    _toastNotification.AddSuccessToastMessage("تم الحفظ بنجاح", new ToastrOptions() { Title = "" });
-                    return RedirectToAction("EditUser", new { Id = userId});
-                }
-            }
-            ModelState.AddModelError(string.Empty, "Failed to modify user roles");
-            return RedirectToAction("EditUser", new { Id = userId });
-        }
-        [HttpPost]
-        [Authorize(Policy = "EditPolicy")]
-        public async Task<IActionResult> EditUserClaims(UserClaimsViewModel model, string userId)
-        {
-
-
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                ViewBag.ErrorMessage = "غير موجود";
-
-                return View("NotFound");
-            }
-
-            var claims = await _userManager.GetClaimsAsync(user);
-            var result = await _userManager.RemoveClaimsAsync(user, claims); //var result = await _userManager.RemoveFromClaimAsync(user, "User"); // لسحب صلاحية واحدة فقط
-            if (result.Succeeded)
-            {
-                result = await _userManager.AddClaimsAsync(user, model.Claims.Select(c => new Claim(c.ClaimType, c.IsSelected ? "true" : "false")));
-                if (result.Succeeded)
-                {
-                    _toastNotification.AddSuccessToastMessage("تم الحفظ بنجاح", new ToastrOptions() { Title = "" });
-
-                    return RedirectToAction("EditUser", new { Id = userId });
-                }
-            }
-            ModelState.AddModelError(string.Empty, "Failed to modify user Claims");
-            return RedirectToAction("EditUser", new { Id = userId });
-        }
     }
 }

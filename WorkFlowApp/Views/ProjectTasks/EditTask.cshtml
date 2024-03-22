@@ -15,15 +15,17 @@
                 <div class="card-body">
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="ProjectId" />
-                    <input  type="hidden"  asp-for="isRead" / >
+                    <input type="hidden" asp-for="FilePath" />
+                    <input type="hidden" asp-for="isRead" />
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    @if (User.IsInRole("Admin")){
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label">المهمة</label>
-                        <input asp-for=" Name" type="text" class="form-control" placeholder="أدخل المهمة">
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">المهمة</label>
+                            <input asp-for=" Name" type="text" class="form-control" placeholder="أدخل المهمة">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
                     }
                     @if (User.IsInRole("User"))
                     {
@@ -33,18 +35,19 @@
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                     }
-                      @if (User.IsInRole("Admin")){
-                    <div class="mb-3">
-                        <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
-                        <input value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for="StartDate">
-                        <span asp-validation-for=" StartDate" class="text-danger"></span>
-                    </div>
-                      }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="mb-3">
+                            <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
+                            <input value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for="StartDate">
+                            <span asp-validation-for=" StartDate" class="text-danger"></span>
+                        </div>
+                    }
                     @if (User.IsInRole("User"))
                     {
                         <div class="mb-3 ">
                             <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
-                            <input value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local"readonly  class="form-control disabled" asp-for="StartDate">
+                            <input value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" readonly class="form-control disabled" asp-for="StartDate">
                             <span asp-validation-for=" StartDate" class="text-danger"></span>
                         </div>
                     }
@@ -88,7 +91,7 @@
                             <span asp-validation-for=" userId" class="text-danger"></span>
                         </div>
                     }
-                      @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole("Admin"))
                     {
                         <div class="row mb-3">
                             <label asp-for=" Description" for="projectDescription" class="form-label">وصف المهمة</label>
@@ -119,8 +122,8 @@
                         </div>
                     </div>
 
-                   
-                  @if (User.IsInRole("Admin"))
+
+                    @if (User.IsInRole("Admin"))
                     {
                         <div class=" row mb-3">
                             <label class="form-label me-5">الاولوية</label>
@@ -137,20 +140,19 @@
                             </div>
                         </div>
                     }
-               
+
 
 
                     <div class="row mb-3">
-                        <label for="addFile" class="form-label">اضافة ملفات</label>
-                        <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control" id="addFile" asp-for="File">
-                        @if (Model.FilePath!= string.Empty)
+                        <label for="File" class="form-label">اضافة ملفات</label>
+                        <input  type="file" id="fileAttach1" class="form-control" name="File">
+                        @if (Model.FilePath != "-")
                         {
                             <a asp-controller="ProjectTasks" asp-action="DownloadFile" asp-route-filePath="Files/TaskAttach/@Model.FilePath" class="btn btn-primary">Download File</a>
 
                         }
 
 
-                        @* <a href="/uploads/@Model.FileName" target="_blank">View File</a> *@
 
                     </div>
 
@@ -167,54 +169,38 @@
             <div class="card-body">
                 <h5>التعليقات</h5>
                 <div class="col-12">
-             @*        @if (Model.Comments.Any())
-                    { *@
-                        @foreach (var item in Model.Comments)
-                        {
-                            <div class="card team-card">
-                                <div class="card-body">
-
-
-                                <div class="media align-items-center">
-                                        @if (item.Pic == "-")
-                                        {
-                                            <img src="~/images/users/1.jpg" alt="" class="rounded-circle user-img">
-
-
-                                        }
-                                        else
-                                        {
-                                            <img src="~/images/users/@(item.Pic).jpg" alt="" class="rounded-circle user-img" />
-
-                                        }
-                                        <div class="online-circle">
-                                            <i class="fa fa-circle text-success"></i>
-                                        </div>
-                                        <div class="media-body ms-3 align-self-center">
-                                            <h4 class="team-leader m-0">@item.Name</h4>
-                                        </div>
-                                    </div>
-                                    <p class="text-muted mb-0">@item.Comment</p>
-                                </div>
-                            </div>
-
-                        }
-                    @* }
-                    else
+               
+                    @foreach (var item in Model.Comments)
                     {
-
-
                         <div class="card team-card">
                             <div class="card-body">
+
+
                                 <div class="media align-items-center">
-                                    <p>لايوجد تعليقات</p>
+                                    @if (item.Pic == "-")
+                                    {
+                                        <img src="~/images/users/1.jpg" alt="" class="rounded-circle user-img">
+
+
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/users/@(item.Pic).jpg" alt="" class="rounded-circle user-img" />
+
+                                    }
+                                    <div class="online-circle">
+                                        <i class="fa fa-circle text-success"></i>
+                                    </div>
+                                    <div class="media-body ms-3 align-self-center">
+                                        <h4 class="team-leader m-0">@item.Name</h4>
+                                    </div>
                                 </div>
+                                <p class="text-muted mb-0">@item.Comment</p>
                             </div>
                         </div>
-                      
 
-
-                    } *@
+                    }
+      
                 </div>
 
 
@@ -249,27 +235,3 @@
 
 }
 
-@section scripts {
-    <script src="~/lib/apex-charts/apexcharts.min.js"></script>
-    <script src="~/js/pages/jquery.task.init.js"></script>
-    <script src="~/lib/jquery/jquery.js"></script>
-    <script>
-        function clickFile1() {
-            var objfile = document.getElementById("fileAttach1");
-            objfile.click();
-            return false;
-        }
-        function UploadAttach1(input) {
-            var file = input.files[0];
-
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById("imgAttach1").src = e.target.result;
-                }
-                reader.readAsDataURL(input.files[0]);
-
-            }
-        }
-    </script>
-}

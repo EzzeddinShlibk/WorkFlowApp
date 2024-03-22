@@ -23,7 +23,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace WorkFlowApp.Controllers
 {
-
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -403,6 +403,16 @@ namespace WorkFlowApp.Controllers
         [Route("Account/Login")]
         public async Task<IActionResult> Login()
         {
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    return LocalRedirect(returnUrl ?? "/");
+            //}
+
+            //HttpContext.SignOutAsync(IdentityConstants.ExternalScheme).Wait();
+
+            //ViewData["ReturnUrl"] = returnUrl;
+            //return View();
+
             if (_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction("Index", "Home");
@@ -415,6 +425,7 @@ namespace WorkFlowApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            //returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Email);

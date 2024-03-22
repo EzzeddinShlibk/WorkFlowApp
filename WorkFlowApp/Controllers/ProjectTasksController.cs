@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,6 +17,7 @@ using static WorkFlowApp.Classes.Helper;
 
 namespace WorkFlowApp.Controllers
 {
+    [Authorize]
     [ViewLayout("_Layout")]
     public class ProjectTasksController : Controller
     {
@@ -137,10 +139,10 @@ namespace WorkFlowApp.Controllers
 
         private async Task PopulateUsersDropDownList(Guid ProjectId, object selected = null)
         {
-            var projectUsers = await _projectsUser.Entity.GetAll()
+            var projectUsers =  _projectsUser.Entity.GetAll()
                 .Where(a => a.projectId == ProjectId)
                 .Include(a => a.user)
-                .ToListAsync();
+                .ToList();
 
             var usersList = projectUsers.Select(a =>
             {
@@ -331,21 +333,26 @@ namespace WorkFlowApp.Controllers
 
         public async Task<IActionResult> EditTask(Guid id)
         {
-            var OldTask = await _projectTask.Entity.GetAll().Where(a => a.Id == id).Include(p => p.Comments).ThenInclude(a => a.user).FirstOrDefaultAsync();
+
+
+            var OldTask = await _projectTask.Entity.GetAll().Where(a => a.Id == id)
+                                     .Include(p => p.Comments).ThenInclude(a => a.user)
+                                     .FirstOrDefaultAsync();
+
             if (OldTask != null)
             {
-                OldTask.isRead = true;
-                OldTask.ModifiedDate = DateTime.Now;
-                _projectTask.Entity.Update(OldTask);
-                _projectTask.SaveAsync();
+                var taskread = _projectTask.Entity.GetAll().Where(a => a.Id == id).FirstOrDefault();
+                taskread.isRead = true;
+                taskread.ModifiedDate = DateTime.Now;
+                _projectTask.Entity.Update(taskread);
+                await _projectTask.SaveAsync(); // Ensure to await the save operation
             }
 
-            var comments = new List<commentList> { };
-
+            var comments = new List<commentList>();
 
             foreach (var item in OldTask.Comments)
             {
-                var prof = _profile.Entity.GetAll().FirstOrDefault(k => k.UserId == item.userId);
+                var prof = await _profile.Entity.GetAll().Where(k => k.UserId == item.userId).FirstOrDefaultAsync();
 
                 string name;
                 string pic;
@@ -360,22 +367,14 @@ namespace WorkFlowApp.Controllers
                     pic = "-";
                 }
 
-
                 var commentList = new commentList
                 {
-
                     Name = name,
                     Pic = pic,
                     Comment = item.comment
-
                 };
                 comments.Add(commentList);
             }
-
-
-
-            await PopulateUsersDropDownList(OldTask.projectId);
-
 
             var model = new TaskViewModel
             {
@@ -394,7 +393,9 @@ namespace WorkFlowApp.Controllers
                 statues = await _statues.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
                 Priorities = await _priority.Entity.GetAll().OrderBy(a => a.Num).ToListAsync(),
             };
+            PopulateUsersDropDownList(OldTask.projectId);
             return View(model);
+
 
         }
 
@@ -517,10 +518,13 @@ namespace WorkFlowApp.Controllers
                         ViewBag.Message = "الرجاء إختيار الحالة";
                         return View(model);
                     }
-                    if (Guid.Empty == model.ProirityId)
+                    if (model.ProirityId == Guid.Empty )
                     {
-                        ViewBag.Message = "الرجاء إختيار الأولوية";
-                        return View(model);
+                        ViewBag.error = "الرجاء إختيار الأولوية";
+                        await PopulateUsersDropDownList(model.ProjectId);
+                        model.statues = await _statues.Entity.GetAll().ToListAsync();
+                        model.Priorities = await _priority.Entity.GetAll().ToListAsync();
+                        return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditTask", model) });
                     }
                     var statues = await _statues.Entity.GetByIdAsync(model.StatuesId);
                     if (statues == null)
@@ -536,6 +540,10 @@ namespace WorkFlowApp.Controllers
 
                     string FileName;
                     FileName = UploadedFile(model.File);
+                    if (FileName==null)
+                    {
+                        FileName = "-";
+                    }
                     ProjectTask newTask = new ProjectTask
                     {
                         Id = Guid.NewGuid(),
@@ -562,6 +570,10 @@ namespace WorkFlowApp.Controllers
 
                     throw;
                 }
+
+
+            
+
                 var returnmodel = await getDataAsync(model.ProjectId);
                 return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllTasks", returnmodel) });
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.CodeAnalysis;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 namespace WorkFlowApp.ViewModels
 {
     public class commentList
@@ -23,9 +24,15 @@ namespace WorkFlowApp.ViewModels
 
         public Guid ProjectId { get; set; }
         public Guid StatuesId { get; set; }
-        public Guid ProirityId { get; set; }
 
+
+        [Required(ErrorMessage = "الرجاء اختيار  الاهمية")]
+
+        public Guid ProirityId { get; set; }
+        [Required(ErrorMessage = "الرجاء ادخال اسم امهمة")]
         public string Name { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "الرجاء ادخال وصف المهمة")]
         public string Description { get; set; } = string.Empty;
 
         public DateTime StartDate { get; set; }
@@ -37,7 +44,7 @@ namespace WorkFlowApp.ViewModels
         public string FilePath { get; set; } = string.Empty;
         public bool isRead { get; set; }
         [NotMapped]
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
 
         public List<Statues> statues;
 
@@ -47,3 +54,7 @@ namespace WorkFlowApp.ViewModels
 
     }
 }
+
+
+
+
