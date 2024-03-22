@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
@@ -9,6 +10,7 @@ using WorkFlowApp.Models.Interfaces;
 
 namespace WorkFlowApp.Controllers
 {
+    [Authorize]
     public class ChartsController : Controller
     {
         private readonly IUnitOfWork<Project> _project;

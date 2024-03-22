@@ -6,7 +6,7 @@
 
     <input type="hidden" asp-for="ProjectId" />
     <input type="hidden" asp-for="StatuesId" />
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="mb-3">
         <label asp-for=" Name" class="form-label">المهمة</label>
@@ -43,8 +43,8 @@
 
 
     <div class="row mb-3">
-        <label for="addFile" class="form-label">اضافة ملفات</label>
-        <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control" id="addFile" asp-for="File">
+        <label for="File" class="form-label">اضافة ملفات</label>
+        <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control"  asp-for="File">
     </div>
 
 
@@ -76,6 +76,12 @@
                     <i class="far fa-flag"></i>
                 </label>
             }
+            @if (ViewBag.error != null)
+            {
+                <span class="text-danger">@ViewBag.error</span>
+
+            }
+
         </div>
     </div>
 
@@ -95,5 +101,6 @@
 }
 
 @section scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 }

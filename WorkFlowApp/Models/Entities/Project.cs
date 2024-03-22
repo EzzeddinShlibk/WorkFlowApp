@@ -6,11 +6,13 @@ namespace WorkFlowApp.Models.Entities
     public class Project : BaseEntity
     {
         [Required(ErrorMessage = "الرجاء ادخال اسم المشروع")]
-        [StringLength(50, MinimumLength = 5)]
-
+        [StringLength(50, ErrorMessage = "  كلمة المرور يجب ان تكون على الاقل 2 احرف وكأكثر 50 حرف ", MinimumLength = 2)]
         public string Name { get; set; } = string.Empty;
+
+
+
         [Required(ErrorMessage = "الرجاء ادخال وصف المشروع")]
-        [StringLength(50, MinimumLength = 5)]
+        [StringLength(50, ErrorMessage = "  كلمة المرور يجب ان تكون على الاقل 2 احرف وكأكثر 50 حرف ", MinimumLength = 2)]
         public string Description { get; set; } = string.Empty;
 
  
