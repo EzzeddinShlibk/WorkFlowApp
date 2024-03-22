@@ -23,7 +23,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace WorkFlowApp.Controllers
 {
-    [Authorize]
+
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

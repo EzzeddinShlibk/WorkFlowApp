@@ -41,27 +41,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddDefaultTokenProviders();
 
 
-//builder.Services.AddAuthentication()
-//   .AddGoogle(options =>
-//   {
-//       IConfigurationSection googleAuthNSection =
-//       config.GetSection("Authentication:Google");
-//       options.ClientId = googleAuthNSection["ClientId"];
-//       options.ClientSecret = googleAuthNSection["ClientSecret"];
-//   })
-//   .AddFacebook(options =>
-//   {
-//       IConfigurationSection FBAuthNSection =
-//       config.GetSection("Authentication:FB");
-//       options.ClientId = FBAuthNSection["ClientId"];
-//       options.ClientSecret = FBAuthNSection["ClientSecret"];
-//   })
-//   .AddMicrosoftAccount(microsoftOptions =>
-//   {
-//       microsoftOptions.ClientId = config["Authentication:Microsoft:ClientId"];
-//       microsoftOptions.ClientSecret = config["Authentication:Microsoft:ClientSecret"];
-//   });
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//           .AddEntityFrameworkStores<DbContext>();
 
+//builder.Services.AddScoped<SignInManager<IdentityUser>>();
 
 
 
