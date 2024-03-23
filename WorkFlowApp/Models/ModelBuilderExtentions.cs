@@ -23,13 +23,22 @@ namespace WorkFlowApp.Models
 
          });
 
+              modelBuilder.Entity<Contact>().HasData(
+                  new Contact { Id = Guid.NewGuid(), Phone1 = "0923333333", Phone2 = "0912223344", Address = "طرابلس ليبيا", Email1 = "flowmaster@gmail.com", Email2 = "flowmaster.co@gmail.com", Facebook = "flowmaster home", CreatedDate = DateTime.Now }
+              );
+
+
+            modelBuilder.Entity<Features>().HasData(
+            new Features { Id = Guid.NewGuid(), Title1 = "سير العمل", Content1 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", Pic1 = "1.webp", Title2 = "flowmaster@gmail.com", Content2 = "flowmaster.co@gmail.com", Pic2 = "2.png",Title3= "المهام والتعاون الفعال", Content3 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.",Pic3="3.png" }
+              );
+
 
             modelBuilder.Entity<Statues>().HasData(
                 new Statues { Id = Guid.NewGuid(), Name = "بانتظار البدء", Num = 1, Color = "purple", Icon = "fas fa-clock", CreatedDate = DateTime.Now },
                 new Statues { Id = Guid.NewGuid(), Name = "توقف حرج", Num = 2, Color = "danger", Icon = "fas fa-stop-circle", CreatedDate = DateTime.Now },
                 new Statues { Id = Guid.NewGuid(), Name = "بانتظار المراجعة", Num = 3, Color = "warning", Icon = "fas fa-clipboard-check", CreatedDate = DateTime.Now },
                 new Statues { Id = Guid.NewGuid(), Name = "قيد التنفيد", Num = 4, Color = "blue", Icon = "fas fa-tasks", CreatedDate = DateTime.Now },
-                new Statues { Id = Guid.NewGuid(), Name = "مكتملة", Num =5, Color = "success", Icon = "fas fa-check-circle", CreatedDate = DateTime.Now }
+                new Statues { Id = Guid.NewGuid(), Name = "مكتملة", Num = 5, Color = "success", Icon = "fas fa-check-circle", CreatedDate = DateTime.Now }
             );
 
             modelBuilder.Entity<Priority>().HasData(
@@ -155,4 +164,3 @@ namespace WorkFlowApp.Models
     }
 }
 
- 
