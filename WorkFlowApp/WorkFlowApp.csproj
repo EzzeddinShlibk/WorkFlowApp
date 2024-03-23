@@ -16,6 +16,7 @@
 	<ItemGroup>
 		<Content Remove="C:\Users\nusai\.nuget\packages\ntoastnotify\8.0.0\contentFiles\any\net6.0\wwwroot\noty.js" />
 		<Content Remove="C:\Users\nusai\.nuget\packages\ntoastnotify\8.0.0\contentFiles\any\net6.0\wwwroot\toastr.js" />
+		<Content Remove="wwwroot\images\Features\1.webp" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -48,6 +49,7 @@
 		<None Include="wwwroot\images2\wave%286%29.svg" />
 		<None Include="wwwroot\images2\1.webp" />
 		<None Include="wwwroot\images2\Workfloww %281%29.avif" />
+		<None Include="wwwroot\images\Features\1.webp" />
 		<None Include="wwwroot\js\pages\jquery.analytics_dashboard.init.js" />
 		<None Include="wwwroot\js\pages\jquery.animate.init.js" />
 		<None Include="wwwroot\js\pages\jquery.apexcharts.init.js" />
@@ -551,7 +553,6 @@
 	<ItemGroup>
 		<Folder Include="wwwroot\Files\" />
 		<Folder Include="wwwroot\Files\TaskAttach\" />
-		<Folder Include="wwwroot\images\Features\" />
 	</ItemGroup>
 
 </Project>

@@ -29,7 +29,7 @@ namespace WorkFlowApp.Models
 
 
             modelBuilder.Entity<Features>().HasData(
-            new Features { Id = Guid.NewGuid(), Title1 = "سير العمل", Content1 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", Pic1 = "1.webp", Title2 = "flowmaster@gmail.com", Content2 = "flowmaster.co@gmail.com", Pic2 = "2.png",Title3= "المهام والتعاون الفعال", Content3 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.",Pic3="3.png" }
+            new Features { Id = Guid.NewGuid(), Title1 = "سير العمل", Content1 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", Pic1 = "1.webp", Title2 = "وحدة المراقبة المركزية", Content2 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", Pic2 = "2.png",Title3= "المهام والتعاون الفعال", Content3 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.",Pic3="3.png" }
               );
 
 

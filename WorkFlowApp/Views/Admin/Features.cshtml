@@ -55,7 +55,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <div class="custom-file">
-                                                            <input asp-for="Image1" id="fileAttach1" type="file" onchange="UploadAttach1(this);" class="custom-file-input">
+                                                            <input  asp-for="Image1" id="fileAttach1" type="file" onchange="UploadAttach1(this);" class="custom-file-input">
                                                             <label asp-for="Image1" class="custom-file-label" for="Picture">تحميل </label>
                                                         </div>
                                                     </div>
@@ -64,11 +64,11 @@
                                                             <div>
                                                                 @if (Model.Pic1 != null)
                                                                 {
-                                                                    <img id="imgAttach1" src="~/images/Features/@Model.Pic1" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                                <img id="imgAttach1" src="~/images/Features/@Model.Pic1" onclick="return clickFile1();" width="300px" height="300px" class="avatar cover-image avatar-lg bradius" alt="img">
                                                                 }
                                                                 else
                                                                 {
-                                                                    <img id="imgAttach1" src="~/images/unnamed.png" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                                <img id="imgAttach1" src="~/images/unnamed.png" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" width="300px" height="300px"  alt="img">
                                                                 }
                                                             </div>
 
@@ -132,11 +132,11 @@
                                                             <div>
                                                                 @if (Model.Pic2 != null)
                                                                 {
-                                                                    <img id="imgAttach1" src="~/images/Features/@Model.Pic2" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                                <img id="imgAttach1" src="~/images/Features/@Model.Pic2" onclick="return clickFile1();" width="300px" height="300px" class="avatar cover-image avatar-lg bradius" alt="img">
                                                                 }
                                                                 else
                                                                 {
-                                                                    <img id="imgAttach1" src="~/assets/images/unnamed.png" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                                <img id="imgAttach1" src="~/assets/images/unnamed.png" onclick="return clickFile1();" width="300px" height="300px"  class="avatar cover-image avatar-lg bradius" alt="img">
                                                                 }
                                                             </div>
 
@@ -200,11 +200,11 @@
                                                             <div>
                                                                 @if (Model.Pic3 != null)
                                                                 {
-                                                                    <img id="imgAttach1" src="~/images/Features/@Model.Pic3" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                            <img id="imgAttach1" src="~/images/Features/@Model.Pic3" onclick="return clickFile1();" width="300px" height="300px" class="avatar cover-image avatar-lg bradius" alt="img">
                                                                 }
                                                                 else
                                                                 {
-                                                                    <img id="imgAttach1" src="~/images/unnamed.png" onclick="return clickFile1();" class="avatar cover-image avatar-lg bradius" alt="img">
+                                                                            <img id="imgAttach1" src="~/images/unnamed.png" onclick="return clickFile1();" width="300px" height="300px" class="avatar cover-image avatar-lg bradius" alt="img">
                                                                 }
                                                             </div>
 

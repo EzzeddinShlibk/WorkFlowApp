@@ -16,7 +16,7 @@
         </div>
 
         <div class="col-lg-7 d-flex justify-content-center  ">
-            <img src="~/images2/Standup meeting-pana.png" class="img-midl" />
+            <img src="~/images2/3.png" class="img-midl" />
         </div>
 
 
@@ -34,25 +34,25 @@
     <div class="row d-flex justify-content-center gap-lg-3 " style="margin:0;">
 
         <div class="col-lg-3   col-sm-8 card card1">
-            <img src="~/images2/workflow-tabs.webp" class=" img-card" />
+            <img src="~/images/Features/@Model.Features.Pic1" class=" img-card" />
             <div class="card-body">
-                <h5 class="card-title card-f1">سير العمل</h5>
-                <p class="card-text card-f2" style="color: #71717a ">يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.</p>
+                <h5 class="card-title card-f1">@Model.Features.Title1</h5>
+                <p class="card-text card-f2" style="color: #71717a ">@Model.Features.Content1.</p>
             </div>
         </div>
         <div class="col-lg-3   col-sm-8 card card1">
-            <img src="~/images2/Site Stats-amico (1).png" class=" img-card" />
+            <img src="~/images/Features/@Model.Features.Pic2" class=" img-card" />
 
             <div class="card-body">
-                <h5 class="card-title card-f1 ">وحدة المراقبة المركزية</h5>
-                <p class="card-text card-f2" style="color: #71717a ">يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.</p>
+                <h5 class="card-title card-f1 ">@Model.Features.Title2</h5>
+                <p class="card-text card-f2" style="color: #71717a ">@Model.Features.Content2</p>
             </div>
         </div>
         <div class="col-lg-3  col-sm-8 card card1">
-            <img src="~/images2/Standup meeting-pana.png" class=" img-card" />
+            <img src="~/images/Features/@Model.Features.Pic3" class=" img-card" />
             <div class="card-body">
-                <h5 class="card-title card-f1 ">المهام والتعاون الفعال</h5>
-                <p class="card-text card-f2" style="color: #71717a ">يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.</p>
+                <h5 class="card-title card-f1 ">@Model.Features.Title3</h5>
+                <p class="card-text card-f2" style="color: #71717a ">@Model.Features.Content3</p>
             </div>
         </div>
 
@@ -87,3 +87,112 @@
 
     </div>
 </div>
+
+
+<section id="Co">
+    <img src="~/images2/footer-shape.svg" style="background-color: #6d81f5" />
+
+    <div class="footer-back">
+        <nav class="footer">
+            <div class="container">
+                <form action="/" method="post">
+                    <div class="container">
+                        <div class="row justify-content-center pe-lg-5 ">
+                            <div class="col-12">
+                                <p class="fs-2">اتصل بنا</p>
+                            </div>
+
+
+                            <div class="col-12 d-flex gap-lg-3 gap-sm-3">
+                                <div class="mb-3">
+                                    <input type="email" class="contact-input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="الاسم">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="email" class="contact-input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="رقم الهاتف">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <input type="email" class="contact-input2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="البريد الالكتروني">
+                                </div>
+                            </div>
+                            <div class="col-12">
+
+                                <div class="form-floating">
+                                    <textarea class="contact-textarea" placeholder="الرسالة" id="floatingTextarea2" style="height: 100px"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <a class=" btn  btn-success mt-4 py-lg-2 py-sm-2 px-4 mb-sm-3 fs-5  ">
+                                    ارسال
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="ul3">
+                <ul class="ul-left" style="list-style-type:none">
+                    <li class="li">
+                        <div class=" d-flex align-items-center">
+                            <i class="fa-solid fa-location-dot me-1" style="color: #fafcff;font-size:12px; "></i>
+                            <a class="nav-link" asp-action="login" asp-controller="Account">
+                                @Model.contact.Address
+                            </a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class=" d-flex align-items-center">
+                            <i class="fa-solid fa-envelope me-1" style="color: #fafcff;font-size:12px; "></i>
+                            <a class="nav-link">
+                                @Model.contact.Email1
+                            </a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class=" d-flex align-items-center">
+                            <i class="fa-solid fa-envelope me-1" style="color: #fafcff;font-size:12px; "></i>
+                            <a class="nav-link">
+                                @Model.contact.Email2
+
+
+                            </a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class="  d-flex align-items-center">
+                            <i class="fa-solid fa-mobile me-1" style="color: #ffffff;font-size:12px; "></i>
+                            <a class="nav-link">@Model.contact.Phone1</a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class="  d-flex align-items-center">
+                            <i class="fa-solid fa-phone me-1" style="color: #ffffff;font-size:12px; "></i>
+                            <a class="nav-link">
+                                @Model.contact.Phone2
+                            </a>
+                        </div>
+                    </li>
+                    <li class="li">
+                        <div class="  d-flex align-items-center">
+                            <i class="fa-brands fa-facebook me-1" style="color: #ffffff;font-size:12px; "></i>
+                            <a class="nav-link" asp-controller="account" asp-action="login" />
+                            @Model.contact.Facebook
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+
+        <nav class="nav4">
+            <p class="p5">      جميع الحقوق محفوظة&copy; Flow Master App  2024  </p>
+
+        </nav>
+
+    </div>
+</section>
