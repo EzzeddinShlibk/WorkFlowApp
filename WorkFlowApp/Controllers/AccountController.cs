@@ -468,7 +468,7 @@ namespace WorkFlowApp.Controllers
                                 return View("Errorlog");
                             }
                         }
-                        return RedirectToAction("Index", "Main");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 if (result.IsLockedOut)
