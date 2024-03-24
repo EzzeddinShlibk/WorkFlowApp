@@ -147,7 +147,7 @@ namespace WorkFlowApp.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -476,9 +476,9 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1a31a7b8-1e07-453d-923c-873adf687a91", null, "Prog", "PROG" },
-                    { "5e03f19c-6241-4ae6-8e7d-1065b38f92ed", null, "Admin", "ADMIN" },
-                    { "bdfc67b3-dba8-401b-b28d-476b924cc1db", null, "User", "USER" }
+                    { "4f6b41ed-4122-49fb-99b4-6dd6a05f4e8b", null, "User", "USER" },
+                    { "53203dd6-ebf2-47dd-9115-253d529f9368", null, "Admin", "ADMIN" },
+                    { "68faac52-1241-47b8-9b83-7d9676d83985", null, "Prog", "PROG" }
                 });
 
             migrationBuilder.InsertData(
@@ -486,46 +486,46 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "ModifiedDate", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "3a563d10-783d-411a-8df8-8aec21454b9d", 0, "22d0d5d3-3b35-4687-97b3-e87d51fbd901", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3953), "Programmer@Gmail.com", true, true, null, null, "PROGRAMMER@GMAIL.COM", "PROGRAMMER@GMAIL.COM", "AQAAAAIAAYagAAAAEM4RlG5IOU2vZGK+wnEtON1lXLGDxM84dcyNuAiwzET1zgJuRknBDRoU8PHJMnNmMA==", null, true, "00000000-0000-0000-0000-000000000000", false, "Programmer@Gmail.com" },
-                    { "455dbc65-b6f8-4dd5-b70b-b8aa0fe08077", 0, "404b10bd-b04c-4646-8768-517fab90de08", new DateTime(2024, 3, 24, 18, 39, 24, 183, DateTimeKind.Local).AddTicks(6545), "Manager@Gmail.com", true, false, null, null, "MANAGER@GMAIL.COM", "MANAGER@GMAIL.COM", "AQAAAAIAAYagAAAAEFzYHp3wKU1Ui4nozgOk8sfJR/QLHZQcNVT1sssUCjuD+oHyQ5buS0AJeHuV1nK0Tg==", null, true, "00000000-0000-0000-0000-000000000000", false, "Manager@Gmail.com" }
+                    { "673c3a32-3c65-4f1d-acf9-2f343896136f", 0, "8ffcae84-ee74-4380-ace9-2b6071065fb6", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(357), "Programmer@Gmail.com", true, true, null, null, "PROGRAMMER@GMAIL.COM", "PROGRAMMER@GMAIL.COM", "AQAAAAIAAYagAAAAEObIa4xWs76qVvQu+RZIRcc7dEVGEGQxUhfSGThBTmktMrX+P79Zl8nwwbaRR5q6CA==", null, true, "00000000-0000-0000-0000-000000000000", false, "Programmer@Gmail.com" },
+                    { "7f4b69a0-f2b7-4546-8cc9-0cc6c1c9efc6", 0, "5c86ab79-18af-48e4-a5d4-fa23bd0adecd", new DateTime(2024, 3, 24, 19, 0, 41, 271, DateTimeKind.Local).AddTicks(3296), "Manager@Gmail.com", true, false, null, null, "MANAGER@GMAIL.COM", "MANAGER@GMAIL.COM", "AQAAAAIAAYagAAAAEMVH8S1OxarcjFCm+B7EnzMheZonYwhV3TPtXSnyYi6wPv6WzB4PVuekbvlkYXSnAA==", null, true, "00000000-0000-0000-0000-000000000000", false, "Manager@Gmail.com" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Contacts",
                 columns: new[] { "Id", "Address", "CreatedDate", "Email1", "Email2", "Facebook", "ModifiedDate", "Phone1", "Phone2" },
-                values: new object[] { new Guid("38386a50-0a74-4c03-adb7-1b526dd7c4de"), "طرابلس ليبيا", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3770), "flowmaster@gmail.com", "flowmaster.co@gmail.com", "flowmaster home", null, "0923333333", "0912223344" });
+                values: new object[] { new Guid("0d685806-748f-4835-9c08-fabd857b9ef9"), "طرابلس ليبيا", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(171), "flowmaster@gmail.com", "flowmaster.co@gmail.com", "flowmaster home", null, "0923333333", "0912223344" });
 
             migrationBuilder.InsertData(
                 table: "Features",
                 columns: new[] { "Id", "Content1", "Content2", "Content3", "Pic1", "Pic2", "Pic3", "Title1", "Title2", "Title3" },
-                values: new object[] { new Guid("f79b1f81-6b06-4038-8c9f-e5e266e66dd4"), "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", "1.webp", "2.png", "3.png", "سير العمل", "وحدة المراقبة المركزية", "المهام والتعاون الفعال" });
+                values: new object[] { new Guid("d7c1eec3-492f-415a-8916-aba04c912652"), "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.", "1.webp", "2.png", "3.png", "سير العمل", "وحدة المراقبة المركزية", "المهام والتعاون الفعال" });
 
             migrationBuilder.InsertData(
                 table: "Priorities",
                 columns: new[] { "Id", "Color", "CreatedDate", "ModifiedDate", "Name", "Num" },
                 values: new object[,]
                 {
-                    { new Guid("012308d9-98b8-4c47-9c01-839968b342d1"), "secondary", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3844), null, "بدون اولوية", 1 },
-                    { new Guid("2eeb166b-df7d-4a10-9f6e-152c3ab0ee7c"), "warning", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3850), null, "اولوية متوسطة", 3 },
-                    { new Guid("581e87a1-d738-4b38-b622-ede3f7023ddd"), "pink", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3846), null, "اولوية مبدئية", 2 },
-                    { new Guid("59eab844-6705-49f7-86a5-e4ee1f1627c0"), "danger", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3852), null, "اولوية قصوى", 4 }
+                    { new Guid("0d372f11-2dc3-40bd-ab0d-3e9f5b9c84d4"), "secondary", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(252), null, "بدون اولوية", 1 },
+                    { new Guid("1568ad8a-5b81-4f1b-a4df-7f76a0cd0d1f"), "danger", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(261), null, "اولوية قصوى", 4 },
+                    { new Guid("40d677a2-f0ee-41b9-9962-4f75c72003e0"), "pink", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(255), null, "اولوية مبدئية", 2 },
+                    { new Guid("b2ab5156-c347-4b04-ad6b-44aa673f141a"), "warning", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(259), null, "اولوية متوسطة", 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "SiteStates",
                 columns: new[] { "Id", "ClosingMessage", "CreatedDate", "ModifiedDate", "State" },
-                values: new object[] { new Guid("7da05ba4-69d8-4df5-bed8-ad2dd1ce05a0"), "الموقع مغلق مؤقتا للتطوير", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3607), null, true });
+                values: new object[] { new Guid("4fedc746-5f1b-40c6-8f98-435a20d5ddd5"), "الموقع مغلق مؤقتا للتطوير", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(32), null, true });
 
             migrationBuilder.InsertData(
                 table: "Statuess",
                 columns: new[] { "Id", "Color", "CreatedDate", "Icon", "ModifiedDate", "Name", "Num" },
                 values: new object[,]
                 {
-                    { new Guid("3619edf9-e741-44f0-b9d0-47d075cc36d6"), "warning", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3821), "fas fa-clipboard-check", null, "بانتظار المراجعة", 3 },
-                    { new Guid("6fb5d349-7108-4178-8197-cf1103917ff9"), "blue", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3823), "fas fa-tasks", null, "قيد التنفيد", 4 },
-                    { new Guid("bed9aa05-c2a8-407e-bbf9-f8efe9036c71"), "purple", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3818), "fas fa-clock", null, "بانتظار البدء", 1 },
-                    { new Guid("e81db799-147f-450f-af56-2b9755cd3ca1"), "danger", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3820), "fas fa-stop-circle", null, "توقف حرج", 2 },
-                    { new Guid("f7c3d744-81f2-4571-a079-0d3ee1fda53e"), "success", new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3825), "fas fa-check-circle", null, "مكتملة", 5 }
+                    { new Guid("4e694784-fbe4-43d4-bcb4-590ddb1f6f07"), "warning", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(228), "fas fa-clipboard-check", null, "بانتظار المراجعة", 3 },
+                    { new Guid("5689c3ef-8718-4103-9a3a-0e20b9d74a5e"), "blue", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(229), "fas fa-tasks", null, "قيد التنفيد", 4 },
+                    { new Guid("8bf7a1e9-e4da-4b9e-a4aa-47d9b113c69f"), "purple", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(224), "fas fa-clock", null, "بانتظار البدء", 1 },
+                    { new Guid("ca20c349-f391-4bbc-aad5-80a8e61272eb"), "danger", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(226), "fas fa-stop-circle", null, "توقف حرج", 2 },
+                    { new Guid("fc2394c2-e83f-4bfc-83b4-d19a5eab2c6a"), "success", new DateTime(2024, 3, 24, 19, 0, 41, 209, DateTimeKind.Local).AddTicks(231), "fas fa-check-circle", null, "مكتملة", 5 }
                 });
 
             migrationBuilder.InsertData(
@@ -533,8 +533,8 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "1a31a7b8-1e07-453d-923c-873adf687a91", "3a563d10-783d-411a-8df8-8aec21454b9d" },
-                    { "1a31a7b8-1e07-453d-923c-873adf687a91", "455dbc65-b6f8-4dd5-b70b-b8aa0fe08077" }
+                    { "68faac52-1241-47b8-9b83-7d9676d83985", "673c3a32-3c65-4f1d-acf9-2f343896136f" },
+                    { "68faac52-1241-47b8-9b83-7d9676d83985", "7f4b69a0-f2b7-4546-8cc9-0cc6c1c9efc6" }
                 });
 
             migrationBuilder.InsertData(
@@ -542,8 +542,8 @@ namespace WorkFlowApp.Migrations
                 columns: new[] { "Id", "CreatedDate", "DisplayName", "Gender", "ModifiedDate", "PhoneNum", "Pic", "UserId", "bio" },
                 values: new object[,]
                 {
-                    { new Guid("46fd11fd-38ab-4773-b742-87f35a69d359"), new DateTime(2024, 3, 24, 18, 39, 24, 243, DateTimeKind.Local).AddTicks(8351), "Manager", false, null, "093435345", "1", "455dbc65-b6f8-4dd5-b70b-b8aa0fe08077", "" },
-                    { new Guid("ffaaf995-adf9-458c-9ff4-203c610628b0"), new DateTime(2024, 3, 24, 18, 39, 24, 183, DateTimeKind.Local).AddTicks(6468), "Programmer", false, null, "09233333333", "1", "3a563d10-783d-411a-8df8-8aec21454b9d", "" }
+                    { new Guid("5cd12520-e448-4a0f-96e7-9a168564f4f4"), new DateTime(2024, 3, 24, 19, 0, 41, 330, DateTimeKind.Local).AddTicks(8049), "Manager", false, null, "093435345", "1", "7f4b69a0-f2b7-4546-8cc9-0cc6c1c9efc6", "" },
+                    { new Guid("6c87aa02-deaa-4472-a3d0-a6e0b43cf8d5"), new DateTime(2024, 3, 24, 19, 0, 41, 271, DateTimeKind.Local).AddTicks(3137), "Programmer", false, null, "09233333333", "1", "673c3a32-3c65-4f1d-acf9-2f343896136f", "" }
                 });
 
             migrationBuilder.CreateIndex(
