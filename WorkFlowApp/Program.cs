@@ -47,7 +47,16 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 //builder.Services.AddScoped<SignInManager<IdentityUser>>();
 
 
+builder.Services.AddScoped<AsyncActionFilter>();
+builder.Services.AddMvc(options =>
+{
+    options.Filters.Add(typeof(AsyncActionFilter));
 
+    //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    //options.Filters.Add(new AuthorizeFilter(policy));
+
+}).AddXmlSerializerFormatters();
+builder.Services.AddHttpContextAccessor();
 
 
 
