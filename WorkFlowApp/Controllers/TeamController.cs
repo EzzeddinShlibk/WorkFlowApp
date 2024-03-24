@@ -115,7 +115,36 @@ namespace WorkFlowApp.Controllers
             return View(model);
         }
 
-        //[HttpGet]
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ApproveUser(string UserId)
+        {
+            try
+            {
+                var teamuser = _teamuser.Entity.GetAll().Where(a => a.userId == UserId).FirstOrDefault();
+
+                teamuser.isApproved = true;
+                teamuser.ModifiedDate = DateTime.Now;
+                _teamuser.Entity.Update(teamuser);
+                _teamuser.SaveAsync();
+
+
+
+                return RedirectToAction("Manage", "Team", new { UserId });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+     
+
+        }
+
+
+
 
         public async Task<ActionResult> AcceptUser(string UserId)
         {

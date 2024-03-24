@@ -26,7 +26,6 @@
                                 <div class="row ms-2">
                                     <h5 class="me-0">إستخدم رمز الفريق هذا لدعوة الأشخاص الى فريقك</h5>
                                     <div class="input-group">
-                                        @* <input readonly type="text" value="@ViewBag.code" class="form-control" id="myInput" style="width:30px" /> *@
                                         <span id="spanId" class="px-2 py-2" style="font-size:30px;">@ViewBag.code </span>
                                         <button onclick="copyText()" type="submit" class="input-group-text bg-purple text-white p-3 fs-4">
                                           نسخ رابط الدعوة
@@ -98,9 +97,12 @@
 
                                                             }
                                                             <td>
-                                                            <a class="btn btn-outline-success mx-2" asp-action="AcceptUser" asp-controller="Team" asp-route-UserId="@user.UserId">
-                                                                قبول <i class="fas fa-check"></i>
-                                                            </a>
+                                                            <form asp-action="ApproveUser" asp-controller="Team" asp-route-UserId="@user.UserId">
+
+                                                                <input type="hidden" asp-for="@user.UserId" />
+                                                                <button class="btn btn-outline-success mx-2" type="submit"> قبول <i class="fas fa-check"></i></button>
+                                                            </form>
+                                                     
 
                                                             <a asp-action="DeleteUser" asp-controller="Team" asp-route-UserId="@user.UserId" class="btn btn-outline-pink">
                                                                 رفض
