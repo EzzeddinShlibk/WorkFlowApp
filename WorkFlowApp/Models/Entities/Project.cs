@@ -12,7 +12,7 @@ namespace WorkFlowApp.Models.Entities
 
 
         [Required(ErrorMessage = "الرجاء ادخال وصف المشروع")]
-        [StringLength(50, ErrorMessage = "  كلمة المرور يجب ان تكون على الاقل 2 احرف وكأكثر 50 حرف ", MinimumLength = 2)]
+        [StringLength(200, ErrorMessage = "  كلمة المرور يجب ان تكون على الاقل 2 احرف وكأكثر 50 حرف ", MinimumLength = 2)]
         public string Description { get; set; } = string.Empty;
 
  

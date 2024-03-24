@@ -290,10 +290,10 @@ namespace WorkFlowApp.Controllers
                         throw;
                     }
 
-              
 
 
-                    if (_signInManager.IsSignedIn(User) &&  User.IsInRole("Prog")) //  في حال الآدمن هو من قام بتسجيل يوزر معين من ادارة المستخدمين
+
+                    if (_signInManager.IsSignedIn(User) && User.IsInRole("Prog")) //  في حال الآدمن هو من قام بتسجيل يوزر معين من ادارة المستخدمين
                     {
                         await _userManager.AddToRoleAsync(user, "prog");
 
@@ -344,7 +344,7 @@ namespace WorkFlowApp.Controllers
 
                     return View("AccountResult");
 
-                   
+
                 }
 
                 foreach (var error in result.Errors)// قائمة الأخطاء التي تظهر في summary مثلا شروط الباسوورد وغيرها من الخصائص الإفتراضية
@@ -378,11 +378,7 @@ namespace WorkFlowApp.Controllers
 
             if ((await _userManager.ConfirmEmailAsync(user, token)).Succeeded)
             {
-                if (!(await _userManager.AddToRoleAsync(user, "User")).Succeeded)
-                {
-                    ModelState.AddModelError(string.Empty, "Cannot add Roles to user");
-                    return View();
-                }
+          
                 return View();
             }
 
@@ -449,10 +445,9 @@ namespace WorkFlowApp.Controllers
                     }
                     else if (await _userManager.IsInRoleAsync(user, "Prog"))
                     {
-                        if (await CheckProgClaims(user))
-                        {
-                            return RedirectToAction("Index", "Admin");
-                        }
+
+                        return RedirectToAction("Index", "Admin");
+
                     }
                     else
                     {
@@ -468,7 +463,7 @@ namespace WorkFlowApp.Controllers
                                 return View("Errorlog");
                             }
                         }
-                        return RedirectToAction("Index", "Main");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 if (result.IsLockedOut)
@@ -498,47 +493,7 @@ namespace WorkFlowApp.Controllers
         }
 
 
-        public async Task<bool> CheckProgClaims(ApplicationUser user)
-        {
-            var claims = await _userManager.GetClaimsAsync(user);
 
-            if (claims.Count < ClaimsAccess.ClaimsList.Count) //عند اول دخول للمبرمج يكون العدد صفر
-            {
-                if ((await _userManager.RemoveClaimsAsync(user, claims)).Succeeded)
-                {
-                    if ((await _userManager.AddClaimsAsync(user, ClaimsAccess.ClaimsList)).Succeeded)
-                    {
-                        var claims1 = await _userManager.GetClaimsAsync(user);
-                        foreach (var claim in claims1)// في حال تخصيص صلاحية مبرمج مع عدم منحه صلاحية كل المطالبات 
-                        {
-                            if (claim.Value == "false")
-                            {
-                                if (!(await _userManager.ReplaceClaimAsync(user, claim, new Claim(claim.Type, "true"))).Succeeded)
-                                {
-                                    return false;
-                                }
-                            }
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            }
-            else
-            {
-                foreach (var claim in claims)// في حال تخصيص صلاحية مبرمج مع عدم منحه صلاحية كل المطالبات 
-                {
-                    if (claim.Value == "false")
-                    {
-                        if (!(await _userManager.ReplaceClaimAsync(user, claim, new Claim(claim.Type, "true"))).Succeeded)
-                        {
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }
-        }
 
 
 
@@ -591,7 +546,7 @@ namespace WorkFlowApp.Controllers
                             ViewBag.ErrorMessage = "Failed to send email";
                             return View("Error");
                         }
-              
+
                         //-------------------------------------------------------
                         ViewBag.SaccessTitle = "Reset password";
                         ViewBag.SaccessMessage = "Please check your email, The link of reset password has been sent to your email";
