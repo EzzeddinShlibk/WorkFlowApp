@@ -12,7 +12,7 @@ using WorkFlowApp.Models;
 namespace WorkFlowApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240324124019_m1")]
+    [Migration("20240324163925_m1")]
     partial class m1
     {
         /// <inheritdoc />
@@ -54,19 +54,19 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9a2ac585-8a33-4a76-8306-06279255fc99",
+                            Id = "1a31a7b8-1e07-453d-923c-873adf687a91",
                             Name = "Prog",
                             NormalizedName = "PROG"
                         },
                         new
                         {
-                            Id = "654c5563-852e-4e9b-b906-c6687ddaec22",
+                            Id = "5e03f19c-6241-4ae6-8e7d-1065b38f92ed",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a6b2797f-f304-45d0-9e47-2cfa35f65554",
+                            Id = "bdfc67b3-dba8-401b-b28d-476b924cc1db",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -161,13 +161,13 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "675ab4cb-2d89-405b-a64e-9799633e2e04",
-                            RoleId = "9a2ac585-8a33-4a76-8306-06279255fc99"
+                            UserId = "3a563d10-783d-411a-8df8-8aec21454b9d",
+                            RoleId = "1a31a7b8-1e07-453d-923c-873adf687a91"
                         },
                         new
                         {
-                            UserId = "77f1d6df-440f-4def-bc39-806fd01a1eab",
-                            RoleId = "9a2ac585-8a33-4a76-8306-06279255fc99"
+                            UserId = "455dbc65-b6f8-4dd5-b70b-b8aa0fe08077",
+                            RoleId = "1a31a7b8-1e07-453d-923c-873adf687a91"
                         });
                 });
 
@@ -233,9 +233,9 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6e3f8c79-e04e-4a2f-9bac-8d069e75e3ec"),
+                            Id = new Guid("38386a50-0a74-4c03-adb7-1b526dd7c4de"),
                             Address = "طرابلس ليبيا",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3150),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3770),
                             Email1 = "flowmaster@gmail.com",
                             Email2 = "flowmaster.co@gmail.com",
                             Facebook = "flowmaster home",
@@ -317,16 +317,16 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "675ab4cb-2d89-405b-a64e-9799633e2e04",
+                            Id = "3a563d10-783d-411a-8df8-8aec21454b9d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "66e6d9bd-8a42-4892-81cb-aca80296f8c9",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3610),
+                            ConcurrencyStamp = "22d0d5d3-3b35-4687-97b3-e87d51fbd901",
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3953),
                             Email = "Programmer@Gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "PROGRAMMER@GMAIL.COM",
                             NormalizedUserName = "PROGRAMMER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFv4OJgb5ginA4s9uoWrzlNUegLtHxogjwyeD8SW/zyJHD9g7BQhQWToquLeyIPIgw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM4RlG5IOU2vZGK+wnEtON1lXLGDxM84dcyNuAiwzET1zgJuRknBDRoU8PHJMnNmMA==",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
                             TwoFactorEnabled = false,
@@ -334,16 +334,16 @@ namespace WorkFlowApp.Migrations
                         },
                         new
                         {
-                            Id = "77f1d6df-440f-4def-bc39-806fd01a1eab",
+                            Id = "455dbc65-b6f8-4dd5-b70b-b8aa0fe08077",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "51d19438-7688-4f9d-93f3-dc5ee37bc1a7",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 651, DateTimeKind.Local).AddTicks(8091),
+                            ConcurrencyStamp = "404b10bd-b04c-4646-8768-517fab90de08",
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 183, DateTimeKind.Local).AddTicks(6545),
                             Email = "Manager@Gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@GMAIL.COM",
                             NormalizedUserName = "MANAGER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJkJTSwa/g+SzcN6KFGf6dd2gaAY4EcBGJh/xceAaxKNmubgFUXFG4U+9yNmm/tg8g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFzYHp3wKU1Ui4nozgOk8sfJR/QLHZQcNVT1sssUCjuD+oHyQ5buS0AJeHuV1nK0Tg==",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
                             TwoFactorEnabled = false,
@@ -436,7 +436,7 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("87792e55-82ec-4bbe-b445-7b5a70ccc95e"),
+                            Id = new Guid("f79b1f81-6b06-4038-8c9f-e5e266e66dd4"),
                             Content1 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.",
                             Content2 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.",
                             Content3 = "يمكنك إنشاء المهام وتتبعها وأتمتتها وإكمالها لتبسيط العمليات وتحسين الكفاءة.",
@@ -576,33 +576,33 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d76b9a22-20bf-4b88-8ac8-c44afc472fff"),
+                            Id = new Guid("012308d9-98b8-4c47-9c01-839968b342d1"),
                             Color = "secondary",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3423),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3844),
                             Name = "بدون اولوية",
                             Num = 1
                         },
                         new
                         {
-                            Id = new Guid("38da69c8-4618-4720-9f32-ab7388465bff"),
+                            Id = new Guid("581e87a1-d738-4b38-b622-ede3f7023ddd"),
                             Color = "pink",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3428),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3846),
                             Name = "اولوية مبدئية",
                             Num = 2
                         },
                         new
                         {
-                            Id = new Guid("defe3666-19c9-455b-8d27-7614bb97837f"),
+                            Id = new Guid("2eeb166b-df7d-4a10-9f6e-152c3ab0ee7c"),
                             Color = "warning",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3430),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3850),
                             Name = "اولوية متوسطة",
                             Num = 3
                         },
                         new
                         {
-                            Id = new Guid("a9eac845-e89b-4816-bc22-3edc726a83c4"),
+                            Id = new Guid("59eab844-6705-49f7-86a5-e4ee1f1627c0"),
                             Color = "danger",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3439),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3852),
                             Name = "اولوية قصوى",
                             Num = 4
                         });
@@ -655,24 +655,24 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b3ff9b49-5b4e-4db7-aadc-239588ac884b"),
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 651, DateTimeKind.Local).AddTicks(7985),
+                            Id = new Guid("ffaaf995-adf9-458c-9ff4-203c610628b0"),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 183, DateTimeKind.Local).AddTicks(6468),
                             DisplayName = "Programmer",
                             Gender = false,
                             PhoneNum = "09233333333",
                             Pic = "1",
-                            UserId = "675ab4cb-2d89-405b-a64e-9799633e2e04",
+                            UserId = "3a563d10-783d-411a-8df8-8aec21454b9d",
                             bio = ""
                         },
                         new
                         {
-                            Id = new Guid("1a7c94b4-48f4-40c9-8b36-e6a4e1cd8384"),
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 755, DateTimeKind.Local).AddTicks(4987),
+                            Id = new Guid("46fd11fd-38ab-4773-b742-87f35a69d359"),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 243, DateTimeKind.Local).AddTicks(8351),
                             DisplayName = "Manager",
                             Gender = false,
                             PhoneNum = "093435345",
                             Pic = "1",
-                            UserId = "77f1d6df-440f-4def-bc39-806fd01a1eab",
+                            UserId = "455dbc65-b6f8-4dd5-b70b-b8aa0fe08077",
                             bio = ""
                         });
                 });
@@ -835,9 +835,9 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6213784a-72d2-477f-baa4-11d29a962872"),
+                            Id = new Guid("7da05ba4-69d8-4df5-bed8-ad2dd1ce05a0"),
                             ClosingMessage = "الموقع مغلق مؤقتا للتطوير",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(2718),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3607),
                             State = true
                         });
                 });
@@ -877,45 +877,45 @@ namespace WorkFlowApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("69aa5449-483c-4b3d-b625-207679f883ee"),
+                            Id = new Guid("bed9aa05-c2a8-407e-bbf9-f8efe9036c71"),
                             Color = "purple",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3358),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3818),
                             Icon = "fas fa-clock",
                             Name = "بانتظار البدء",
                             Num = 1
                         },
                         new
                         {
-                            Id = new Guid("2221c1f2-1bce-4863-8e9f-ae2382ecf9c7"),
+                            Id = new Guid("e81db799-147f-450f-af56-2b9755cd3ca1"),
                             Color = "danger",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3363),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3820),
                             Icon = "fas fa-stop-circle",
                             Name = "توقف حرج",
                             Num = 2
                         },
                         new
                         {
-                            Id = new Guid("eaab99c8-9157-49c4-8239-b212603ed5b5"),
+                            Id = new Guid("3619edf9-e741-44f0-b9d0-47d075cc36d6"),
                             Color = "warning",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3366),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3821),
                             Icon = "fas fa-clipboard-check",
                             Name = "بانتظار المراجعة",
                             Num = 3
                         },
                         new
                         {
-                            Id = new Guid("52c03ba0-49b5-42e5-8381-fd449913df45"),
+                            Id = new Guid("6fb5d349-7108-4178-8197-cf1103917ff9"),
                             Color = "blue",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3370),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3823),
                             Icon = "fas fa-tasks",
                             Name = "قيد التنفيد",
                             Num = 4
                         },
                         new
                         {
-                            Id = new Guid("87e2f1ef-72bf-4220-809f-3de65e7b6edb"),
+                            Id = new Guid("f7c3d744-81f2-4571-a079-0d3ee1fda53e"),
                             Color = "success",
-                            CreatedDate = new DateTime(2024, 3, 24, 14, 40, 18, 577, DateTimeKind.Local).AddTicks(3374),
+                            CreatedDate = new DateTime(2024, 3, 24, 18, 39, 24, 124, DateTimeKind.Local).AddTicks(3825),
                             Icon = "fas fa-check-circle",
                             Name = "مكتملة",
                             Num = 5

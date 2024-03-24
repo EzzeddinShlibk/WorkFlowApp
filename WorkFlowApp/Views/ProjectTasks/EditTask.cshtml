@@ -11,79 +11,79 @@
 
         <div class="col-lg-6 border border-2 ">
 
-        
 
 
+            @if (User.IsInRole("Admin"))
+            {
+                <form asp-action="EditTask" asp-controller="ProjectTasks" enctype="multipart/form-data" asp-route-Id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
 
-            <form asp-action="EditTask" asp-controller="ProjectTasks" enctype="multipart/form-data" asp-route-Id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
+                    <div class="card-body">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ProjectId" />
+                        <input type="hidden" asp-for="FilePath" />
+                        <input type="hidden" asp-for="isRead" />
 
-                <div class="card-body">
-                    <input type="hidden" asp-for="Id" />
-                    <input type="hidden" asp-for="ProjectId" />
-                    <input type="hidden" asp-for="FilePath" />
-                    <input type="hidden" asp-for="isRead" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                 
                         <div class="mb-3">
                             <label asp-for="Name" class="form-label">المهمة</label>
                             <input asp-for=" Name" type="text" class="form-control" placeholder="أدخل المهمة">
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
-                
-                 
+
+
                         <div class="mb-3">
                             <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
                             <input value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for="StartDate">
                             <span asp-validation-for=" StartDate" class="text-danger"></span>
                         </div>
-                
-                
-                 
-             
+
+
+
+
                         <div class="mb-3">
                             <label asp-for="EndDate" class="form-label">تاريخ الانتهاء</label>
                             <input value="@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for=" EndDate">
                             <span asp-validation-for="EndDate" class="text-danger"></span>
                         </div>
-         
-                    @if (ViewBag.erroredDate != null)
-                    {
-                        <div class="text-danger">
-                            @ViewBag.erroredDate
-                        </div>
-                    }
-                 
+
+                        @if (ViewBag.erroredDate != null)
+                        {
+                            <div class="text-danger">
+                                @ViewBag.erroredDate
+                            </div>
+                        }
+
                         <div class="row mb-3  ">
                             <label class="form-label">المستخدمين</label>
                             <select asp-for=" userId" class="form-control  " asp-items="ViewBag.UsersList">
                             </select>
                             <span asp-validation-for=" userId" class="text-danger"></span>
                         </div>
-                  
-                
+
+
                         <div class="row mb-3">
                             <label asp-for=" Description" for="projectDescription" class="form-label">وصف المهمة</label>
                             <textarea class="form-control" asp-for=" Description" placeholder="وصف المهمة" rows="3"></textarea>
                             <span asp-validation-for=" Description" class="text-danger"></span>
 
                         </div>
-                   
-                    <div class="row mb-3">
-                        <label class="form-label me-5">الحالة</label>
-                        <div class="d-inline">
-                            @foreach (var item in Model.statues)
-                            {
-                                <input type="radio" class="btn-check" asp-for="StatuesId" value="@item.Id" id="@($"State{item.Id}")" autocomplete="off">
-                                <label class="btn btn-sm me-2 @($"btn-outline-{item.Color}")" title="@item.Name" for="@($"State{item.Id}")">
-                                    <i class="@item.Icon"></i>
-                                </label>
-                            }
+
+                        <div class="row mb-3">
+                            <label class="form-label me-5">الحالة</label>
+                            <div class="d-inline">
+                                @foreach (var item in Model.statues)
+                                {
+                                    <input type="radio" class="btn-check" asp-for="StatuesId" value="@item.Id" id="@($"State{item.Id}")" autocomplete="off">
+                                    <label class="btn btn-sm me-2 @($"btn-outline-{item.Color}")" title="@item.Name" for="@($"State{item.Id}")">
+                                        <i class="@item.Icon"></i>
+                                    </label>
+                                }
+                            </div>
                         </div>
-                    </div>
 
 
-                
+
                         <div class=" row mb-3">
                             <label class="form-label me-5">الاولوية</label>
                             <div class="d-inline">
@@ -98,28 +98,124 @@
                                 }
                             </div>
                         </div>
-                  
 
 
-                    <div class="row mb-3">
-                        <label for="File" class="form-label">اضافة ملفات</label>
-                        <input  type="file" id="fileAttach1" class="form-control" name="File">
-                        @if (Model.FilePath != "-")
-                        {
-                            <a asp-controller="ProjectTasks" asp-action="DownloadFile" asp-route-filePath="Files/TaskAttach/@Model.FilePath" class="btn btn-primary">تحميل الملف</a>
 
-                        }
+                        <div class="row mb-3">
+                            <label for="File" class="form-label">اضافة ملفات</label>
+                            <input type="file" id="fileAttach1" class="form-control" name="File">
+                            @if (Model.FilePath != "-")
+                            {
+                                <a asp-controller="ProjectTasks" asp-action="DownloadFile" asp-route-filePath="Files/TaskAttach/@Model.FilePath" class="btn btn-primary">تحميل الملف</a>
+
+                            }
+
+
+
+                        </div>
+
+                        <button name="submit" type="submit" class="btn btn-outline-purple ">حفظ</button>
 
 
 
                     </div>
+                </form>
+            }
+            else
+            {
+                <form asp-action="EditTask" asp-controller="ProjectTasks" enctype="multipart/form-data" asp-route-Id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
 
-                    <button name="submit" type="submit" class="btn btn-outline-purple ">حفظ</button>
+                    <div class="card-body">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ProjectId" />
+                        <input type="hidden" asp-for="FilePath" />
+                        <input type="hidden" asp-for="isRead" />
+                        <input type="hidden" asp-for="ProirityId" />
+                        <input type="hidden" asp-for="userId" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div  class="mb-3">
+                            <label  asp-for="Name" class="form-label">المهمة</label>
+                            <input asp-for="Name" type="text" class="form-control" placeholder="أدخل المهمة" readonly>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
+                            <input readonly value="@Model.StartDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for="StartDate">
+                            <span asp-validation-for=" StartDate" class="text-danger"></span>
+                        </div>
 
 
 
-                </div>
-            </form>
+
+                        <div class="mb-3">
+                            <label asp-for="EndDate" class="form-label">تاريخ الانتهاء</label>
+                            <input readonly value="@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" asp-for=" EndDate">
+                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                        </div>
+
+                        @if (ViewBag.erroredDate != null)
+                        {
+                            <div class="text-danger">
+                                @ViewBag.erroredDate
+                            </div>
+                        }
+
+              
+
+
+                        <div class="row mb-3">
+                            <label asp-for=" Description" for="projectDescription" class="form-label">وصف المهمة</label>
+                            <textarea readonly class="form-control" asp-for="Description" placeholder="وصف المهمة" rows="3"></textarea>
+                            <span asp-validation-for=" Description" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="form-label me-5">الحالة</label>
+                            <div class="d-inline">
+                                @foreach (var item in Model.statues)
+                                {
+                                    <input type="radio" class="btn-check" asp-for="StatuesId" value="@item.Id" id="@($"State{item.Id}")" autocomplete="off">
+                                    <label class="btn btn-sm me-2 @($"btn-outline-{item.Color}")" title="@item.Name" for="@($"State{item.Id}")">
+                                        <i class="@item.Icon"></i>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+
+
+
+
+
+                   
+
+                        <div class="row mb-3">
+                            <label for="File" class="form-label">اضافة ملفات</label>
+                            <input type="file" id="fileAttach1" class="form-control" name="File">
+                            @if (Model.FilePath != "-")
+                            {
+                                <a asp-controller="ProjectTasks" asp-action="DownloadFile" asp-route-filePath="Files/TaskAttach/@Model.FilePath" class="btn btn-primary">تحميل الملف</a>
+
+                            }
+
+
+
+                        </div>
+
+                        <button name="submit" type="submit" class="btn btn-outline-purple ">حفظ</button>
+
+
+
+                    </div>
+                </form>
+            }
+
+
+          
 
         </div>
 

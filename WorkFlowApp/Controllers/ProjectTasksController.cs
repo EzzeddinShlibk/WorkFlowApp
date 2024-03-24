@@ -76,29 +76,7 @@ namespace WorkFlowApp.Controllers
             var fileName = Path.GetFileName(fullPath);
             return File(fileBytes, "application/octet-stream", fileName);
         }
-        public async Task<IActionResult> timeline(Guid id)
-        {
-            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var query = await _projectTask.Entity.GetAll()
-                .Include(a => a.statues)
-            .Where(k => k.userId == userId && k.isDeleted == false)
-
-            .ToListAsync();
-
-            // Convert events to a format suitable for JavaScript
-            var eventsForJs = query.Select(e => new
-            {
-                title = e.Name,
-                start = e.StartDate.ToString("yyyy-MM-ddTHH:mm:ss"),
-                end = e.EndDate.ToString("yyyy-MM-ddTHH:mm:ss"),
-                className = $"bg-soft-{e.statues.Color}" // Assuming you have a property named Color in your Event model
-            });
-
-            ViewBag.Events = Newtonsoft.Json.JsonConvert.SerializeObject(eventsForJs);
-
-            return View();
-        }
 
         [HttpGet]
 
