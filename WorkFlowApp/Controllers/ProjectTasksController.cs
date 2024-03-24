@@ -361,7 +361,7 @@ namespace WorkFlowApp.Controllers
                 StatuesId = OldTask.statuesId,
                 ProirityId = OldTask.priorityId,
                 Name = OldTask.Name,
-                Description = OldTask.Name,
+                Description = OldTask.Description,
                 StartDate = OldTask.StartDate,
                 EndDate = OldTask.EndDate,
                 userId = OldTask.userId,
