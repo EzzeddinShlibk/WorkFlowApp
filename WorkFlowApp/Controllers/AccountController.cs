@@ -399,15 +399,6 @@ namespace WorkFlowApp.Controllers
         [Route("Account/Login")]
         public async Task<IActionResult> Login()
         {
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    return LocalRedirect(returnUrl ?? "/");
-            //}
-
-            //HttpContext.SignOutAsync(IdentityConstants.ExternalScheme).Wait();
-
-            //ViewData["ReturnUrl"] = returnUrl;
-            //return View();
 
             if (_signInManager.IsSignedIn(User))
             {
