@@ -67,27 +67,20 @@ namespace WorkFlowApp.Classes
         }
 
 
-        //public void OnActionExecuting(ActionExecutingContext context)
-        //{
-        //    //Code befor action executes
-        //    //throw new NotImplementedException();
-        //}
+        public void OnActionExecuting(ActionExecutingContext context)
+        {
+            //Code befor action executes
+            //throw new NotImplementedException();
+        }
 
-        //public void OnActionExecuted(ActionExecutedContext context)
-        //{
-        //    //Code after action executes
-        //    //throw new NotImplementedException();
-        //}
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
+            //Code after action executes
+            //throw new NotImplementedException();
+        }
 
 
-        //public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-        //{
-        //    //Code befor action executes
 
-        //    await next();
-
-        //    //Code after action executes
-        //}
 
 
     }

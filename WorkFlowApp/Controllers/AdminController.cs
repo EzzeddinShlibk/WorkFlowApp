@@ -411,7 +411,7 @@ namespace WorkFlowApp.Controllers
             }
         }
 
-        [ViewLayout("_BaseLayout")]
+        [ViewLayout("_MainLayout")]
         [AllowAnonymous]
         [Route("Closing")]
         [HttpGet]
