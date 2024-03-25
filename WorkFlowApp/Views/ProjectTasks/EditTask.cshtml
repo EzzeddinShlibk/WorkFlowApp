@@ -259,13 +259,13 @@
 
 
 
-                <form asp-action="AddComment" asp-controller="ProjectTasks" asp-route-Id="@Model.Id">
-                    <input type="hidden" asp-for="Id" />
+                <form asp-action="AddComment" asp-controller="ProjectTasks" asp-route-TaskId="@Model.Id">
+                    @* <input type="hidden" asp-for="Id" /> *@
 
                     <div class="my-3">
-                        <textarea name="comment" class="form-control" id="projectDescription" placeholder="اضافة تعليق" rows="3"></textarea>
+                        <textarea name="comment" class="form-control"  placeholder="اضافة تعليق" rows="3"></textarea>
                     </div>
-                    <button name="submit" type="submit" class="btn btn-outline-purple">
+                    <button  type="submit" class="btn btn-outline-purple">
                         تعليق
                         <i class="mdi mdi-send"></i>
                     </button>

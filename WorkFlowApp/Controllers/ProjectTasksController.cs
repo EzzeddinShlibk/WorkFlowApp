@@ -95,21 +95,30 @@ namespace WorkFlowApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddComment(string comment, Guid Id)
+        public async Task<ActionResult> AddComment(string comment, Guid TaskId)
         {
-            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            try
+            {
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            Comment newcommet = new Comment();
-            newcommet.Id = Guid.NewGuid();
-            newcommet.userId = userId;
-            newcommet.comment = comment;
-            newcommet.DateTime = DateTime.Now;
-            newcommet.CreatedDate = DateTime.Now;
-            newcommet.projectTaskId = Id;
+                Comment newcommet = new Comment();
+                newcommet.Id = Guid.NewGuid();
+                newcommet.userId = userId;
+                newcommet.comment = comment;
+                newcommet.DateTime = DateTime.Now;
+                newcommet.CreatedDate = DateTime.Now;
+                newcommet.projectTaskId = TaskId;
 
-            _Comment.Entity.Insert(newcommet);
-            _Comment.SaveAsync();
-            return RedirectToAction("EditTask", new { id = Id.ToString() });
+                _Comment.Entity.Insert(newcommet);
+                _Comment.SaveAsync();
+                return RedirectToAction("EditTask", new { id = TaskId.ToString() });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
 
             //return View("EditTask", new { id = Id });
 
