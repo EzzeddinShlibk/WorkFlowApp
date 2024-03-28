@@ -99,7 +99,7 @@ namespace WorkFlowApp.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var tasks = _projectTask.Entity.GetAll().Include(k => k.project).ThenInclude(a => a.ProjectsUsers)
-                        .Where(p => p.project.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.project.IsDeleted == false && p.project.IsArchived == false)
+                        .Where(p => p.project.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.project.IsDeleted == false && p.project.IsArchived == false && p.isDeleted == false)
                         .GroupBy(p => p.statues.Name)
                         .ToDictionary(g => g.Key, g => g.Count());
             return tasks;
@@ -118,16 +118,22 @@ namespace WorkFlowApp.Controllers
 
         public Dictionary<string, int> GetTasksPerProject()
         {
-            var tasksPerProject = _projectTask.Entity.GetAll()
-                .GroupBy(p => p.project.Name)
-                .ToDictionary(g => g.Key, g => g.Count());
+
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+             var tasksPerProject = _projectTask.Entity.GetAll().Include(k => k.project).ThenInclude(a => a.ProjectsUsers)
+            .Where(p => p.project.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.project.IsDeleted == false && p.project.IsArchived == false && p.isDeleted==false)
+            .GroupBy(p => p.project.Name)
+            .ToDictionary(g => g.Key, g => g.Count());
 
             return tasksPerProject;
         }
         public Dictionary<string, int> GetTasksPerUser()
         {
-            var tasksPerUser = _projectTask.Entity.GetAll()
-                .GroupBy(p => p.User.UserName)
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var tasksPerUser = _projectTask.Entity.GetAll().Include(k => k.project).ThenInclude(a => a.ProjectsUsers)
+            .Where(p => p.project.ProjectsUsers.Any(pu => pu.user.Id == userId) && p.project.IsDeleted == false && p.project.IsArchived == false && p.isDeleted == false)
+             .GroupBy(p => p.User.UserName)
                 .ToDictionary(g => g.Key, g => g.Count());
 
             return tasksPerUser;

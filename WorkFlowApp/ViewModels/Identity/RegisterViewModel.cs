@@ -22,8 +22,8 @@ namespace WorkFlowApp.ViewModels.Identity
         [StringLength(100, ErrorMessage = "  كلمة المرور يجب ان تكون على الاقل 6 احرف وكأكثر 100 حرف ", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$",
-        //ErrorMessage = "يجب أن تحتوي كلمة المرور على حروف كبيرة وصغيرة وأرقام")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$",
+        ErrorMessage = "يجب أن تحتوي كلمة المرور على حروف كبيرة وصغيرة وأرقام")]
         public string Password { get; set; }
 
         /// <summary>

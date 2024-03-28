@@ -20,6 +20,7 @@ namespace WorkFlowApp.Controllers
     {
         private readonly IUnitOfWork<Project> _project;
         private readonly IUnitOfWork<ProjectTask> _projectTask;
+        private readonly IUnitOfWork<Comment> _comment;
         private readonly IUnitOfWork<Profile> _profile;
         private readonly IUnitOfWork<ProjectsUser> _projectsUser;
         private readonly IUnitOfWork<TeamUser> _teamuser;
@@ -33,11 +34,13 @@ namespace WorkFlowApp.Controllers
                      IUnitOfWork<Profile> profile,
                      IUnitOfWork<ProjectsUser> projectsUser,
                      IUnitOfWork<TeamUser> teamUser,
+                     IUnitOfWork<Comment> comment,
                         UserManager<ApplicationUser> userManager,
                       IWebHostEnvironment hostEnvironment,
                        IToastNotification toastNotification
                      )
         {
+            _comment = comment;
             _project = project;
             _teamuser = teamUser;
             _profile = profile;
@@ -127,7 +130,7 @@ namespace WorkFlowApp.Controllers
                     EndDate = item.EndDate,
                     TaskCount = all,
                     DaysLeft = daysDifference,
-                    Percent = percent
+                    Percent = Math.Round(percent,3),
                 };
                 model.Add(projectViewModel);
             }
@@ -149,7 +152,7 @@ namespace WorkFlowApp.Controllers
 
 
         [NoDirectAccess]
-        public async Task<IActionResult> CreateOrEditProject(Guid id ,string message)
+        public async Task<IActionResult> CreateOrEditProject(Guid id, string message)
         {
 
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -499,43 +502,49 @@ namespace WorkFlowApp.Controllers
         {
             try
             {
+                // Delete project tasks
                 var projectTasks = await _projectTask.Entity.GetAll().Where(a => a.projectId == id).ToListAsync();
-                foreach (var item in projectTasks)
+                foreach (var task in projectTasks)
                 {
-                    var task = await _projectTask.Entity.GetByIdAsync(item.Id);
+                    var comments =await _comment.Entity.GetAll().Where(a=>a.projectTaskId==task.Id).ToListAsync();
+                    foreach (var com in comments)
+                    {
+                        _comment.Entity.Delete(com.Id);
+                    }
 
+                    await _comment.SaveAsync();
                     _projectTask.Entity.Delete(task.Id);
-                    await _projectTask.SaveAsync();
+
                 }
+                await _projectTask.SaveAsync();
+
+                // Delete project users
                 var projectUsers = await _projectsUser.Entity.GetAll().Where(a => a.projectId == id).ToListAsync();
-
-                foreach (var item in projectUsers)
+                foreach (var user in projectUsers)
                 {
-                    var task = await _projectsUser.Entity.GetByIdAsync(item.Id);
-
-                    _projectsUser.Entity.Delete(task.Id);
-                    await _projectsUser.SaveAsync();
+                    _projectsUser.Entity.Delete(user.Id);
                 }
-                var model = await _project.Entity.GetByIdAsync(id);
-                _project.Entity.Delete(model.Id);
+                await _projectsUser.SaveAsync();
+
+                // Delete the project itself
+                var projectModel = await _project.Entity.GetByIdAsync(id);
+                _project.Entity.Delete(projectModel.Id);
                 await _project.SaveAsync();
 
-
+                // Notify success and redirect
                 _toastNotification.AddSuccessToastMessage("تم الحذف النهائي بنجاح", new ToastrOptions() { Title = "" });
-
                 return RedirectToAction("DeletedProjects");
-
-
-
             }
-            catch
+            catch (Exception ex)
             {
-                return RedirectToAction("DeletedProjects");
-
                 throw;
+                // Log the exception or handle it appropriately
+                //_toastNotification.AddErrorToastMessage("حدث خطأ أثناء الحذف", new ToastrOptions() { Title = "" });
+                //return RedirectToAction("DeletedProjects");
             }
-
         }
+
+
 
 
 
