@@ -102,11 +102,13 @@
 
 
                         <div class="row mb-3">
-                            <label for="File" class="form-label">اضافة ملفات</label>
-                            <input type="file" id="fileAttach1" class="form-control" name="File">
+                          
+                                <label for="File" class="form-label">اضافة ملفات</label>
+                                <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control" asp-for="File" accept=".pdf, .jpg, .jpeg, .png, .txt, .doc, .docx">
+                         
                             @if (Model.FilePath != "-")
                             {
-                                <a asp-controller="ProjectTasks" asp-action="DownloadFile" asp-route-filePath="Files/TaskAttach/@Model.FilePath" class="btn btn-primary">تحميل الملف</a>
+                                <a asp-controller="ProjectTasks" asp-action="DownloadFile" asp-route-filePath="Files/TaskAttach/@Model.FilePath" class="btn btn-primary mt-2">تحميل الملف</a>
 
                             }
 
@@ -135,8 +137,8 @@
 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <div  class="mb-3">
-                            <label  asp-for="Name" class="form-label">المهمة</label>
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">المهمة</label>
                             <input asp-for="Name" type="text" class="form-control" placeholder="أدخل المهمة" readonly>
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
@@ -164,7 +166,7 @@
                             </div>
                         }
 
-              
+
 
 
                         <div class="row mb-3">
@@ -191,7 +193,7 @@
 
 
 
-                   
+
 
                         <div class="row mb-3">
                             <label for="File" class="form-label">اضافة ملفات</label>
@@ -215,7 +217,7 @@
             }
 
 
-          
+
 
         </div>
 
@@ -223,7 +225,7 @@
             <div class="card-body">
                 <h5>التعليقات</h5>
                 <div class="col-12">
-               
+
                     @foreach (var item in Model.Comments)
                     {
                         <div class="card team-card">
@@ -254,7 +256,7 @@
                         </div>
 
                     }
-      
+
                 </div>
 
 
@@ -263,9 +265,9 @@
                     @* <input type="hidden" asp-for="Id" /> *@
 
                     <div class="my-3">
-                        <textarea name="comment" class="form-control"  placeholder="اضافة تعليق" rows="3"></textarea>
+                        <textarea name="comment" class="form-control" placeholder="اضافة تعليق" rows="3"></textarea>
                     </div>
-                    <button  type="submit" class="btn btn-outline-purple">
+                    <button type="submit" class="btn btn-outline-purple">
                         تعليق
                         <i class="mdi mdi-send"></i>
                     </button>

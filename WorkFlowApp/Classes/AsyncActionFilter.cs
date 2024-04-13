@@ -31,10 +31,6 @@ namespace WorkFlowApp.Classes
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            // execute any code before the action executes
-
-            //var param = context.ActionArguments.SingleOrDefault();
-            //string actionName = context.ActionDescriptor.DisplayName;
 
             var controllerName = ((ControllerBase)context.Controller).ControllerContext.ActionDescriptor.ControllerName;
             var actionName = ((ControllerBase)context.Controller).ControllerContext.ActionDescriptor.ActionName;
@@ -45,7 +41,7 @@ namespace WorkFlowApp.Classes
             if (siteState != null)
             {
                 if (!siteState.State && actionName != "Login" && actionName != "Closing" &&
-                    ((_signInManager.IsSignedIn(user) && !user.IsInRole("Prog") && !user.IsInRole("Admin"))
+                    ((_signInManager.IsSignedIn(user) && !user.IsInRole("Prog"))
                     || !_signInManager.IsSignedIn(user)))
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary {{ "Controller", "Admin" },
@@ -55,14 +51,14 @@ namespace WorkFlowApp.Classes
                 {
                     context.Result = null; // يجب وضع الأمر في else لأننا استعملنا RedirectToRouteResult
                     await next();
-                    //// execute any code after the action executes
+            
                 }
             }
             else
             {
                 context.Result = null;
                 await next();
-                //// execute any code after the action executes
+    
             }
         }
 

@@ -53,6 +53,7 @@ namespace WorkFlowApp.Controllers
 
         public Guid getTeamID(string UserID)
         {
+
             var data = _teamuser.Entity.GetAll().Where(a => a.userId == UserID).FirstOrDefault();
 
             Guid teamID = Guid.Empty;
@@ -62,8 +63,6 @@ namespace WorkFlowApp.Controllers
             }
 
             return teamID;
-
-
         }
 
 
@@ -205,7 +204,7 @@ namespace WorkFlowApp.Controllers
                 if (model.EndDate < model.StartDate)
                 {
                     await PopulateUsersDropDownList(userID.ToString());
-                    ViewBag.erroredDate = "لايمكن ان يكون تاريخ النتهاء اقدم من تاريخ البدء";
+                    ViewBag.erroredDate = "لايمكن ان يكون تاريخ الانتهاء قبل تاريخ البدء";
                     return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateOrEditProject", model) });
                 }
                 if (id == Guid.Empty)

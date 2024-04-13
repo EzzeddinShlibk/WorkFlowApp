@@ -19,7 +19,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="col-lg-6 text-end">
+            @*                     <div class="col-lg-6 text-end">
                                     <div class="text-end">
                                         <ul class="list-inline">
                                             <li class="list-inline-item">
@@ -29,7 +29,7 @@
 
                                         </ul>
                                     </div>
-                                </div>
+                                </div> *@
                             </div>
                          
                         </div>
@@ -93,16 +93,16 @@
                         </div>
                         <div class="portlet-footer">
                     
-                            <input type="submit" asp-action="DeleteUser" asp-route-id="@Model.Id"
+                           @*  <input type="submit" asp-action="DeleteUser" asp-route-id="@Model.Id"
                                    value="حذف" class="btn btn-sm  btn-outline-danger"
-                                   onclick="return confirm('هل انت متاكد من انك تريد حذف  @Model.Email ?')" />  
+                                   onclick="return confirm('هل انت متاكد من انك تريد حذف  @Model.Email ?')" />   *@
                             @if (Model.LockoutEnd != null)
                             {
                                 <input type="submit" asp-action="LockoutUser" asp-route-id="@Model.Id" value="الغاء القفل" class="btn btn-sm btn-outline-success" />
                             }
                             else
                             {
-                                <input type="submit" asp-action="LockoutUser" asp-route-id="@Model.Id" value="قفل " class="btn btn-sm btn-outline-blue" />
+                                <input type="submit" asp-action="LockoutUser" asp-route-id="@Model.Id" value="قفل " class="btn btn-sm btn-outline-danger" />
                             }
                             <a class="btn btn-sm btn-outline-info" asp-action="Users">العودة للقائمة</a>
                         </div>

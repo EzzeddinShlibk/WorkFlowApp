@@ -494,7 +494,7 @@ namespace WorkFlowApp.Controllers
                     if (model.EndDate < model.StartDate)
                     {
 
-                        ViewBag.erroredDate = "لايمكن ان يكون تاريخ النتهاء اقدم من تاريخ البدء";
+                        ViewBag.erroredDate = "لايمكن ان يكون تاريخ الانتهاء  قبل تاريخ البدء";
                         await PopulateUsersDropDownList(model.ProjectId);
                         model.statues = await _statues.Entity.GetAll().ToListAsync();
                         model.Priorities = await _priority.Entity.GetAll().ToListAsync();

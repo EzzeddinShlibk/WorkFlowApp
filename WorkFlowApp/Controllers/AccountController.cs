@@ -185,7 +185,6 @@ namespace WorkFlowApp.Controllers
             _team.Entity.Insert(team);
             await _team.SaveAsync();
 
-
             return team.Id;
         }
 
@@ -366,7 +365,7 @@ namespace WorkFlowApp.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                ViewBag.ErrorMessage = $"Cannot be found user with Id={userId}";
+                ViewBag.ErrorMessage = $"لايمكن ايجاد المستخدم التالي={userId}";
                 return View(nameof(NotFound));
             }
 
@@ -384,8 +383,6 @@ namespace WorkFlowApp.Controllers
 
             ViewBag.Message = "Email Confirmation failed";
             return View();
-
-
         }
 
 
@@ -553,6 +550,9 @@ namespace WorkFlowApp.Controllers
             }
             return View();
         }
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
@@ -565,8 +565,8 @@ namespace WorkFlowApp.Controllers
                     var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
                     if (result.Succeeded)
                     {
-                        ViewBag.SaccessTitle = "Reset password";
-                        ViewBag.SaccessMessage = "Reset password successfully";
+                        ViewBag.SaccessTitle = "استعادة كلمة المرور";
+                        ViewBag.SaccessMessage = "تم استعادة كلمة المرور بنجاح";
                         return View("AccountResult");
                     }
                     foreach (var error in result.Errors)
@@ -575,12 +575,17 @@ namespace WorkFlowApp.Controllers
                     }
                     return View(model);
                 }
-                ViewBag.ErrorTitle = "Failed Reset password";
-                ViewBag.ErrorMessage = "Your account not found";
+                ViewBag.ErrorTitle = "فشل استعادة كلمة المرور";
+                ViewBag.ErrorMessage = " فشل في استعادة كلمة المرور بنجاح";
                 return View("AccountResult");
             }
             return View(model);
         }
+
+
+
+
+
         [ViewLayout("_Layout")]
         [HttpGet]
         [Authorize]

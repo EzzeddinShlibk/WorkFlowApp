@@ -28,11 +28,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.Password.RequiredUniqueChars = 1;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase =true ;
+    options.Password.RequireUppercase = true;
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
-    //options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedAccount = true;
     options.User.RequireUniqueEmail = true;
 })
@@ -41,19 +40,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddDefaultTokenProviders();
 
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//           .AddEntityFrameworkStores<DbContext>();
 
-//builder.Services.AddScoped<SignInManager<IdentityUser>>();
 
 
 builder.Services.AddScoped<AsyncActionFilter>();
 builder.Services.AddMvc(options =>
 {
     options.Filters.Add(typeof(AsyncActionFilter));
-
-    //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-    //options.Filters.Add(new AuthorizeFilter(policy));
 
 }).AddXmlSerializerFormatters();
 builder.Services.AddHttpContextAccessor();

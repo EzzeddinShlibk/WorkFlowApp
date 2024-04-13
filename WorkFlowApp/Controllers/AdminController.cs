@@ -138,9 +138,6 @@ namespace WorkFlowApp.Controllers
                         Img.CopyTo(fileStream);
                     }
                 }
-       
-
-
 
             }
             return uniqueFileName;
@@ -350,9 +347,7 @@ namespace WorkFlowApp.Controllers
                 {
                     siteState.State = false;
                     _toastNotification.AddSuccessToastMessage("تم الحفظ بنجاح", new ToastrOptions() { Title = "" });
-
-
-                }
+                                                        }
                 else if (save == "تحديث رسالة الإغلاق")
                 {
                     siteState.ClosingMessage = model.ClosingMessage;
@@ -417,10 +412,7 @@ namespace WorkFlowApp.Controllers
         [HttpGet]
         public IActionResult Closing()
         {
-            //if (await CheckSiteState())
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+      
             var siteState = _SiteState.Entity.GetAll().FirstOrDefault();
             if (siteState == null)
             {

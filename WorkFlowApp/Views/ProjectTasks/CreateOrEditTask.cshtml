@@ -44,8 +44,9 @@
 
     <div class="row mb-3">
         <label for="File" class="form-label">اضافة ملفات</label>
-        <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control"  asp-for="File">
+        <input onchange="UploadAttach1(this);" type="file" id="fileAttach1" class="form-control" asp-for="File" accept=".pdf, .jpg, .jpeg, .png, .txt, .doc, .docx">
     </div>
+
 
 
     <div class="row mb-3">
@@ -103,4 +104,18 @@
 @section scripts {
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script>
+        function UploadAttach1(input) {
+            var file = input.files[0];
+            var filePath = input.value;
+            var allowedExtensions = /(\.pdf)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                alert('الرجاء تحديد ملف بامتداد PDF فقط.');
+                input.value = '';
+                return false;
+            } else {
+                // يمكنك هنا تنفيذ أي إجراءات إضافية إذا تم اختيار ملف PDF بشكل صحيح
+            }
+        }
+    </script>
 }
