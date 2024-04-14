@@ -39,7 +39,7 @@ namespace WorkFlowApp.Controllers
         private readonly IToastNotification _toastNotification;
 
         private readonly EmailService _emailService;
-
+        public AccountController() { }
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -384,10 +384,6 @@ namespace WorkFlowApp.Controllers
             ViewBag.Message = "Email Confirmation failed";
             return View();
         }
-
-
-
-
 
 
         [ViewLayout("_IdentityLayout")]

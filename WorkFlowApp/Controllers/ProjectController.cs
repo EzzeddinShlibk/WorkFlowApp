@@ -119,7 +119,8 @@ namespace WorkFlowApp.Controllers
                 int all = tasks.Count;
                 int completed = tasks.Where(k => k.statues.Num == 5).Count();
 
-                double percent = (double)completed / all * 100;
+                double percent = 0;
+                percent = (double)completed / all * 100;
 
                 var projectViewModel = new ProjectViewModel
                 {
@@ -129,7 +130,7 @@ namespace WorkFlowApp.Controllers
                     EndDate = item.EndDate,
                     TaskCount = all,
                     DaysLeft = daysDifference,
-                    Percent = Math.Round(percent,3),
+                    Percent = Math.Round(percent, 3),
                 };
                 model.Add(projectViewModel);
             }
@@ -505,7 +506,7 @@ namespace WorkFlowApp.Controllers
                 var projectTasks = await _projectTask.Entity.GetAll().Where(a => a.projectId == id).ToListAsync();
                 foreach (var task in projectTasks)
                 {
-                    var comments =await _comment.Entity.GetAll().Where(a=>a.projectTaskId==task.Id).ToListAsync();
+                    var comments = await _comment.Entity.GetAll().Where(a => a.projectTaskId == task.Id).ToListAsync();
                     foreach (var com in comments)
                     {
                         _comment.Entity.Delete(com.Id);
